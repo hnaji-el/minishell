@@ -24,4 +24,9 @@ t_token	*lexer_advance_with_token(t_lexer *lexer, t_token *token);
 
 t_token	*lexer_collect_id(t_lexer *lexer);
 
+t_token	*lexer_collect_double_quotes(t_lexer *lexer);
+t_token	*lexer_collect_single_quotes(t_lexer *lexer);
+t_token	*lexer_collect_escape_char(t_lexer *lexer);
+t_token	*lexer_collect_simple_chars(t_lexer *lexer);
+
 #endif

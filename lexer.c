@@ -33,12 +33,12 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 	while (lexer->cur_char != '\0' && lexer->cur_index < lexer->len_cmd_line)
 	{
 		lexer_skip_whitespaces(lexer);
-		if (ft_isalnum(lexer->cur_char))
-			return (lexer_collect_id(lexer));
 		if (lexer->cur_char == '|')
 			return (lexer_advance_with_token(lexer, init_token(TOKEN_PIPE, lexer_get_cur_char_as_string(lexer))));
 		if (lexer->cur_char == ';')
 			return (lexer_advance_with_token(lexer, init_token(TOKEN_SEMI, lexer_get_cur_char_as_string(lexer))));
+		if (lexer->cur_char != '\0')
+			return (lexer_collect_id(lexer));
 	}
 	return (init_token(TOKEN_EOF, "\0"));
 }
@@ -59,6 +59,53 @@ t_token	*lexer_advance_with_token(t_lexer *lexer, t_token *token)
 	return (token);
 }
 
+t_token	*lexer_collect_double_quotes(t_lexer *lexer)
+{
+}
+
+t_token	*lexer_collect_single_quotes(t_lexer *lexer)
+{
+}
+
+t_token	*lexer_collect_escape_char(t_lexer *lexer)
+{
+}
+
+t_token	*lexer_collect_simple_chars(t_lexer *lexer)
+{
+}
+
+t_token	*lexer_collect_id(t_lexer *lexer)
+{
+	char	*value;
+
+	while (lexer->cur_char != '\0' && lexer->cur_char != ' ')
+	{
+		if (lexer->cur_char == '"')
+		{
+			lexer_collect_double_quotes(lexer);
+			// join strings.
+		}
+		if (lexer->cur_char == ''')
+		{
+			lexer_collect_single_quotes(lexer);
+			// join strings.
+		}
+		if (lexer->cur_char == '\\')
+		{
+			lexer_collect_escape_char(lexer);
+			// join strings.
+		}
+		if (lexer->cur_char != ' ')
+		{
+			lexer_collect_simple_chars(lexer);
+			// join strings.
+		}
+	}
+	return (init_token(TOKEN_ID, value));
+}
+
+/*
 t_token	*lexer_collect_id(t_lexer *lexer)
 {
 	char	*value;
@@ -72,3 +119,4 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 	value = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
 	return (init_token(TOKEN_ID, value));
 }
+*/
