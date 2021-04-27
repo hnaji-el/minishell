@@ -59,56 +59,42 @@ t_token	*lexer_advance_with_token(t_lexer *lexer, t_token *token)
 	return (token);
 }
 
-t_token	*lexer_collect_double_quotes(t_lexer *lexer)
+char	*lexer_collect_double_quotes(t_lexer *lexer)
 {
+	int		index_i;
+	int		index_f;
+
+	lexer_advance(lexer);
+	index_i = lexer->cur_index;
+	while (lexer->cur_char != '"')
+		lexer_advance(lexer);
+	index_f = lexer->cur_index;
+	lexer_advance(lexer);
+	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
 }
 
-t_token	*lexer_collect_single_quotes(t_lexer *lexer)
+char	*lexer_collect_single_quotes(t_lexer *lexer)
 {
-}
+	int		index_i;
+	int		index_f;
 
-t_token	*lexer_collect_escape_char(t_lexer *lexer)
-{
-}
-
-t_token	*lexer_collect_simple_chars(t_lexer *lexer)
-{
-}
-
-t_token	*lexer_collect_id(t_lexer *lexer)
-{
-	char	*value;
-
-	while (lexer->cur_char != '\0' && lexer->cur_char != ' ')
-	{
-		if (lexer->cur_char == '"')
-		{
-			lexer_collect_double_quotes(lexer);
-			// join strings.
-		}
-		if (lexer->cur_char == ''')
-		{
-			lexer_collect_single_quotes(lexer);
-			// join strings.
-		}
-		if (lexer->cur_char == '\\')
-		{
-			lexer_collect_escape_char(lexer);
-			// join strings.
-		}
-		if (lexer->cur_char != ' ')
-		{
-			lexer_collect_simple_chars(lexer);
-			// join strings.
-		}
-	}
-	return (init_token(TOKEN_ID, value));
+	lexer_advance(lexer);
+	index_i = lexer->cur_index;
+	while (lexer->cur_char != '\'')
+		lexer_advance(lexer);
+	index_f = lexer->cur_index;
+	lexer_advance(lexer);
+	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
 }
 
 /*
-t_token	*lexer_collect_id(t_lexer *lexer)
+char	*lexer_collect_escape_char(t_lexer *lexer)
 {
-	char	*value;
+}
+*/
+
+char	*lexer_collect_simple_chars(t_lexer *lexer)
+{
 	int		index_i;
 	int		index_f;
 
@@ -116,7 +102,42 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 	while (ft_isalnum(lexer->cur_char))
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
-	value = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
+	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
+}
+
+t_token	*lexer_collect_id(t_lexer *lexer)
+{
+	char	*value;
+	char	*str;
+
+	value = (char *)malloc(sizeof(char));
+	value[0] = '\0';
+	while (lexer->cur_char != '\0' && lexer->cur_char != ' ')
+	{
+		if (lexer->cur_char == '"')
+		{
+			str = lexer_collect_double_quotes(lexer);
+			value = ft_strjoin(value, str);
+			continue ;
+		}
+		if (lexer->cur_char == '\'')
+		{
+			str = lexer_collect_single_quotes(lexer);
+			value = ft_strjoin(value, str);
+			continue ;
+		}
+//		if (lexer->cur_char == '\\')
+//		{
+//			str = lexer_collect_escape_char(lexer);
+//			value = ft_strjoin(value, str);
+//			continue ;
+//		}
+		if (lexer->cur_char != ' ')
+		{
+			str = lexer_collect_simple_chars(lexer);
+			value = ft_strjoin(value, str);
+			continue ;
+		}
+	}
 	return (init_token(TOKEN_ID, value));
 }
-*/
