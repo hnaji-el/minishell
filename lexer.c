@@ -59,18 +59,76 @@ t_token	*lexer_advance_with_token(t_lexer *lexer, t_token *token)
 	return (token);
 }
 
-char	*lexer_collect_double_quotes(t_lexer *lexer)
+int		ft_isallnum1(int c)
+{
+	if (c == '"' || c == '\'' || c == '\\' || c == '\0' || c == ' ')
+		return (0);
+	return (1);
+}
+
+char	*lexer_collect_simple_chars_in_double_q(t_lexer *lexer)
 {
 	int		index_i;
 	int		index_f;
 
-	lexer_advance(lexer);
 	index_i = lexer->cur_index;
-	while (lexer->cur_char != '"')
+	while (lexer->cur_char != '"' && lexer->cur_char != '\\' && lexer->cur_char != '\0')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
-	lexer_advance(lexer);
 	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
+}
+
+char	*lexer_collect_escape_char_in_double_q(t_lexer *lexer)
+{
+	char	*value;
+
+	lexer_advance(lexer);
+	if (lexer->cur_char == '\\' || lexer->cur_char == '"' || lexer->cur_char == '$')
+		value = lexer_get_cur_char_as_string(lexer);
+	else
+	{
+		value = (char *)malloc(sizeof(char) * 3);
+		value[0] = '\\';
+		value[1] = lexer->cur_char;
+		value[2] = '\0';
+	}
+	lexer_advance(lexer);
+	return (value);
+}
+
+char	*lexer_collect_double_quotes(t_lexer *lexer)
+{
+	char	*value;
+	char	*str;
+
+	value = (char *)malloc(sizeof(char));
+	value[0] = '\0';
+	lexer_advance(lexer);
+	while (lexer->cur_char != '"')
+	{
+		if (lexer->cur_char == '\\')
+		{
+			str = lexer_collect_escape_char_in_double_q(lexer);
+			value = ft_strjoin(value, str);
+			continue ;
+		}
+//		if (lexer->cur_char == '\'')
+//		{
+//			str = lexer_collect_single_quotes(lexer);
+//			value = ft_strjoin(value, str);
+//			continue ;
+//		}
+//		if (lexer->cur_char == '$')
+//		{
+//			str = lexer_collect_escape_char(lexer);
+//			value = ft_strjoin(value, str);
+//			continue ;
+//		}
+		str = lexer_collect_simple_chars_in_double_q(lexer);
+		value = ft_strjoin(value, str);
+	}
+	lexer_advance(lexer);
+	return (value);
 }
 
 char	*lexer_collect_single_quotes(t_lexer *lexer)
@@ -95,13 +153,6 @@ char	*lexer_collect_escape_char(t_lexer *lexer)
 	value = lexer_get_cur_char_as_string(lexer);
 	lexer_advance(lexer);
 	return (value);
-}
-
-int		ft_isallnum1(int c)
-{
-	if (c == '"' || c == '\'' || c == '\\' || c == '\0' || c == ' ')
-		return (0);
-	return (1);
 }
 
 char	*lexer_collect_simple_chars(t_lexer *lexer)
