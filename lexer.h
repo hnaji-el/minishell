@@ -31,4 +31,6 @@ char	*lexer_collect_simple_chars(t_lexer *lexer);
 
 char	*lexer_collect_escape_char_in_double_q(t_lexer *lexer);
 char	*lexer_collect_simple_chars_in_double_q(t_lexer *lexer);
+
+int		special_meaning_chars(int c);
 #endif
