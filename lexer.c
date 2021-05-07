@@ -28,6 +28,7 @@ void	lexer_skip_whitespaces(t_lexer *lexer)
 		lexer_advance(lexer);
 }
 
+/*      ??????????????????????????????????????????????????????     */
 char	*lexer_get_cur_char_as_string(t_lexer *lexer)
 {
 	char	*str;
@@ -37,6 +38,7 @@ char	*lexer_get_cur_char_as_string(t_lexer *lexer)
 	str[1] = '\0';
 	return (str);
 }
+/*      ??????????????????????????????????????????????????????     */
 
 int		special_meaning_chars(int c)
 {
@@ -178,6 +180,14 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 	return (init_token(TOKEN_ID, value));
 }
 
+t_token	*lexer_collect_redirec_great(t_lexer *lexer)
+{
+	lexer_advance(lexer);
+	if (lexer->cur_char == '>')
+		return (lexer_advance_with_token(lexer, init_token(TOKEN_GREATGREAT, ft_strdup(">>"))));
+	return (init_token(TOKEN_GREAT, ft_strdup(">")));
+}
+
 t_token	*lexer_get_next_token(t_lexer *lexer)
 {
 	while (lexer->cur_char != '\0')
@@ -187,10 +197,10 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 			return (lexer_advance_with_token(lexer, init_token(TOKEN_PIPE, lexer_get_cur_char_as_string(lexer))));
 		if (lexer->cur_char == ';')
 			return (lexer_advance_with_token(lexer, init_token(TOKEN_SEMI, lexer_get_cur_char_as_string(lexer))));
-//		if (lexer->cur_char == '>')
-//			return (xxxxx(...));
-//		if (lexer->cur_char == '<')
-//			return (lexer_advance_with_token(lexer, init_token(TOKEN_LESS, lexer_get_cur_char_as_string(lexer))));
+		if (lexer->cur_char == '>')
+			return (lexer_collect_redirec_great(lexer));
+		if (lexer->cur_char == '<')
+			return (lexer_advance_with_token(lexer, init_token(TOKEN_LESS, lexer_get_cur_char_as_string(lexer))));
 		if (lexer->cur_char != '\0')
 			return (lexer_collect_id(lexer));
 	}

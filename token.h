@@ -9,9 +9,9 @@ typedef enum	e_type_token
 	TOKEN_ID,
 	TOKEN_PIPE,
 	TOKEN_SEMI,
-//	TOKEN_GREAT,
-//	TOKEN_GREATGREAT,
-//	TOKEN_LESS,
+	TOKEN_GREAT,
+	TOKEN_GREATGREAT,
+	TOKEN_LESS,
 	TOKEN_EOF
 }				t_type_token;
 

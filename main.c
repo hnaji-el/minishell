@@ -21,15 +21,14 @@ int		main(void)
 		token = lexer_get_next_token(lexer);
 		while (token->type != TOKEN_EOF)
 		{
-			printf("TOKEN(%s, %d)\n", token->value, token->type);
+			printf(" TOKEN(%s, %d)\n", token->value, token->type);
 			token = lexer_get_next_token(lexer);
 		}
-		printf("TOKEN(%s, %d)\n", token->value, token->type);
+		printf(" TOKEN(%s, %d)\n", token->value, token->type);
 		if (ft_strncmp(cmd_line, "exit", 5) == 0)
 			break ;
 		if (cmd_line[0] == '\0')// if user pressed ENTER without writing anything
 			continue ;
-		printf("%s\n", cmd_line);// print line and loop for next command
 	}
 	return (0);
 }
