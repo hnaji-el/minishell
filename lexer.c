@@ -42,7 +42,7 @@ char	*lexer_get_cur_char_as_string(t_lexer *lexer)
 
 int		special_meaning_chars(int c)
 {
-	if (c == '\0' || c == ' '  || c == '\t' || c == '|' || c == ';' || c == '>' || c == '<')
+	if (c == '|' || c == ';' || c == '>' || c == '<' || c == '\0' || c == ' '  || c == '\t')
 		return (1);
 	return (0);
 }
@@ -51,6 +51,25 @@ t_token	*lexer_advance_with_token(t_lexer *lexer, t_token *token)
 {
 	lexer_advance(lexer);
 	return (token);
+}
+
+char	*lexer_collect_env_characters(t_lexer *lexer)
+{
+	char	*value;
+	int		index_i;
+	int		index_f;
+
+	lexer_advance(lexer);
+	if (lexer->cur_char != '_' && !ft_isalnum(lexer->cur_char))
+		return (ft_strdup("$"));
+	index_i = lexer->cur_index;
+	while (lexer->cur_char == '_' || ft_isalnum(lexer->cur_char))
+		lexer_advance(lexer);
+	index_f = lexer->cur_index;
+	value = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
+	if ((value = getenv(value)) == NULL)
+		value = ft_strdup("");
+	return (value);
 }
 
 char	*lexer_collect_simple_chars_in_double_q(t_lexer *lexer)
@@ -98,12 +117,12 @@ char	*lexer_collect_double_quotes(t_lexer *lexer)
 			value = ft_strjoin(value, str);
 			continue ;
 		}
-//		if (lexer->cur_char == '$')
-//		{
-//			str = lexer_collect_escape_char(lexer);
-//			value = ft_strjoin(value, str);
-//			continue ;
-//		}
+		if (lexer->cur_char == '$')
+		{
+			str = lexer_collect_env_characters(lexer);
+			value = ft_strjoin(value, str);
+			continue ;
+		}
 		str = lexer_collect_simple_chars_in_double_q(lexer);
 		value = ft_strjoin(value, str);
 	}
@@ -142,7 +161,8 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 
 	index_i = lexer->cur_index;
 	while (!special_meaning_chars(lexer->cur_char) && lexer->cur_char != '"' &&
-			lexer->cur_char != '\'' && lexer->cur_char != '\\')
+			lexer->cur_char != '\'' && lexer->cur_char != '\\' &&
+			lexer->cur_char != '$')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
 	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
@@ -171,6 +191,12 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 		if (lexer->cur_char == '\\')
 		{
 			str = lexer_collect_escape_char(lexer);
+			value = ft_strjoin(value, str);
+			continue ;
+		}
+		if (lexer->cur_char == '$')
+		{
+			str = lexer_collect_env_characters(lexer);
 			value = ft_strjoin(value, str);
 			continue ;
 		}
