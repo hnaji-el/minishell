@@ -168,6 +168,35 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
 }
 
+char	*lexer_word_splitting(char *old_str, int size)
+{
+	char	*new_str;
+	int		new_size_str;
+	int		i;
+
+	new_size_str = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if ((str[i] == ' ' || str[i] == '\t') && (size > 0))
+		{
+			new_size_str++;
+			i++;
+		}
+		if (size == 0)
+			size = 1;
+		while (str[i] == ' ' || str[i] == '\t')
+			i++;
+		while (str[i] != ' ' && str[i] != '\t' && str[i] != '\0')
+		{
+			new_size_str++;
+			i++;
+		}
+	}
+	if (special_meaning_chars(next_char))
+		;
+}
+
 t_token	*lexer_collect_id(t_lexer *lexer)
 {
 	char	*value;
@@ -197,6 +226,7 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 		if (lexer->cur_char == '$')
 		{
 			str = lexer_collect_env_characters(lexer);
+			str = lexer_word_splitting(str, ft_strlen(value))
 			value = ft_strjoin(value, str);
 			continue ;
 		}
