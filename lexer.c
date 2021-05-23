@@ -168,33 +168,69 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
 }
 
-char	*lexer_word_splitting(char *old_str, int size)
+int		numstring(char const *s1)
 {
-	char	*new_str;
-	int		new_size_str;
+	int	comp;
+	int	cles;
+
+	comp = 0;
+	cles = 0;
+	if (*s1 == '\0')
+		return (0);
+	while (*s1 != '\0')
+	{
+		if (*s1 == ' ' || *s1 == '\t')
+			cles = 0;
+		else if (cles == 0)
+		{
+			cles = 1;
+			comp++;
+		}
+		s1++;
+	}
+	return (comp);
+}
+
+char	*lexer_word_splitting(char *old_str, int size, char next_char)
+{
+	char	*value;
+	char	*word;
+	int		number_of_words;
+	int		index_i;
+	int		index_f;
 	int		i;
 
-	new_size_str = 0;
 	i = 0;
-	while (str[i] != '\0')
+	number_of_words = numstring(old_str);
+	if (number_of_words == 0)
 	{
-		if ((str[i] == ' ' || str[i] == '\t') && (size > 0))
-		{
-			new_size_str++;
-			i++;
-		}
-		if (size == 0)
-			size = 1;
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		while (str[i] != ' ' && str[i] != '\t' && str[i] != '\0')
-		{
-			new_size_str++;
-			i++;
-		}
+		if ((old_str[0] == ' ' || old_str[0] == '\t') && size > 0 && !special_meaning_chars(next_char))
+			value = ft_strdup(" ");
+		else
+			value = ft_strdup("");
+		return (value);
 	}
-	if (special_meaning_chars(next_char))
-		;
+	if ((old_str[0] == ' ' || old_str[0] == '\t') && size > 0)
+		value = ft_strdup(" ");
+	else
+		value = ft_strdup("");
+	while (old_str[i] && number_of_words > 0)
+	{
+		while (old_str[i] == ' ' || old_str[i] == '\t')
+			i++;
+		index_i = i;
+		while (old_str[i] != ' ' && old_str[i] != '\t' && old_str[i] != '\0')
+			i++;
+		index_f = i;
+		word = ft_substr(old_str, index_i, index_f - index_i);
+		value = ft_strjoin(value, word);
+		number_of_words--;
+		if (number_of_words > 1)
+			value = ft_strjoin(value, " ");
+	}
+	if (old_str[i] != '\0')
+		value = ft_strjoin(value, " ");
+	return (value);
 }
 
 t_token	*lexer_collect_id(t_lexer *lexer)
@@ -226,7 +262,7 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 		if (lexer->cur_char == '$')
 		{
 			str = lexer_collect_env_characters(lexer);
-			str = lexer_word_splitting(str, ft_strlen(value))
+			str = lexer_word_splitting(str, ft_strlen(value), lexer->cur_char);
 			value = ft_strjoin(value, str);
 			continue ;
 		}
