@@ -78,7 +78,7 @@ char	*lexer_collect_simple_chars_in_double_q(t_lexer *lexer)
 	int		index_f;
 
 	index_i = lexer->cur_index;
-	while (lexer->cur_char != '"' && lexer->cur_char != '\\' && lexer->cur_char != '$')
+	while (lexer->cur_char != '"' && lexer->cur_char != '\\' && lexer->cur_char != '$' && lexer->cur_char != '\0')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
 	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
@@ -107,25 +107,20 @@ char	*lexer_collect_double_quotes(t_lexer *lexer)
 	char	*value;
 	char	*str;
 
-	value = "";
+	value = ft_strdup("");
 	lexer_advance(lexer);
-	while (lexer->cur_char != '"')
+	while (lexer->cur_char != '"' && lexer->cur_char != '\0')
 	{
 		if (lexer->cur_char == '\\')
-		{
 			str = lexer_collect_escape_char_in_double_q(lexer);
-			value = ft_strjoin(value, str);
-			continue ;
-		}
-		if (lexer->cur_char == '$')
-		{
+		else if (lexer->cur_char == '$')
 			str = lexer_collect_env_characters(lexer);
-			value = ft_strjoin(value, str);
-			continue ;
-		}
-		str = lexer_collect_simple_chars_in_double_q(lexer);
+		else
+			str = lexer_collect_simple_chars_in_double_q(lexer);
 		value = ft_strjoin(value, str);
 	}
+	if (lexer->cur_char == '\0')
+		return (NULL);
 	lexer_advance(lexer);
 	return (value);
 }
@@ -137,9 +132,11 @@ char	*lexer_collect_single_quotes(t_lexer *lexer)
 
 	lexer_advance(lexer);
 	index_i = lexer->cur_index;
-	while (lexer->cur_char != '\'')
+	while (lexer->cur_char != '\'' && lexer->cur_char != '\0')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
+	if (lexer->cur_char == '\0')
+		return (NULL);
 	lexer_advance(lexer);
 	return (ft_substr(lexer->cmd_line, index_i, index_f - index_i));
 }
@@ -149,6 +146,8 @@ char	*lexer_collect_escape_char(t_lexer *lexer)
 	char	*value;
 
 	lexer_advance(lexer);
+	if (lexer->cur_char == '\0')
+		return (NULL);
 	value = lexer_get_cur_char_as_string(lexer);
 	lexer_advance(lexer);
 	return (value);
@@ -205,16 +204,14 @@ char	*lexer_word_splitting(char *old_str, int size, char next_char)
 	if (number_of_words == 0)
 	{
 		if ((old_str[0] == ' ' || old_str[0] == '\t') && size > 0 && !special_meaning_chars(next_char))
-			value = ft_strdup(" ");
-		else
-			value = ft_strdup("");
-		return (value);
+			return (ft_strdup(" "));
+		return (ft_strdup(""));
 	}
 	if ((old_str[0] == ' ' || old_str[0] == '\t') && size > 0)
 		value = ft_strdup(" ");
 	else
 		value = ft_strdup("");
-	while (old_str[i] && number_of_words > 0)
+	while (old_str[i] && number_of_words-- > 0)
 	{
 		while (old_str[i] == ' ' || old_str[i] == '\t')
 			i++;
@@ -223,13 +220,11 @@ char	*lexer_word_splitting(char *old_str, int size, char next_char)
 			i++;
 		index_f = i;
 		word = ft_substr(old_str, index_i, index_f - index_i);
-		value = ft_strjoin(value, word);
-		number_of_words--;
-		if (number_of_words > 1)
-			value = ft_strjoin(value, " ");
+		if (number_of_words > 0 || ((old_str[i] == ' ' || old_str[i] == '\t') && !special_meaning_chars(next_char)))
+			value = ft_strjoin_c(value, word, ' ');
+		else
+			value = ft_strjoin(value, word);
 	}
-	if (old_str[i] != '\0')
-		value = ft_strjoin(value, " ");
 	return (value);
 }
 
@@ -238,35 +233,24 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 	char	*value;
 	char	*str;
 
-	value = "";
+	value = ft_strdup("");
 	while (!special_meaning_chars(lexer->cur_char))
 	{
 		if (lexer->cur_char == '"')
-		{
 			str = lexer_collect_double_quotes(lexer);
-			value = ft_strjoin(value, str);
-			continue ;
-		}
-		if (lexer->cur_char == '\'')
-		{
+		else if (lexer->cur_char == '\'')
 			str = lexer_collect_single_quotes(lexer);
-			value = ft_strjoin(value, str);
-			continue ;
-		}
-		if (lexer->cur_char == '\\')
-		{
+		else if (lexer->cur_char == '\\')
 			str = lexer_collect_escape_char(lexer);
-			value = ft_strjoin(value, str);
-			continue ;
-		}
-		if (lexer->cur_char == '$')
+		else if (lexer->cur_char == '$')
 		{
 			str = lexer_collect_env_characters(lexer);
 			str = lexer_word_splitting(str, ft_strlen(value), lexer->cur_char);
-			value = ft_strjoin(value, str);
-			continue ;
 		}
-		str = lexer_collect_simple_chars(lexer);
+		else
+			str = lexer_collect_simple_chars(lexer);
+		if (str == NULL)
+			return (init_token(TOKEN_SYN_ERR, "syn_err"));
 		value = ft_strjoin(value, str);
 	}
 	return (init_token(TOKEN_ID, value));
