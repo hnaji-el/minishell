@@ -4,24 +4,24 @@
 
 # include "main.h"
 
-typedef enum	e_type_token
+typedef enum	e_token_type
 {
-	TOKEN_ID,
+	TOKEN_WORD,
 	TOKEN_PIPE,
 	TOKEN_SEMI,
 	TOKEN_GREAT,
-	TOKEN_GREATGREAT,
+	TOKEN_DGREAT,
 	TOKEN_LESS,
 	TOKEN_SYN_ERR,
 	TOKEN_EOF
-}				t_type_token;
+}				t_token_type;
 
 typedef struct	s_token
 {
-	t_type_token	type;
+	t_token_type	type;
 	char			*value;
 }				t_token;
 
-t_token	*init_token(t_type_token type, char *value);
+t_token	*init_token(t_token_type type, char *value);
 
 #endif

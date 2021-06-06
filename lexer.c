@@ -253,14 +253,14 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 			return (init_token(TOKEN_SYN_ERR, "syn_err"));
 		value = ft_strjoin(value, str);
 	}
-	return (init_token(TOKEN_ID, value));
+	return (init_token(TOKEN_WORD, value));
 }
 
 t_token	*lexer_collect_redirec_great(t_lexer *lexer)
 {
 	lexer_advance(lexer);
 	if (lexer->cur_char == '>')
-		return (lexer_advance_with_token(lexer, init_token(TOKEN_GREATGREAT, ft_strdup(">>"))));
+		return (lexer_advance_with_token(lexer, init_token(TOKEN_DGREAT, ft_strdup(">>"))));
 	return (init_token(TOKEN_GREAT, ft_strdup(">")));
 }
 
@@ -280,5 +280,5 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 		if (lexer->cur_char != '\0')
 			return (lexer_collect_id(lexer));
 	}
-	return (init_token(TOKEN_EOF, "\0"));
+	return (init_token(TOKEN_EOF, "newline"));
 }

@@ -1,11 +1,11 @@
 
 NAME = minishell
 
-SRCS = main.c lexer.c token.c \
+SRCS = main.c lexer.c token.c parser.c ast.c \
 		./get_next_line/get_next_line.c \
 		./get_next_line/get_next_line_utils.c
 
-INCLUDES = main.h token.h lexer.h
+INCLUDES = main.h token.h lexer.h parser.h ast.h
 
 LIBFT = ./libft/libft.a
 
