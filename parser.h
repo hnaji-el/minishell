@@ -28,5 +28,7 @@ t_redirect	**ft_realloc__(t_redirect **old_dptr, int size);
 int			parser_expected_token(t_parser *parser, t_token_type type, t_ast *ast_cmp);
 int			parser_expected_syn_err(t_parser *parser, t_ast *ast_cmp);
 int			expected_token(t_parser *parser);
+t_ast		*free_ast(t_ast *ast);
+void		free_parser(t_parser *parser);
 
 #endif

@@ -1,7 +1,7 @@
 
 NAME = minishell
 
-SRCS = main.c lexer.c token.c parser.c ast.c \
+SRCS = repl.c lexer.c token.c parser.c ast.c \
 		./get_next_line/get_next_line.c \
 		./get_next_line/get_next_line_utils.c
 

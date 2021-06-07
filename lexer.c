@@ -250,7 +250,7 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 		else
 			str = lexer_collect_simple_chars(lexer);
 		if (str == NULL)
-			return (init_token(TOKEN_SYN_ERR, "syn_err"));
+			return (init_token(TOKEN_SYN_ERR, ft_strdup("")));
 		value = ft_strjoin(value, str);
 	}
 	return (init_token(TOKEN_WORD, value));
@@ -280,5 +280,5 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 		if (lexer->cur_char != '\0')
 			return (lexer_collect_id(lexer));
 	}
-	return (init_token(TOKEN_EOF, "newline"));
+	return (init_token(TOKEN_EOF, ft_strdup("newline")));
 }

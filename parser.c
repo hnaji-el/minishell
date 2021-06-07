@@ -1,6 +1,63 @@
 
 #include "parser.h"
 
+void		free_args_value(char **args_value, int	args_size)
+{
+	while (args_size > 0)
+	{
+		args_size -= 1;
+		free(args_value[args_size]);
+	}
+	free(args_value);
+}
+
+t_ast		*free_ast_command(t_ast *ast)
+{
+	if (ast != NULL)
+	{
+		free_args_value(ast->args_value, ast->args_size);
+		while (ast->redirection_size > 0)
+		{
+			ast->redirection_size -= 1;
+			free(ast->redirection[ast->redirection_size]->filename);
+			free(ast->redirection[ast->redirection_size]);
+		}
+		free(ast->redirection);
+		free(ast);
+	}
+	return (NULL);
+}
+
+t_ast		*free_ast_pipeline(t_ast *ast)
+{
+	if (ast != NULL)
+	{
+		while (ast->pipeline_size > 0)
+		{
+			ast->pipeline_size -= 1;
+			free_ast_command(ast->pipeline_value[ast->pipeline_size]);
+		}
+		free(ast->pipeline_value);
+		free(ast);
+	}
+	return (NULL);
+}
+
+t_ast		*free_ast(t_ast *ast)
+{
+	if (ast != NULL)
+	{
+		while (ast->compound_size > 0)
+		{
+			ast->compound_size -= 1;
+			free_ast_pipeline(ast->compound_value[ast->compound_size]);
+		}
+		free(ast->compound_value);
+		free(ast);
+	}
+	return (NULL);
+}
+
 t_parser	*init_parser(t_lexer *lexer)
 {
 	t_parser	*parser;
@@ -8,38 +65,68 @@ t_parser	*init_parser(t_lexer *lexer)
 	parser = (t_parser *)malloc(sizeof(t_parser));
 	parser->lexer = lexer;
 	parser->cur_token = lexer_get_next_token(lexer);
-	parser->prev_token = parser->cur_token;
+	parser->prev_token = NULL;
 	return (parser);
+}
+
+void		free_token(t_token *token)
+{
+	if (token != NULL)
+	{
+		if (token->type != TOKEN_WORD)
+			free(token->value);
+		free(token);
+	}
+}
+
+void		free_parser(t_parser *parser)
+{
+	if (parser != NULL)
+	{
+		if (parser->lexer != NULL)
+		{
+			free(parser->lexer->cmd_line);
+			free(parser->lexer);
+		}
+		if (parser->cur_token != NULL)
+		{
+			if (parser->cur_token->type != TOKEN_WORD)
+				free(parser->cur_token->value);
+			free(parser->cur_token);
+		}
+		if (parser->prev_token != NULL)
+		{
+			if (parser->prev_token->type != TOKEN_WORD)
+				free(parser->prev_token->value);
+			free(parser->prev_token);
+		}
+		free(parser);
+	}
 }
 
 int			parser_expected_token(t_parser *parser, t_token_type type, t_ast *ast_cmp)
 {
 	if (parser->cur_token->type == type)
 	{
+		free_token(parser->prev_token);
 		parser->prev_token = parser->cur_token;
 		parser->cur_token = lexer_get_next_token(parser->lexer);
 		return (0);
 	}
-	///////////////////////////////////////////////
 	else if (parser->cur_token->type == TOKEN_SYN_ERR)
 	{
-		/*     free parser      */
-		/*     free ast      */
-		free(ast_cmp);
+		free_ast(ast_cmp);
 		printf("bash: syntax error near multiline command\n");
 	}
 	else
 	{
-		/*     free parser      */
-		/*     free ast      */
-		free(ast_cmp);
+		free_ast(ast_cmp);
 		printf(
 			"bash: syntax error near unexpected token `%s'\n",
 			parser->cur_token->value
 			);
 	}
 	return (1);
-	///////////////////////////////////////////////
 }
 
 int			parser_expected_syn_err(t_parser *parser, t_ast *ast_cmp)
@@ -48,17 +135,13 @@ int			parser_expected_syn_err(t_parser *parser, t_ast *ast_cmp)
 		parser->cur_token->type == TOKEN_SEMI ||
 		parser->cur_token->type == TOKEN_SYN_ERR)
 		return (parser_expected_token(parser, TOKEN_WORD, ast_cmp)); 
-	///////////////////////////////////////////////
 	if (parser->cur_token->type == TOKEN_EOF)
 	{
-		/*     free parser      */
-		/*     free ast      */
-		free(ast_cmp);
+		free_ast(ast_cmp);
 		printf("bash: syntax error near multiline command\n");
 		return (1);
 	}
 	return (0);
-	///////////////////////////////////////////////
 }
 
 int			expected_token(t_parser *parser)
@@ -161,12 +244,12 @@ t_ast		*parser_parse_simple_command(t_parser *parser, t_ast *ast_cmp)
 		if (parser->cur_token->type == TOKEN_WORD)
 			parser_parse_cmd_args(parser, ast, ast_cmp);
 		else if (parser_parse_redirection(parser, ast, ast_cmp))
-			return (NULL); // ATT: need to free AST_COMMAND
+			return (free_ast_command(ast));
 	}
 	if (parser->cur_token->type == TOKEN_SYN_ERR)
 	{
 		parser_expected_token(parser, TOKEN_WORD, ast_cmp);
-		return (NULL); // ATT: need to free AST_COMMAND
+		return (free_ast_command(ast));
 	}
 	return (ast);
 }
@@ -176,20 +259,21 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp)
 	t_ast	*ast;
 	t_ast	*pipeline_value;
 
-	if (parser_expected_syn_err(parser, ast_cmp) == 1)
+	if (parser_expected_syn_err(parser, ast_cmp))
 		return (NULL);
 	ast = init_ast(AST_PIPELINE);
 	if (!(pipeline_value = parser_parse_simple_command(parser, ast_cmp)))
-		return (NULL); // ATT: need to free AST_PIPELINE
+		return (free_ast_pipeline(ast));
 	ast->pipeline_value = (t_ast **)malloc(sizeof(t_ast *));
 	ast->pipeline_value[0] = pipeline_value;
 	ast->pipeline_size += 1;
 	while (parser->cur_token->type == TOKEN_PIPE)
 	{
-		if (parser_expected_token(parser, TOKEN_PIPE, ast_cmp) || parser_expected_syn_err(parser, ast_cmp))
-			return (ast);
+		parser_expected_token(parser, TOKEN_PIPE, ast_cmp);
+		if (parser_expected_syn_err(parser, ast_cmp))
+			return (free_ast_pipeline(ast));
 		if (!(pipeline_value = parser_parse_simple_command(parser, ast_cmp)))
-			return (NULL); // ATT: need to free AST_PIPELINE
+			return (free_ast_pipeline(ast));
 		ast->pipeline_size += 1;
 		ast->pipeline_value = ft_realloc(ast->pipeline_value, ast->pipeline_size);
 		ast->pipeline_value[ast->pipeline_size - 1] = pipeline_value;

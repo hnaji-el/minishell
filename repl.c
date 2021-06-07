@@ -6,9 +6,9 @@
 int		main(void)
 {
 	char		*cmd_line;
-//	t_token		*token;
 	t_lexer		*lexer;
 	t_parser	*parser;
+	t_ast		*ast;
 	int			r;
 
 /*
@@ -19,20 +19,16 @@ int		main(void)
 		write(2, "minishell$ ", 12); // print prompt string
 		if ((r = get_next_line(0, &cmd_line)) == -1)// read input from stdin
 			exit(EXIT_FAILURE);
-		if (cmd_line[0] == '\0')// if user pressed ENTER without writing anything
+		if (cmd_line[0] == '\0')// ATT: free cmd_line
 			continue ;
-		if (ft_strncmp(cmd_line, "exit", 5) == 0)
+		if (ft_strncmp(cmd_line, "exit", 5) == 0)// ATT: free cmd_line
 			break ;
 		lexer = init_lexer(cmd_line);
 		parser = init_parser(lexer);
-		parser_parse(parser);
-//		token = lexer_get_next_token(lexer);
-//		while (token->type != TOKEN_EOF)
-//		{
-//			printf(" TOKEN(%s, %d)\n", token->value, token->type);
-//			token = lexer_get_next_token(lexer);
-//		}
-//		printf(" TOKEN(%s, %d)\n", token->value, token->type);
+		ast = parser_parse(parser);
+		free_parser(parser);
+		if (ast != NULL)
+			free_ast(ast);
 	}
 	return (0);
 }
