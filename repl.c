@@ -19,9 +19,12 @@ int		main(void)
 		write(2, "minishell$ ", 12); // print prompt string
 		if ((r = get_next_line(0, &cmd_line)) == -1)// read input from stdin
 			exit(EXIT_FAILURE);
-		if (cmd_line[0] == '\0')// ATT: free cmd_line
+		if (cmd_line[0] == '\0')
+		{
+			free(cmd_line);
 			continue ;
-		if (ft_strncmp(cmd_line, "exit", 5) == 0)// ATT: free cmd_line
+		}
+		if (ft_strncmp(cmd_line, "exit", 5) == 0)
 			break ;
 		lexer = init_lexer(cmd_line);
 		parser = init_parser(lexer);

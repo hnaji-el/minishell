@@ -1,6 +1,89 @@
 
 #include "parser.h"
 
+t_ast		**ft_realloc(t_ast **old_ast, int size)
+{
+	t_ast	**new_ast;
+	int		i;
+
+ 	i = 0;
+	new_ast = (t_ast **)malloc(sizeof(t_ast *) * size);
+	while (i < (size - 1))
+	{
+		new_ast[i] = old_ast[i];
+		i++;
+	}
+	free(old_ast);
+	return (new_ast);
+}
+
+char		**ft_realloc_(char **old_dptr, int size)
+{
+	char	**new_dptr;
+	int		i;
+
+ 	i = 0;
+	new_dptr = (char **)malloc(sizeof(char *) * size);
+	while (i < (size - 1))
+	{
+		new_dptr[i] = old_dptr[i];
+		i++;
+	}
+	free(old_dptr);
+	return (new_dptr);
+}
+
+t_redirect	**ft_realloc__(t_redirect **old_dptr, int size)
+{
+	t_redirect	**new_dptr;
+	int			i;
+
+ 	i = 0;
+	new_dptr = (t_redirect **)malloc(sizeof(t_redirect *) * size);
+	while (i < (size - 1))
+	{
+		new_dptr[i] = old_dptr[i];
+		i++;
+	}
+	free(old_dptr);
+	return (new_dptr);
+}
+
+void		free_token(t_token *token)
+{
+	if (token != NULL)
+	{
+		if (token->type != TOKEN_WORD)
+			free(token->value);
+		free(token);
+	}
+}
+
+void		free_parser(t_parser *parser)
+{
+	if (parser != NULL)
+	{
+		if (parser->lexer != NULL)
+		{
+			free(parser->lexer->cmd_line);
+			free(parser->lexer);
+		}
+		if (parser->cur_token != NULL)
+		{
+			if (parser->cur_token->type != TOKEN_WORD)
+				free(parser->cur_token->value);
+			free(parser->cur_token);
+		}
+		if (parser->prev_token != NULL)
+		{
+			if (parser->prev_token->type != TOKEN_WORD)
+				free(parser->prev_token->value);
+			free(parser->prev_token);
+		}
+		free(parser);
+	}
+}
+
 void		free_args_value(char **args_value, int	args_size)
 {
 	while (args_size > 0)
@@ -69,41 +152,6 @@ t_parser	*init_parser(t_lexer *lexer)
 	return (parser);
 }
 
-void		free_token(t_token *token)
-{
-	if (token != NULL)
-	{
-		if (token->type != TOKEN_WORD)
-			free(token->value);
-		free(token);
-	}
-}
-
-void		free_parser(t_parser *parser)
-{
-	if (parser != NULL)
-	{
-		if (parser->lexer != NULL)
-		{
-			free(parser->lexer->cmd_line);
-			free(parser->lexer);
-		}
-		if (parser->cur_token != NULL)
-		{
-			if (parser->cur_token->type != TOKEN_WORD)
-				free(parser->cur_token->value);
-			free(parser->cur_token);
-		}
-		if (parser->prev_token != NULL)
-		{
-			if (parser->prev_token->type != TOKEN_WORD)
-				free(parser->prev_token->value);
-			free(parser->prev_token);
-		}
-		free(parser);
-	}
-}
-
 int			parser_expected_token(t_parser *parser, t_token_type type, t_ast *ast_cmp)
 {
 	if (parser->cur_token->type == type)
@@ -154,53 +202,6 @@ int			expected_token(t_parser *parser)
 	return (0);
 }
 
-t_ast		**ft_realloc(t_ast **old_ast, int size)
-{
-	t_ast	**new_ast;
-	int		i;
-
- 	i = 0;
-	new_ast = (t_ast **)malloc(sizeof(t_ast *) * size);
-	while (i < (size - 1))
-	{
-		new_ast[i] = old_ast[i];
-		i++;
-	}
-	free(old_ast);
-	return (new_ast);
-}
-
-char		**ft_realloc_(char **old_dptr, int size)
-{
-	char	**new_dptr;
-	int		i;
-
- 	i = 0;
-	new_dptr = (char **)malloc(sizeof(char *) * size);
-	while (i < (size - 1))
-	{
-		new_dptr[i] = old_dptr[i];
-		i++;
-	}
-	free(old_dptr);
-	return (new_dptr);
-}
-
-t_redirect	**ft_realloc__(t_redirect **old_dptr, int size)
-{
-	t_redirect	**new_dptr;
-	int			i;
-
- 	i = 0;
-	new_dptr = (t_redirect **)malloc(sizeof(t_redirect *) * size);
-	while (i < (size - 1))
-	{
-		new_dptr[i] = old_dptr[i];
-		i++;
-	}
-	free(old_dptr);
-	return (new_dptr);
-}
 
 int			parser_parse_redirection(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 {
