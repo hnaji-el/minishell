@@ -168,7 +168,10 @@ int			parser_parse_redirection(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 	parser_expected_token(parser, parser->cur_token->type, ast_cmp);
 	if (parser_expected_token(parser, TOKEN_WORD, ast_cmp))
 		return (1);
-	ast->redirection = ft_realloc(ast->redirection, ast->redirection_size, ast->redirection_size + 1);
+	ast->redirection = ft_reallocf(ast->redirection,
+		sizeof(t_redirect *) * ast->redirection_size,
+		sizeof(t_redirect *) * (ast->redirection_size + 1)
+		);
 	ast->redirection_size += 1;
 	ast->redirection[ast->redirection_size - 1] = (t_redirect *)malloc(sizeof(t_redirect));
 	ast->redirection[ast->redirection_size - 1]->type = type;
@@ -180,7 +183,10 @@ void		parser_parse_cmd_args(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 {
 	while (parser->cur_token->type == TOKEN_WORD)
 	{
-		ast->args_value = ft_realloc(ast->args_value, ast->args_size, ast->args_size + 1);
+		ast->args_value = ft_reallocf(ast->args_value,
+			sizeof(char *) * ast->args_size,
+			sizeof(char *) * (ast->args_size + 1)
+			);
 		ast->args_size += 1;
 		ast->args_value[ast->args_size - 1] = parser->cur_token->value;
 		parser_expected_token(parser, TOKEN_WORD, ast_cmp);
@@ -227,7 +233,10 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp)
 			return (free_ast_pipeline(ast));
 		if (!(pipeline_value = parser_parse_simple_command(parser, ast_cmp)))
 			return (free_ast_pipeline(ast));
-		ast->pipeline_value = ft_reallocf(ast->pipeline_value, ast->pipeline_size, ast->pipeline_size + 1);
+		ast->pipeline_value = ft_reallocf(ast->pipeline_value,
+			sizeof(t_ast *) * ast->pipeline_size,
+			sizeof(t_ast *) * (ast->pipeline_size + 1)
+			);
 		ast->pipeline_size += 1;
 		ast->pipeline_value[ast->pipeline_size - 1] = pipeline_value;
 	}
@@ -252,7 +261,10 @@ t_ast		*parser_parse_compound(t_parser *parser)
 			break ;
 		if (!(compound_value = parser_parse_pipeline(parser, ast)))
 			return (NULL);
-		ast->compound_value = ft_reallocf(ast->compound_value, ast->compound_size, ast->compound_size + 1);
+		ast->compound_value = ft_reallocf(ast->compound_value,
+			sizeof(t_ast *) * ast->compound_size,
+			sizeof(t_ast *) * (ast->compound_size + 1)
+			);
 		ast->compound_size += 1;
 		ast->compound_value[ast->compound_size - 1] = compound_value;
 	}

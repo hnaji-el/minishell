@@ -15,7 +15,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./libft
-	@gcc $(FLAGS) $(SRCS) $(LIBFT) -o $(NAME)
+	@gcc $(FLAGS) $(SRCS) $(LIBFT) -o $(NAME) -g -fsanitize=address
 
 clean:
 	@make -C ./libft clean
