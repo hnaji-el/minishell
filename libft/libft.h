@@ -62,5 +62,7 @@ char	**ft_split(char const *s, char c);
 char	**freee(char **dst, int j);
 void	ft_free_1d(void **str);
 void	ft_free_2d(char ***str);
+void	*ft_realloc(void *old_alloc, size_t old_size, size_t new_size);
+void	*ft_reallocf(void *old_alloc, size_t old_size, size_t new_size);
 
 #endif

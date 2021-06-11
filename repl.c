@@ -10,10 +10,12 @@ int		main(void)
 	t_parser	*parser;
 	t_ast		*ast;
 	int			r;
+	int			exit_status;
 
 /*
  * implement our basic REPL loop
  */
+ 	exit_status = 0;
 	while (1)
 	{
 		write(2, "minishell$ ", 12); // print prompt string
@@ -29,6 +31,7 @@ int		main(void)
 		lexer = init_lexer(cmd_line);
 		parser = init_parser(lexer);
 		ast = parser_parse(parser);
+		// add executor program exit_status = executor(ast);
 		free_parser(parser);
 		if (ast != NULL)
 			free_ast(ast);

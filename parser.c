@@ -1,54 +1,6 @@
 
 #include "parser.h"
 
-t_ast		**ft_realloc(t_ast **old_ast, int size)
-{
-	t_ast	**new_ast;
-	int		i;
-
- 	i = 0;
-	new_ast = (t_ast **)malloc(sizeof(t_ast *) * size);
-	while (i < (size - 1))
-	{
-		new_ast[i] = old_ast[i];
-		i++;
-	}
-	free(old_ast);
-	return (new_ast);
-}
-
-char		**ft_realloc_(char **old_dptr, int size)
-{
-	char	**new_dptr;
-	int		i;
-
- 	i = 0;
-	new_dptr = (char **)malloc(sizeof(char *) * size);
-	while (i < (size - 1))
-	{
-		new_dptr[i] = old_dptr[i];
-		i++;
-	}
-	free(old_dptr);
-	return (new_dptr);
-}
-
-t_redirect	**ft_realloc__(t_redirect **old_dptr, int size)
-{
-	t_redirect	**new_dptr;
-	int			i;
-
- 	i = 0;
-	new_dptr = (t_redirect **)malloc(sizeof(t_redirect *) * size);
-	while (i < (size - 1))
-	{
-		new_dptr[i] = old_dptr[i];
-		i++;
-	}
-	free(old_dptr);
-	return (new_dptr);
-}
-
 void		free_token(t_token *token)
 {
 	if (token != NULL)
@@ -216,8 +168,8 @@ int			parser_parse_redirection(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 	parser_expected_token(parser, parser->cur_token->type, ast_cmp);
 	if (parser_expected_token(parser, TOKEN_WORD, ast_cmp))
 		return (1);
+	ast->redirection = ft_realloc(ast->redirection, ast->redirection_size, ast->redirection_size + 1);
 	ast->redirection_size += 1;
-	ast->redirection = ft_realloc__(ast->redirection, ast->redirection_size);
 	ast->redirection[ast->redirection_size - 1] = (t_redirect *)malloc(sizeof(t_redirect));
 	ast->redirection[ast->redirection_size - 1]->type = type;
 	ast->redirection[ast->redirection_size - 1]->filename = parser->prev_token->value;
@@ -228,8 +180,8 @@ void		parser_parse_cmd_args(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 {
 	while (parser->cur_token->type == TOKEN_WORD)
 	{
+		ast->args_value = ft_realloc(ast->args_value, ast->args_size, ast->args_size + 1);
 		ast->args_size += 1;
-		ast->args_value = ft_realloc_(ast->args_value, ast->args_size);
 		ast->args_value[ast->args_size - 1] = parser->cur_token->value;
 		parser_expected_token(parser, TOKEN_WORD, ast_cmp);
 	}
@@ -275,8 +227,8 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp)
 			return (free_ast_pipeline(ast));
 		if (!(pipeline_value = parser_parse_simple_command(parser, ast_cmp)))
 			return (free_ast_pipeline(ast));
+		ast->pipeline_value = ft_reallocf(ast->pipeline_value, ast->pipeline_size, ast->pipeline_size + 1);
 		ast->pipeline_size += 1;
-		ast->pipeline_value = ft_realloc(ast->pipeline_value, ast->pipeline_size);
 		ast->pipeline_value[ast->pipeline_size - 1] = pipeline_value;
 	}
 	return (ast);
@@ -300,8 +252,8 @@ t_ast		*parser_parse_compound(t_parser *parser)
 			break ;
 		if (!(compound_value = parser_parse_pipeline(parser, ast)))
 			return (NULL);
+		ast->compound_value = ft_reallocf(ast->compound_value, ast->compound_size, ast->compound_size + 1);
 		ast->compound_size += 1;
-		ast->compound_value = ft_realloc(ast->compound_value, ast->compound_size);
 		ast->compound_value[ast->compound_size - 1] = compound_value;
 	}
 	return (ast);
