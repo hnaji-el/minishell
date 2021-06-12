@@ -28,16 +28,16 @@ typedef struct	s_ast
 {
 	t_ast_type		type;
 		/*	AST_COMPOUND  */
-	struct s_ast	**compound_value;
-	int				compound_size;
+	struct s_ast	**comp_val;
+	int				comp_size;
 		/*	AST_PIPELINE  */
-	struct s_ast	**pipeline_value;
-	int				pipeline_size;
+	struct s_ast	**pipe_val;
+	int				pipe_size;
 		/*	AST_COMMAND   */
-	char			**args_value;
+	char			**args_val;
 	int				args_size;
-	t_redirect		**redirection;
-	int				redirection_size;
+	t_redirect		**redir;
+	int				redir_size;
 }				t_ast;
 
 t_ast	*init_ast(t_ast_type type);

@@ -1,5 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/11 13:19:57 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/06/11 13:37:38 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "parser.h"
+
+void	put_error(int errnum)
+{
+	printf("%s\n", strerror(errnum));
+	exit(EXIT_FAILURE);
+}
 
 void		free_token(t_token *token)
 {
@@ -50,14 +67,14 @@ t_ast		*free_ast_command(t_ast *ast)
 {
 	if (ast != NULL)
 	{
-		free_args_value(ast->args_value, ast->args_size);
-		while (ast->redirection_size > 0)
+		free_args_value(ast->args_val, ast->args_size);
+		while (ast->redir_size > 0)
 		{
-			ast->redirection_size -= 1;
-			free(ast->redirection[ast->redirection_size]->filename);
-			free(ast->redirection[ast->redirection_size]);
+			ast->redir_size -= 1;
+			free(ast->redir[ast->redir_size]->filename);
+			free(ast->redir[ast->redir_size]);
 		}
-		free(ast->redirection);
+		free(ast->redir);
 		free(ast);
 	}
 	return (NULL);
@@ -67,12 +84,12 @@ t_ast		*free_ast_pipeline(t_ast *ast)
 {
 	if (ast != NULL)
 	{
-		while (ast->pipeline_size > 0)
+		while (ast->pipe_size > 0)
 		{
-			ast->pipeline_size -= 1;
-			free_ast_command(ast->pipeline_value[ast->pipeline_size]);
+			ast->pipe_size -= 1;
+			free_ast_command(ast->pipe_val[ast->pipe_size]);
 		}
-		free(ast->pipeline_value);
+		free(ast->pipe_val);
 		free(ast);
 	}
 	return (NULL);
@@ -82,12 +99,12 @@ t_ast		*free_ast(t_ast *ast)
 {
 	if (ast != NULL)
 	{
-		while (ast->compound_size > 0)
+		while (ast->comp_size > 0)
 		{
-			ast->compound_size -= 1;
-			free_ast_pipeline(ast->compound_value[ast->compound_size]);
+			ast->comp_size -= 1;
+			free_ast_pipeline(ast->comp_val[ast->comp_size]);
 		}
-		free(ast->compound_value);
+		free(ast->comp_val);
 		free(ast);
 	}
 	return (NULL);
@@ -97,14 +114,15 @@ t_parser	*init_parser(t_lexer *lexer)
 {
 	t_parser	*parser;
 
-	parser = (t_parser *)malloc(sizeof(t_parser));
+	if ((parser = (t_parser *)malloc(sizeof(t_parser))) == NULL)
+		put_error(errno);
 	parser->lexer = lexer;
 	parser->cur_token = lexer_get_next_token(lexer);
 	parser->prev_token = NULL;
 	return (parser);
 }
 
-int			parser_expected_token(t_parser *parser, t_token_type type, t_ast *ast_cmp)
+int			expected_token(t_parser *parser, t_token_type type, t_ast *ast_cmp)
 {
 	if (parser->cur_token->type == type)
 	{
@@ -134,7 +152,7 @@ int			parser_expected_syn_err(t_parser *parser, t_ast *ast_cmp)
 	if (parser->cur_token->type == TOKEN_PIPE ||
 		parser->cur_token->type == TOKEN_SEMI ||
 		parser->cur_token->type == TOKEN_SYN_ERR)
-		return (parser_expected_token(parser, TOKEN_WORD, ast_cmp)); 
+		return (expected_token(parser, TOKEN_WORD, ast_cmp)); 
 	if (parser->cur_token->type == TOKEN_EOF)
 	{
 		free_ast(ast_cmp);
@@ -144,7 +162,7 @@ int			parser_expected_syn_err(t_parser *parser, t_ast *ast_cmp)
 	return (0);
 }
 
-int			expected_token(t_parser *parser)
+int			detect_token(t_parser *parser)
 {
 	if (parser->cur_token->type == TOKEN_SEMI ||
 		parser->cur_token->type == TOKEN_PIPE ||
@@ -154,8 +172,17 @@ int			expected_token(t_parser *parser)
 	return (0);
 }
 
+void		*realloc_(void *old_alloc, size_t count, size_t old_size)
+{
+	void	*new_allo;
 
-int			parser_parse_redirection(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
+	new_allo = ft_realloc(old_alloc, count * old_size, count * (old_size + 1));
+	if (new_allo == NULL)
+		put_error(errno);
+	return (new_allo);
+}
+
+int			parser_parse_redirect(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 {
 	t_redirect_type	type;
 
@@ -165,17 +192,16 @@ int			parser_parse_redirection(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 		type = RED_INPUT;
 	else
 		type = RED_APPEND;
-	parser_expected_token(parser, parser->cur_token->type, ast_cmp);
-	if (parser_expected_token(parser, TOKEN_WORD, ast_cmp))
+	expected_token(parser, parser->cur_token->type, ast_cmp);
+	if (expected_token(parser, TOKEN_WORD, ast_cmp))
 		return (1);
-	ast->redirection = ft_reallocf(ast->redirection,
-		sizeof(t_redirect *) * ast->redirection_size,
-		sizeof(t_redirect *) * (ast->redirection_size + 1)
-		);
-	ast->redirection_size += 1;
-	ast->redirection[ast->redirection_size - 1] = (t_redirect *)malloc(sizeof(t_redirect));
-	ast->redirection[ast->redirection_size - 1]->type = type;
-	ast->redirection[ast->redirection_size - 1]->filename = parser->prev_token->value;
+	ast->redir = realloc_(ast->redir, sizeof(t_redirect *), ast->redir_size);
+	ast->redir_size += 1;
+	ast->redir[ast->redir_size - 1] = (t_redirect *)malloc(sizeof(t_redirect));
+	if (ast->redir[ast->redir_size - 1] == NULL)
+		put_error(errno);
+	ast->redir[ast->redir_size - 1]->type = type;
+	ast->redir[ast->redir_size - 1]->filename = parser->prev_token->value;
 	return (0);
 }
 
@@ -183,13 +209,10 @@ void		parser_parse_cmd_args(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 {
 	while (parser->cur_token->type == TOKEN_WORD)
 	{
-		ast->args_value = ft_reallocf(ast->args_value,
-			sizeof(char *) * ast->args_size,
-			sizeof(char *) * (ast->args_size + 1)
-			);
+		ast->args_val = realloc_(ast->args_val, sizeof(char *), ast->args_size);
 		ast->args_size += 1;
-		ast->args_value[ast->args_size - 1] = parser->cur_token->value;
-		parser_expected_token(parser, TOKEN_WORD, ast_cmp);
+		ast->args_val[ast->args_size - 1] = parser->cur_token->value;
+		expected_token(parser, TOKEN_WORD, ast_cmp);
 	}
 }
 
@@ -198,16 +221,16 @@ t_ast		*parser_parse_simple_command(t_parser *parser, t_ast *ast_cmp)
 	t_ast	*ast;
 
 	ast = init_ast(AST_COMMAND);
-	while (!expected_token(parser))
+	while (!detect_token(parser))
 	{
 		if (parser->cur_token->type == TOKEN_WORD)
 			parser_parse_cmd_args(parser, ast, ast_cmp);
-		else if (parser_parse_redirection(parser, ast, ast_cmp))
+		else if (parser_parse_redirect(parser, ast, ast_cmp))
 			return (free_ast_command(ast));
 	}
 	if (parser->cur_token->type == TOKEN_SYN_ERR)
 	{
-		parser_expected_token(parser, TOKEN_WORD, ast_cmp);
+		expected_token(parser, TOKEN_WORD, ast_cmp);
 		return (free_ast_command(ast));
 	}
 	return (ast);
@@ -216,29 +239,27 @@ t_ast		*parser_parse_simple_command(t_parser *parser, t_ast *ast_cmp)
 t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp)
 {
 	t_ast	*ast;
-	t_ast	*pipeline_value;
+	t_ast	*pipe_val;
 
 	if (parser_expected_syn_err(parser, ast_cmp))
 		return (NULL);
 	ast = init_ast(AST_PIPELINE);
-	if (!(pipeline_value = parser_parse_simple_command(parser, ast_cmp)))
+	if (!(pipe_val = parser_parse_simple_command(parser, ast_cmp)))
 		return (free_ast_pipeline(ast));
-	ast->pipeline_value = (t_ast **)malloc(sizeof(t_ast *));
-	ast->pipeline_value[0] = pipeline_value;
-	ast->pipeline_size += 1;
+	if (!(ast->pipe_val = (t_ast **)malloc(sizeof(t_ast *))))
+		put_error(errno);
+	ast->pipe_val[0] = pipe_val;
+	ast->pipe_size += 1;
 	while (parser->cur_token->type == TOKEN_PIPE)
 	{
-		parser_expected_token(parser, TOKEN_PIPE, ast_cmp);
+		expected_token(parser, TOKEN_PIPE, ast_cmp);
 		if (parser_expected_syn_err(parser, ast_cmp))
 			return (free_ast_pipeline(ast));
-		if (!(pipeline_value = parser_parse_simple_command(parser, ast_cmp)))
+		if (!(pipe_val = parser_parse_simple_command(parser, ast_cmp)))
 			return (free_ast_pipeline(ast));
-		ast->pipeline_value = ft_reallocf(ast->pipeline_value,
-			sizeof(t_ast *) * ast->pipeline_size,
-			sizeof(t_ast *) * (ast->pipeline_size + 1)
-			);
-		ast->pipeline_size += 1;
-		ast->pipeline_value[ast->pipeline_size - 1] = pipeline_value;
+		ast->pipe_val = realloc_(ast->pipe_val, sizeof(t_ast *), ast->pipe_size);
+		ast->pipe_size += 1;
+		ast->pipe_val[ast->pipe_size - 1] = pipe_val;
 	}
 	return (ast);
 }
@@ -246,32 +267,26 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp)
 t_ast		*parser_parse_compound(t_parser *parser)
 {
 	t_ast	*ast;
-	t_ast	*compound_value;
+	t_ast	*comp_val;
 
-	if (!(compound_value = parser_parse_pipeline(parser, NULL)))
+	if ((comp_val = parser_parse_pipeline(parser, NULL)) == NULL)
 		return (NULL);
 	ast = init_ast(AST_COMPOUND);
-	ast->compound_value = (t_ast **)malloc(sizeof(t_ast *));
-	ast->compound_value[0] = compound_value;
-	ast->compound_size += 1;
+	if ((ast->comp_val = (t_ast **)malloc(sizeof(t_ast *))) == NULL)
+		put_error(errno);
+	ast->comp_val[0] = comp_val;
+	ast->comp_size += 1;
 	while (parser->cur_token->type == TOKEN_SEMI)
 	{
-		parser_expected_token(parser, TOKEN_SEMI, ast);
+		expected_token(parser, TOKEN_SEMI, ast);
 		if (parser->cur_token->type == TOKEN_EOF)
 			break ;
-		if (!(compound_value = parser_parse_pipeline(parser, ast)))
+		if (!(comp_val = parser_parse_pipeline(parser, ast)))
 			return (NULL);
-		ast->compound_value = ft_reallocf(ast->compound_value,
-			sizeof(t_ast *) * ast->compound_size,
-			sizeof(t_ast *) * (ast->compound_size + 1)
-			);
-		ast->compound_size += 1;
-		ast->compound_value[ast->compound_size - 1] = compound_value;
+		ast->comp_val = realloc_(ast->comp_val, sizeof(t_ast *),
+			ast->comp_size);
+		ast->comp_size += 1;
+		ast->comp_val[ast->comp_size - 1] = comp_val;
 	}
 	return (ast);
-}
-
-t_ast		*parser_parse(t_parser *parser)
-{
-	return (parser_parse_compound(parser));
 }

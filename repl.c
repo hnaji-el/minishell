@@ -30,7 +30,7 @@ int		main(void)
 			break ;
 		lexer = init_lexer(cmd_line);
 		parser = init_parser(lexer);
-		ast = parser_parse(parser);
+		ast = parser_parse_compound(parser);
 		// add executor program exit_status = executor(ast);
 		free_parser(parser);
 		if (ast != NULL)
