@@ -20,3 +20,9 @@ t_ast	*init_ast(t_ast_type type)
 	ast->redir_size = 0;
 	return (ast);
 }
+
+void	put_error(int errnum)
+{
+	printf("%s\n", strerror(errnum));
+	exit(EXIT_FAILURE);
+}
