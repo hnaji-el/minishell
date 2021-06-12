@@ -257,7 +257,8 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp)
 			return (free_ast_pipeline(ast));
 		if (!(pipe_val = parser_parse_simple_command(parser, ast_cmp)))
 			return (free_ast_pipeline(ast));
-		ast->pipe_val = realloc_(ast->pipe_val, sizeof(t_ast *), ast->pipe_size);
+		ast->pipe_val = realloc_(ast->pipe_val, sizeof(t_ast *),
+			ast->pipe_size);
 		ast->pipe_size += 1;
 		ast->pipe_val[ast->pipe_size - 1] = pipe_val;
 	}
