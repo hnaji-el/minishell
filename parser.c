@@ -269,10 +269,10 @@ t_ast		*parser_parse_compound(t_parser *parser)
 	t_ast	*ast;
 	t_ast	*comp_val;
 
-	if ((comp_val = parser_parse_pipeline(parser, NULL)) == NULL)
+	if (!(comp_val = parser_parse_pipeline(parser, NULL)))
 		return (NULL);
 	ast = init_ast(AST_COMPOUND);
-	if ((ast->comp_val = (t_ast **)malloc(sizeof(t_ast *))) == NULL)
+	if (!(ast->comp_val = (t_ast **)malloc(sizeof(t_ast *))))
 		put_error(errno);
 	ast->comp_val[0] = comp_val;
 	ast->comp_size += 1;
