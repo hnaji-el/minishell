@@ -1,5 +1,6 @@
 
-#include "parser.h"
+#include "../../includes/parser.h"
+#include "../../includes/main.h"
 
 void		free_token(t_token *token)
 {

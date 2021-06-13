@@ -1,5 +1,6 @@
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
+#include "../../includes/main.h"
 
 t_lexer	*init_lexer(char *cmd_line)
 {

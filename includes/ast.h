@@ -2,8 +2,6 @@
 #ifndef AST_H
 # define AST_H
 
-# include "main.h"
-
 typedef enum	e_ast_type
 {
 	AST_COMPOUND,

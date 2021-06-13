@@ -1,5 +1,6 @@
 
-#include "parser.h"
+#include "../../includes/parser.h"
+#include "../../includes/main.h"
 
 t_parser	*init_parser(t_lexer *lexer)
 {

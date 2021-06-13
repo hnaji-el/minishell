@@ -1,7 +1,7 @@
 
-#include "main.h"
-#include "lexer.h"
-#include "parser.h"
+#include "../includes/main.h"
+#include "../includes/lexer.h"
+#include "../includes/parser.h"
 
 int		main(void)
 {

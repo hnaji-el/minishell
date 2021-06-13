@@ -2,8 +2,6 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "main.h"
-
 typedef enum	e_token_type
 {
 	TOKEN_WORD,
