@@ -1,6 +1,5 @@
 
 #include "../../includes/parser.h"
-#include "../../includes/ast.h"
 #include "../../includes/main.h"
 
 int			parser_parse_redirect(t_parser *parser, t_ast *ast, t_ast *ast_cmp)

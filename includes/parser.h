@@ -2,9 +2,9 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "main.h"
 # include "ast.h"
 # include "lexer.h"
+# include "main.h"
 
 typedef struct	s_parser
 {
@@ -14,7 +14,6 @@ typedef struct	s_parser
 }				t_parser;
 
 t_parser	*init_parser(t_lexer *lexer);
-void		put_error(int errnum);
 
 t_ast		*parser_parse_compound(t_parser *parser);
 t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp);

@@ -64,5 +64,6 @@ void	ft_free_1d(void **str);
 void	ft_free_2d(char ***str);
 void	*ft_realloc(void *old_alloc, size_t old_size, size_t new_size);
 void	*ft_reallocf(void *old_alloc, size_t old_size, size_t new_size);
+int		ft_num_word(char const *s1);
 
 #endif

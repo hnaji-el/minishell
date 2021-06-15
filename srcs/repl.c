@@ -28,7 +28,7 @@ int		main(void)
 		}
 		if (ft_strncmp(cmd_line, "exit", 5) == 0)
 			break ;
-		lexer = init_lexer(cmd_line);
+		lexer = init_lexer(cmd_line, exit_status);
 		parser = init_parser(lexer);
 		ast = parser_parse_compound(parser);
 		// add executor program exit_status = executor(ast);
