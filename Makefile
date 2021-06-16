@@ -2,9 +2,16 @@
 NAME = minishell
 
 SRCS = ./srcs/repl.c \
-		./srcs/lexer/lexer.c ./srcs/lexer/token.c \
-		./srcs/parser/parser.c ./srcs/parser/parser_utils.c \
-		./srcs/parser/parser_free.c ./srcs/parser/ast.c \
+		./srcs/lexer/lexer.c \
+		./srcs/lexer/lexer_utils.c \
+		./srcs/lexer/lexer_collect_id.c \
+		./srcs/lexer/lexer_collect_redirection.c \
+		./srcs/lexer/lexer_collect_double_q.c \
+		./srcs/lexer/token.c \
+		./srcs/parser/parser.c \
+		./srcs/parser/parser_utils.c \
+		./srcs/parser/parser_free.c \
+		./srcs/parser/ast.c \
 		./srcs/get_next_line/get_next_line.c \
 		./srcs/get_next_line/get_next_line_utils.c
 

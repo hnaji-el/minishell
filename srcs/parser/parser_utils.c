@@ -26,7 +26,7 @@ int			expected_token(t_parser *parser, t_token_type type, t_ast *ast_cmp)
 	else if (parser->cur_token->type == TOKEN_SYN_ERR)
 	{
 		free_ast(ast_cmp);
-		printf("bash: syntax error near multiline command\n");
+		printf("bash: syntax error: unexpected end of file\n");
 	}
 	else
 	{
@@ -48,7 +48,7 @@ int			parser_expected_syn_err(t_parser *parser, t_ast *ast_cmp)
 	if (parser->cur_token->type == TOKEN_EOF)
 	{
 		free_ast(ast_cmp);
-		printf("bash: syntax error near multiline command\n");
+		printf("bash: syntax error: unexpected end of file\n");
 		return (1);
 	}
 	return (0);
