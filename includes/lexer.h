@@ -34,16 +34,16 @@ char	*lexer_collect_double_quotes(t_lexer *lexer);
 void	add_to_value(char **value, char *str);
 
 
-/*                  lexer_collect_redirection.c                  */
+/*                  lexer_collect_id1.c                  */
 char	*env_vars_and_word_splitting(t_lexer *lexer, size_t size);
 char	*lexer_word_splitting(t_lexer *lexer, char *env, char *str, size_t n);
 char	*get_word(char *env, int *index);
-void	lexer_collect_env_variables(t_lexer *lexer, char **value);
-char	*collect_env_variables(t_lexer *lexer);
 
 
 /*                 lexer_collect_double_q.c                     */
 void	lexer_collect_simple_chars_in_double_q(t_lexer *lexer, char **value);
 void	lexer_collect_escape_char_in_double_q(t_lexer *lexer, char ** value);
+void	lexer_collect_env_variables(t_lexer *lexer, char **value);
+char	*collect_env_variables(t_lexer *lexer);
 char	*ft_strdup_(char *str);
 #endif

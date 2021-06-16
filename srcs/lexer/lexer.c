@@ -2,20 +2,6 @@
 #include "../../includes/lexer.h"
 #include "../../includes/main.h"
 
-t_token	*lexer_collect_redirec_great(t_lexer *lexer)
-{
-	lexer_advance(lexer);
-	if (lexer->cur_char == '>')
-		return (adva_return(lexer, init_token(TOKEN_DGREAT, ft_strdup(">>"))));
-	return (init_token(TOKEN_GREAT, ft_strdup(">")));
-}
-
-t_token	*adva_return(t_lexer *lexer, t_token *token)
-{
-	lexer_advance(lexer);
-	return (token);
-}
-
 t_token	*lexer_collect_id(t_lexer *lexer)
 {
 	char	*value;
@@ -42,6 +28,20 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 		add_to_value(&value, str);
 	}
 	return (init_token(TOKEN_WORD, value));
+}
+
+t_token	*lexer_collect_redirec_great(t_lexer *lexer)
+{
+	lexer_advance(lexer);
+	if (lexer->cur_char == '>')
+		return (adva_return(lexer, init_token(TOKEN_DGREAT, ft_strdup(">>"))));
+	return (init_token(TOKEN_GREAT, ft_strdup(">")));
+}
+
+t_token	*adva_return(t_lexer *lexer, t_token *token)
+{
+	lexer_advance(lexer);
+	return (token);
 }
 
 t_token	*lexer_get_next_token(t_lexer *lexer)

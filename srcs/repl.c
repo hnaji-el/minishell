@@ -31,8 +31,8 @@ int		main(void)
 		lexer = init_lexer(cmd_line, exit_status);
 		parser = init_parser(lexer);
 		ast = parser_parse_compound(parser);
-		// add executor program exit_status = executor(ast);
 		free_parser(parser);
+		// add executor program exit_status = executor(ast);
 		if (ast != NULL)
 			free_ast(ast);
 	}

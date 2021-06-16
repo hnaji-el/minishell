@@ -5,7 +5,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/lexer/lexer.c \
 		./srcs/lexer/lexer_utils.c \
 		./srcs/lexer/lexer_collect_id.c \
-		./srcs/lexer/lexer_collect_redirection.c \
+		./srcs/lexer/lexer_collect_id1.c \
 		./srcs/lexer/lexer_collect_double_q.c \
 		./srcs/lexer/token.c \
 		./srcs/parser/parser.c \
@@ -26,7 +26,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(SRCS) $(LIBFT) -o $(NAME) -g -fsanitize=address
+	@gcc $(FLAGS) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean
