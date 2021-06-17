@@ -12,11 +12,16 @@ SRCS = ./srcs/repl.c \
 		./srcs/parser/parser_utils.c \
 		./srcs/parser/parser_free.c \
 		./srcs/parser/ast.c \
+		./srcs/executor/executor.c \
 		./srcs/get_next_line/get_next_line.c \
 		./srcs/get_next_line/get_next_line_utils.c
 
-INCLUDES = ./includes/main.h ./includes/token.h ./includes/lexer.h \
-		./includes/parser.h ./includes/ast.h
+INCLUDES = ./includes/main.h \
+		./includes/token.h \
+		./includes/lexer.h \
+		./includes/parser.h \
+		./includes/ast.h \
+		./includes/executor.h
 
 LIBFT = ./srcs/libft/libft.a
 

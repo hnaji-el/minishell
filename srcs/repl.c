@@ -1,7 +1,7 @@
 
 #include "../includes/main.h"
-#include "../includes/lexer.h"
 #include "../includes/parser.h"
+#include "../includes/executor.h"
 
 int		main(void)
 {
@@ -32,9 +32,8 @@ int		main(void)
 		parser = init_parser(lexer);
 		ast = parser_parse_compound(parser);
 		free_parser(parser);
-		// add executor program exit_status = executor(ast);
-		if (ast != NULL)
-			free_ast(ast);
+		exit_status = visitor_visit(ast);
+		free_ast(ast);
 	}
 	return (0);
 }
