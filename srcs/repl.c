@@ -3,7 +3,7 @@
 #include "../includes/parser.h"
 #include "../includes/executor.h"
 
-int		main(void)
+int		main(int argc, char *argv[], char *envp[])
 {
 	char		*cmd_line;
 	t_lexer		*lexer;
@@ -32,7 +32,7 @@ int		main(void)
 		parser = init_parser(lexer);
 		ast = parser_parse_compound(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast);
+		exit_status = visitor_visit(ast, envp);
 		free_ast(ast);
 	}
 	return (0);

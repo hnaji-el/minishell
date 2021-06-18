@@ -13,6 +13,14 @@ SRCS = ./srcs/repl.c \
 		./srcs/parser/parser_free.c \
 		./srcs/parser/ast.c \
 		./srcs/executor/executor.c \
+		./srcs/executor/exec_cmd.c \
+		./srcs/executor/builtins/builtin_cd.c \
+		./srcs/executor/builtins/builtin_echo.c \
+		./srcs/executor/builtins/builtin_env.c \
+		./srcs/executor/builtins/builtin_exit.c \
+		./srcs/executor/builtins/builtin_export.c \
+		./srcs/executor/builtins/builtin_pwd.c \
+		./srcs/executor/builtins/builtin_unset.c \
 		./srcs/get_next_line/get_next_line.c \
 		./srcs/get_next_line/get_next_line_utils.c
 
