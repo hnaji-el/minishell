@@ -12,6 +12,8 @@ int		main(int argc, char *argv[], char *envp[])
 	int			r;
 	int			exit_status;
 
+	argc = 0;
+	argv = NULL;
 /*
  * implement our basic REPL loop
  */

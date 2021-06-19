@@ -24,65 +24,76 @@ int     free_array(char **array)
     return(-1);
 }
 
-// void    set_command(char *key, char *value, char *envp, t_env   **env)
-// {
-//     // (*env)->var = key;
-//     // if (env)
-//     // {
-//     //     while (env)
-//     //     {
-//     //         /* code */
-//     //         if (!ft_strcmp(key, (*env)->var))
-//     //             break;
-            
-//     //     }
-        
-//     // }
-//     if (ft_strcmp(key, "PATH") == 0)
-//     {
-//         return (1);
-//     }
-// }
+char    *get_path(char *path, char **envp)
+{
+    int		i;
+	char	**temp;
+	
 
-char    *find_path(char *envp[], char **cmd)
+	temp = NULL;
+	i = -1;
+	//printf()
+	while (envp[++i])
+	{
+		if (ft_strcmp(path, envp[i]))
+		{
+			temp = ft_split(envp[i], '=');
+			return (temp[1]);
+		}
+	}
+	return (NULL);
+}
+
+char	*add_char(char *str, char c)
+{
+	int		len;
+	char	*temp;
+	
+	if (str)
+		len = ft_strlen(str);
+	else
+		len = 0;
+	temp = malloc ((len + 2) * sizeof(char));
+	if (!temp)
+		return (NULL);
+	if (len)
+		ft_strlcpy(temp, str, len + 1);
+	temp[len++] = c;
+	temp[len] = '\0';
+	//free_array(&str);
+	return (temp);
+}
+
+char    *find_path(char *envp[], char **cmd, int i)
 {
     char    **temp;
+	char	*temp1;
     char    *dst;
     struct stat buffer;
-    int     i;
 
-    dst = NULL;
-    i = 0;
-    // while (*envp)
-    // {
-       //printf("ENVP: %s\n", *envp);
-        dst = getenv("PATH");
-        temp = ft_split(dst, '=');
-        free_array(&dst);
-        if (temp)
-        {
-            printf("PATH PATH PATH  ");
-            while (temp[1] != NULL)
-            {
-                printf("HERE HERE HERE\n");
-                temp = ft_split(temp[1], ':');
-                dst = ft_strjoin(temp[0], cmd[0]);
-                //free_array((void **)temp);
-                free(dst);
-                printf("LSTAT %d\n", lstat(dst, &buffer));
-                if (lstat(dst, &buffer) == 0)
-                    return (dst);
-                // temp++;
-            }
-            // if (*temp == NULL)
-            //     EXIT_FAILURE;
-        }
-        free_array(temp);
-        execute_cmd(dst, envp, cmd);
-       // envp++;
-       // i++;
-   // }
-    return (dst);
+   // dst = get_path("PATH", envp);
+   (void)envp;
+    dst = getenv("PATH");
+	//printf("SDJKFFASLHD :: %s\n", dst);
+    if (!dst)
+        return (NULL);
+    temp = ft_split(dst, ':');
+    while (temp[++i])
+    {
+        //printf("TEMP ::%s\n", temp[i]);
+		temp1 = temp[i];
+		temp[i] = add_char(temp[i], '/');
+		free(temp1);
+		//printf("temp%s\n", temp[i]);
+		temp1 = ft_strjoin(temp[i], cmd[0]);
+        if (!lstat(temp1, &buffer))
+            return (temp1);
+		free(temp1);
+    }
+    free_array(temp);
+    // execute_cmd(temp1, envp, cmd);
+	//printf("PATH %s\n", temp1);
+    return(NULL);
 }
 
 void    execute_cmd(char *path, char **envp, char **cmd)
@@ -90,14 +101,3 @@ void    execute_cmd(char *path, char **envp, char **cmd)
         if (execve(path, cmd, envp) == -1)
             perror("could not execve");
 }
-
-// int     main(int argc, char *argv[], char *envp[])
-// {
-//     char    *cmd = "ls";
-//     char    *path;
-//     t_env   *env;
-
-//     path = find_path(envp, env, cmd);
-//     execute_cmd(path, envp, &cmd);
-//     //args
-// }

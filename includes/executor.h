@@ -39,7 +39,9 @@ int     lbash_pwd(void);
 t_node	*lbash_unset(t_node **head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
-char	*find_path(char *envp[], char **cmd);
+char	*find_path(char *envp[], char **cmd, int i);
 void	execute_cmd(char *path, char **envp, char **cmd);
+char	*get_path(char *path, char **envp);
+char	*add_char(char *str, char c);
 
 #endif

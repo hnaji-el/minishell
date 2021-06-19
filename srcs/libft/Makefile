@@ -21,7 +21,7 @@ SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 	   ft_strmapi.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 	   ft_putnbr_fd.c ft_putstr.c ft_strjoin_c.c ft_free_1d.c \
 	   ft_free_2d.c ft_atoi_plus.c ft_putchar.c ft_atoi_l.c ft_atoi_plus_l.c \
-	   ft_realloc.c ft_reallocf.c ft_num_word.c ft_strcmp \
+	   ft_realloc.c ft_reallocf.c ft_num_word.c ft_strcmp.c \
 
 OBJS = $(SRCS:.c=.o)
 

@@ -11,7 +11,8 @@ void	visitor_visit_command(t_ast *node, char **envp)
 {
 	int		i;
 	char	**cmd;
-	t_env	*env;
+	char	*temp1;
+	//t_env	*env;
 
 	cmd = malloc(node->args_size * sizeof(int));
 	i = 0;
@@ -27,7 +28,11 @@ void	visitor_visit_command(t_ast *node, char **envp)
 		cmd[i] = node->args_val[i];
 		i++;
 	}
-	find_path(envp, cmd);
+	temp1 = find_path(envp, cmd, -1);
+	if (!temp1)
+		EXIT_FAILURE;
+	printf("SD : %s\n", temp1);
+	execute_cmd(temp1, envp, cmd);
 }
 
 void	visitor_visit_pipeline(t_ast *node, char **envp)

@@ -33,7 +33,7 @@ INCLUDES = ./includes/main.h \
 
 LIBFT = ./srcs/libft/libft.a
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
