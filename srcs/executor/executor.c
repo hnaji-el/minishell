@@ -2,17 +2,17 @@
 #include "../../includes/main.h"
 #include "../../includes/executor.h"
 
-void	visitor_visit_redirection(t_redirect *node)
+int		visitor_visit_redirection(t_redirect *node)
 {
 	printf("REDIRECTION(%s, %d)\n", node->filename, node->type);
+	return (0);
 }
 
-void	visitor_visit_command(t_ast *node, char **envp)
+int		visitor_visit_command(t_ast *node, char **envp)
 {
 	int		i;
 	char	**cmd;
 	char	*temp1;
-	//t_env	*env;
 
 	cmd = malloc(node->args_size * sizeof(int));
 	i = 0;
@@ -28,44 +28,57 @@ void	visitor_visit_command(t_ast *node, char **envp)
 		cmd[i] = node->args_val[i];
 		i++;
 	}
-	temp1 = find_path(envp, cmd, -1);
-	if (!temp1)
-		EXIT_FAILURE;
-	printf("SD : %s\n", temp1);
-	execute_cmd(temp1, envp, cmd);
+	cmd[i] = NULL;
+	if (!cmd[0])
+		return (127);
+	// if (is_builtin1(cmd[0]))
+
+	// temp1 = find_path(envp, cmd, -1);
+	// if (!temp1)
+	// 	return(127);
+	// *cmd = temp1;
+	// return (execute_cmd(envp, cmd));
 }
 
-void	visitor_visit_pipeline(t_ast *node, char **envp)
+int		visitor_visit_pipeline(t_ast *node, char **envp)
 {
 	int		i;
+	int		ret;
 
+	ret = 1;
 	i = 0;
 	while (i < node->pipe_size)
 	{
-		printf("-------simple command------\n");
-		visitor_visit_command(node->pipe_val[i], envp);
+		// printf("-------simple command------\n");
+		ret = visitor_visit_command(node->pipe_val[i], envp);
 		i++;
 	}
+	return (ret);
 }
 
-void	visitor_visit_compound(t_ast *node, char **envp)
+int		visitor_visit_compound(t_ast *node, char **envp)
 {
 	int		i;
+	int		ret;
 
+	ret = 1;
 	i = 0;
 	while (i < node->comp_size)
 	{
-		printf("---------compound------\n");
-		visitor_visit_pipeline(node->comp_val[i], envp);
+		// printf("---------compound------\n");
+		return (visitor_visit_pipeline(node->comp_val[i], envp));
 		i++;
 	}
+	return(ret);
 }
 
 int		visitor_visit(t_ast *node, char **envp)
 {
+	int		ret;
+	
 	if (node == NULL)
 		return (258);
 	if (node->type == AST_COMPOUND)
-		visitor_visit_compound(node, envp);
+		ret = visitor_visit_compound(node, envp);
 	return (0);
 }

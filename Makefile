@@ -21,6 +21,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/executor/builtins/builtin_export.c \
 		./srcs/executor/builtins/builtin_pwd.c \
 		./srcs/executor/builtins/builtin_unset.c \
+		./srcs/executor/builtins/is_builtin.c \
 		./srcs/get_next_line/get_next_line.c \
 		./srcs/get_next_line/get_next_line_utils.c
 

@@ -4,9 +4,7 @@
 int lbash_cd(char **args)
 {
   char cwd[256];
-  
-  printf ("%s\n%s\n", args[0], args[1]);
-  printf("%s\n", getcwd(cwd, sizeof(cwd)));
+
   if (args[1] == NULL) {
     fprintf(stderr, "lbash: expected argument to \"cd\"\n");
   }

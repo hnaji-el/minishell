@@ -19,10 +19,10 @@ typedef struct s_env
 
 
 int		visitor_visit(t_ast *node, char **envp);
-void	visitor_visit_compound(t_ast *node, char **envp);
-void	visitor_visit_pipeline(t_ast *node, char **envp);
-void	visitor_visit_command(t_ast *node, char **envp);
-void	visitor_visit_redirection(t_redirect *node);
+int		visitor_visit_compound(t_ast *node, char **envp);
+int		visitor_visit_pipeline(t_ast *node, char **envp);
+int		visitor_visit_command(t_ast *node, char **envp);
+int		visitor_visit_redirection(t_redirect *node);
 int		lbash_cd(char **args);
 int		check_n(char *args, int *flag);
 int		lbash_echo(char **args);
@@ -40,8 +40,9 @@ t_node	*lbash_unset(t_node **head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
 char	*find_path(char *envp[], char **cmd, int i);
-void	execute_cmd(char *path, char **envp, char **cmd);
+int		execute_cmd(char **envp, char **cmd);
 char	*get_path(char *path, char **envp);
 char	*add_char(char *str, char c);
+int		is_builtin1(char *str);
 
 #endif
