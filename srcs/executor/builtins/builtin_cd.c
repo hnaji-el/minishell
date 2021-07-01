@@ -34,24 +34,25 @@ int   change_dir(char **cmd, char **path, char **old_path)
 	return (0);
 }
 
-t_node	*set_value(char	*str, char	*value, t_node *head_env)
+void  set_value(char	*str, char	*value, t_node **head_env)
 {
 	char	*temp;
+  t_node *current;
 	int		len;
 	
-	temp = ft_strjoin(str, value);
-	len = lenght(head_env);
-	printf("TEMP :%s\n",temp);
-	add_var(len, &head_env, temp);
-	free(temp);
-	return (head_env);
-// 	current = find(str, *head_env);
-// 	if (!current)
-// 	{
-// 		len = lenght(*head_env);
-// 		temp = ft_strjoin(str, value);
-// 		*head_env = insert(len, temp, *head_env);
-// 	}
+  current = find(str, *head_env);
+  temp = ft_strjoin(str, "=");
+  str = temp;
+  temp = ft_strjoin(str, value);
+  free(str);
+  if (!current)
+  {
+    len = lenght(*head_env);
+    printf("LEN : %d\n", len);
+    *head_env = insert(len, temp, *head_env);
+  }
+  else
+    (*head_env)->data = ft_strdup(temp);
  }
 
 int		lbash_cd(char **cmd, t_node *head_env)
@@ -61,25 +62,12 @@ int		lbash_cd(char **cmd, t_node *head_env)
 
   if (!change_dir(cmd, &path, &old_path))
   {
-      head_env = set_value("OLDPWD=", old_path, head_env);
-      head_env = set_value("PWD=", path, head_env);
+      set_value("OLDPWD", old_path, &head_env);
+      set_value("PWD", path, &head_env);
   }
   free(path);
   free(old_path);
-  // char cwd[256];
-  return (lbash_env(head_env));
-  // if (args[1] == NULL) {
-  //   fprintf(stderr, "lbash: expected argument to \"cd\"\n");
-  // }
-  // else 
-  // {
-  //   if (chdir(args[1]) != 0) 
-  //   {
-  //     perror("lbash");
-  //   }
-  // }
-  // printf("%s\n", getcwd(cwd, sizeof(cwd)));
-  // return 1;
+ return (lbash_env(head_env));
 }
 
 int     main(int argc, char **argv, char **envp)
