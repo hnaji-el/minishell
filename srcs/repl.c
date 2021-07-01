@@ -9,15 +9,18 @@ int		main(int argc, char *argv[], char *envp[])
 	t_lexer		*lexer;
 	t_parser	*parser;
 	t_ast		*ast;
+	t_node		*head_env;
 	int			r;
 	int			exit_status;
 
+	head_env = NULL;
 	argc = 0;
 	argv = NULL;
 /*
  * implement our basic REPL loop
  */
- 	exit_status = 0;
+	head_env = linked_list(head_env, envp);
+	exit_status = 0;
 	while (1)
 	{
 		write(2, "minishell$ ", 12); // print prompt string
@@ -34,8 +37,11 @@ int		main(int argc, char *argv[], char *envp[])
 		parser = init_parser(lexer);
 		ast = parser_parse_compound(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast, envp);
+		exit_status = visitor_visit(ast, head_env);
 		free_ast(ast);
 	}
 	return (0);
 }
+
+
+//////

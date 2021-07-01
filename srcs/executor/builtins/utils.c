@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-kass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/03 18:40:51 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/06/03 18:41:09 by ael-kass         ###   ########.fr       */
+/*   Created: 2021/07/01 16:06:45 by ael-kass          #+#    #+#             */
+/*   Updated: 2021/07/01 16:10:05 by ael-kass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-int     lbash_env(t_node *head_env)
+
+t_node *linked_list(t_node *head, char **env)
 {
-	t_node	*ptr;
-	ptr = head_env;
-	//start from the beginning
-	while (ptr != NULL)
+	int		i;
+    int     a;
+
+	i = -1;
+	a = 1;
+	while (env[++i] != NULL)
 	{
-		printf("%s\n", ptr->data);
-		ptr = ptr->next;
+		head = insert(a, env[i], head);
+		++a;
 	}
-    return (0);
+	return (head);
 }
-
-
-// int     main(int argc, char *argv[], char *envp[])
-// {
-//     argc = 0;
-//     argv = NULL;
-//     lbash_env(envp);
-// }

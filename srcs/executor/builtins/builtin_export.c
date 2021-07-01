@@ -80,11 +80,14 @@ void	add_var(int n, t_node **head, char *cmd)
 	char	**dst;
 	
 	dst = ft_split(cmd, '=');
+
 	current = find(dst[0], *head);
+	//printf("CURRENT : %s\n", current->data);
 	if (current == NULL)
 		*head = insert(n, cmd, *head);
 	else
-		current->data = cmd;
+		(*head)->data = cmd;
+	//printf("data : %s\n",current->data);
 	
 }
 
@@ -126,7 +129,7 @@ t_node	*find(char *str, t_node *head)
 		return NULL;
 	//navigate through list
 	dst = ft_split(current->data, '=');
-	while(dst[0] != str)
+	while(ft_strcmp(dst[0], str))
 	{
 		//if it is last node
 		if (current->next == NULL)
