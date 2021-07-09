@@ -12,9 +12,8 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 {
 	int		i;
 	char	**cmd;
-	char	*temp1;
 
-	cmd = malloc(node->args_size * sizeof(int));
+	cmd = malloc(node->args_size * sizeof(int) + 1);
 	i = 0;
 	while (i < node->redir_size)
 	{
@@ -24,20 +23,21 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 	i = 0;
 	while (i < node->args_size)
 	{
-		// printf("COMMAND(%s)\n", node->args_val[i]);
+		printf("'COMMAND(%s)'\n", node->args_val[i]);
 		cmd[i] = node->args_val[i];
 		i++;
 	}
-	cmd[i] = NULL;
-	if (!cmd[0])
-		return (127);
+	cmd[i + 1] = NULL;
+	start_exec(head_env, cmd);
+	//printf("HELLO\n");
 	// if (is_builtin1(cmd[0]))
 
-	// temp1 = find_path(envp, cmd, -1);
+	// temp1 = find_path(head_env, cmd, -1);
 	// if (!temp1)
 	// 	return(127);
 	// *cmd = temp1;
-	// return (execute_cmd(envp, cmd));
+	//return (execute_cmd(envp, cmd));
+	return (0);
 }
 
 int		visitor_visit_pipeline(t_ast *node, t_node *head_env)

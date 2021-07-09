@@ -13,7 +13,7 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-t_node	*lbash_unset(t_node **head, char **cmd)
+int		lbash_unset(t_node **head, char **cmd)
 {
     //start from the first link
     t_node  *current = *head;
@@ -21,13 +21,13 @@ t_node	*lbash_unset(t_node **head, char **cmd)
 
     //if list is empty
     if (head == NULL)
-        return (NULL);
+        return (-1);
 	//navigate through list
 	while (ft_strcmp(current->data, cmd[1]) != 0)
 	{
 		//if it is last node
 		if (current->next == NULL)
-			return NULL;
+			return (-1);
 		else
 		{
 			//store reference to current link
@@ -44,7 +44,7 @@ t_node	*lbash_unset(t_node **head, char **cmd)
 		//bypass the current link
 		previous->next = current->next;
 
-	return current;
+	return 0;
 }
 
 void	printlist(t_node *head)
@@ -54,7 +54,8 @@ void	printlist(t_node *head)
 	//start from the beginning
 	while (ptr != NULL)
 	{
-		printf("%s\n", ptr->data);
+		// printf("%s\n", ptr->data);
+		ft_putstr(ptr->data);
 		ptr = ptr->next;
 	}
 }

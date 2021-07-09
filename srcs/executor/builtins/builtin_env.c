@@ -20,7 +20,7 @@ int     lbash_env(t_node *head_env)
 	//start from the beginning
 	while (ptr != NULL)
 	{
-		printf("%s\n", ptr->data);
+		//printf("%s\n", ptr->data);
 		ptr = ptr->next;
 	}
     return (0);

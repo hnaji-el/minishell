@@ -8,39 +8,41 @@ int     check_n(char *args, int *flag)
     return (0);
 }
 
-int     lbash_echo(char **args)
+int     lbash_echo(char **cmd)
 {
     int flag;
     int i;
 
     flag = 0;
-    if (args[1] == NULL)
+    if (cmd[1] == NULL)
     {
         write(1, "\n", 1);
         return (1);
     }
-    args++;
-    check_n(*args, &flag);
+    cmd++;
+    check_n(*cmd, &flag);
     if (flag == 1)
     {
-        args++;
+        cmd++;
         i = 2;
-        while (*args != NULL)
+        while (*cmd != NULL)
         {
-            ft_putstr_fd(*args, STDOUT_FILENO);
-            if (*(args + 1))
+            ft_putstr_fd(*cmd, STDOUT_FILENO);
+            if (*(cmd + 1))
                 write(1, " ", 1);
-            args++;
+            cmd++;
         }
     }
     else
     {
-        while (*args != NULL)
+        while (*cmd != NULL)
         {
-            ft_putstr_fd(*args, 1);
-            args++;
+            printf("CMD : %s\n", *cmd);
+            ft_putstr_fd(*cmd, 1);
+            cmd++;
         }
         write(1, "\n", 1);
+        printf("heyy\n");
     }
     return (0);
 }

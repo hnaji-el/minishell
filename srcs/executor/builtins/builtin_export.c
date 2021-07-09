@@ -67,9 +67,13 @@ void    printenv_expor(t_node	*head)
        dst = ft_split(head->data, '=');
        ft_putstr_fd("declare -x ", 1);
        ft_putstr_fd(dst[0], 1);
-       write(1, "=\"", 2);
-       ft_putstr_fd(dst[1], 1);
-       write(1, "\"\n", 2);
+	   if (dst[1])
+	   {
+	   		write(1, "=\"", 2);
+       		ft_putstr_fd(dst[1], 1);
+       		write(1, "\"", 1);
+	   }
+	   write(1, "\n", 1);
 	   head = head->next;
     }
 }
@@ -87,7 +91,7 @@ void	add_var(int n, t_node **head, char *cmd)
 		*head = insert(n, cmd, *head);
 	else
 		(*head)->data = cmd;
-	//printf("data : %s\n",current->data);
+	//("data : %s\n",current->data);
 	
 }
 
@@ -99,7 +103,7 @@ t_node	*insert(int n, char *data, t_node *head)
 	int		i;
 
 	temp = malloc(sizeof(t_node));
-	temp->data = data;
+	temp->data = ft_strdup(data);
 	temp->next = NULL;
 	if (n == 1)
 	{
@@ -124,12 +128,12 @@ t_node	*find(char *str, t_node *head)
 	t_node	*current = head;
 	char **dst;
 
-	//if list is empty
-	if(head == NULL)
+	// //if list is empty
+	if(current == NULL)
 		return NULL;
 	//navigate through list
 	dst = ft_split(current->data, '=');
-	while(ft_strcmp(dst[0], str))
+	while(ft_strcmp(dst[0], str) != 0)
 	{
 		//if it is last node
 		if (current->next == NULL)
@@ -145,33 +149,26 @@ t_node	*find(char *str, t_node *head)
 	return current;
 }
 
-t_node    *lbash_export(char *envp[], char **cmd)
+int		lbash_export(t_node	*head_env, char **cmd)
 {
 	int	i;
 	int	a;
-	t_node*		head;
-	head = NULL;
-	i = -1;
 	a = 1;
-	while (envp[++i] != NULL)
-	{
-		head = insert(a, envp[i], head);
-		a++;
-	}
 	i = 0;
 	if (cmd[1] == NULL)
-		printenv_expor(head);	
+		printenv_expor(head_env);	
 	while (cmd[++i] != NULL)
 	{
-		add_var(a, &head, cmd[i]);
+		add_var(a, &head_env, cmd[i]);
 		a++;
 	}
-	return (head);
+	printenv_expor(head_env);
+	return (0);
 }
 
 // int main(int argc, char *argv[], char  *envp[])
 // {
-//     char *cmd[30] = {"export", "salam=12"};
+//     char *cmd[30] = {"export", "sala=123"};
 //     lbash_export(envp, cmd);
 //     printf("------------SUCCESS------\n");
 //     return(0);

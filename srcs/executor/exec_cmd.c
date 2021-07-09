@@ -61,14 +61,43 @@ char *add_char(char *str, char c)
 	return (temp);
 }
 
-char *find_path(char *envp[], char **cmd, int i)
+char	**convert_list(t_node *head_env)
+{
+	t_node	*current;
+	int		len;
+	int		i;
+	char	**str;
+
+	// find  the length of the
+	// given linked list
+	len = lenght(head_env);
+
+	//Creat aan array
+	str = malloc(len * sizeof(char *));
+	current = head_env;
+	//  Traverse the linked List and add the
+	// elements to the array one by one
+	i = 0;
+	while (current != NULL)
+	{
+		str[i++] = ft_strdup(current->data);
+		current = current->next;
+	}
+	// print the created array
+	// i = 0;
+	// while (str[i])
+	// 	printf("%s\n", str[i++]);
+	// exit(0);
+	return (str);
+}
+
+char *find_path(char **cmd, int i)
 {
 	char **temp;
 	char *temp1;
 	char *dst;
 	struct stat buffer;
 
-	(void)envp;
 	dst = getenv("PATH");
 	if (!dst)
 		return (NULL);
@@ -87,20 +116,12 @@ char *find_path(char *envp[], char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(char **envp, char **cmd)
+int		execute_cmd(t_node *head_env, char **cmd)
 {
-	pid_t id;
+	char **env;
 
-	id = fork();
-	if (id == -1)
-		exit(1);
-	else if (id == 0 && is_builtin1(*cmd) == -1)
-	{	
-		if (!execve(*cmd, cmd, envp))
-			perror("could not execve");
-	}
-	else
-		exit(EXIT_SUCCESS);
-	wait(0);
+	env = convert_list(head_env);
+	if (!execve(*cmd, cmd, env))
+		perror("could not execve");
 	return(1);
 }

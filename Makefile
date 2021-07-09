@@ -14,6 +14,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/parser/ast.c \
 		./srcs/executor/executor.c \
 		./srcs/executor/exec_cmd.c \
+		./srcs/executor/start_exec.c \
 		./srcs/executor/builtins/builtin_cd.c \
 		./srcs/executor/builtins/builtin_echo.c \
 		./srcs/executor/builtins/builtin_env.c \
@@ -22,6 +23,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/executor/builtins/builtin_pwd.c \
 		./srcs/executor/builtins/builtin_unset.c \
 		./srcs/executor/builtins/is_builtin.c \
+		./srcs/executor/builtins/utils.c \
 		./srcs/get_next_line/get_next_line.c \
 		./srcs/get_next_line/get_next_line_utils.c
 

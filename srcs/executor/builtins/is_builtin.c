@@ -13,7 +13,7 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-int     is_builtin1(char *str)
+int     is_builtin(char *str)
 {
     if (!ft_strcmp(str, "cd"))
         return (1);
@@ -32,17 +32,30 @@ int     is_builtin1(char *str)
     return (-1);
 }
 
-int     built_in1(char  **cmd, char **envp)
+int     built_in(char  **cmd, t_node *head_env)
 {
     int		res;
     
+    res = 0;
     if (cmd)
     {
-		res = is_builtin1(cmd[0]);
+		res = is_builtin(cmd[0]);
 		if (res == -1)
 			return (-1);
     }
 	if (res == 1)
-		return(lbash_cd(cmd));
-	
+		return(lbash_cd(cmd, head_env));
+    if (res == 2)
+        return (lbash_export(head_env, cmd));
+    if (res == 3)
+        return (lbash_unset(&head_env, cmd));
+    if (res == 4)
+        return (lbash_exit(cmd));
+    if (res == 5)
+        return(lbash_echo(cmd));
+    if (res == 6)
+        return (lbash_pwd());
+    if (res == 7)
+        return (lbash_env(head_env));
+	return (-1);
 }
