@@ -37,12 +37,10 @@ int     lbash_echo(char **cmd)
     {
         while (*cmd != NULL)
         {
-            printf("CMD : %s\n", *cmd);
             ft_putstr_fd(*cmd, 1);
             cmd++;
         }
         write(1, "\n", 1);
-        printf("heyy\n");
     }
     return (0);
 }

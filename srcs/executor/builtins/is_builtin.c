@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-kass <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: htagrour <htagrour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 13:00:25 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/06/22 13:00:27 by ael-kass         ###   ########.fr       */
+/*   Updated: 2021/07/09 17:32:52 by htagrour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include "../../../includes/executor.h"
 
 int     is_builtin(char *str)
+{
+    if (!ft_strcmp(str, "echo"))
+        return (5);
+    if (!ft_strcmp(str, "pwd"))
+        return (6);
+    if (!ft_strcmp(str, "env"))
+        return (7);
+    return (is_builtin1(str));
+}
+
+int     is_builtin1(char *str)
 {
     if (!ft_strcmp(str, "cd"))
         return (1);
@@ -23,13 +34,7 @@ int     is_builtin(char *str)
         return (3);
     if (!ft_strcmp(str, "exit"))
         return (4);
-    if (!ft_strcmp(str, "echo"))
-        return (5);
-    if (!ft_strcmp(str, "pwd"))
-        return (6);
-    if (!ft_strcmp(str, "env"))
-        return (7);
-    return (-1);
+    return(-1);
 }
 
 int     built_in(char  **cmd, t_node *head_env)

@@ -13,7 +13,7 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 	int		i;
 	char	**cmd;
 
-	cmd = malloc(node->args_size * sizeof(int) + 1);
+	cmd = malloc((node->args_size + 1) * sizeof(int) + 2);
 	i = 0;
 	while (i < node->redir_size)
 	{
@@ -23,12 +23,12 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 	i = 0;
 	while (i < node->args_size)
 	{
-		printf("'COMMAND(%s)'\n", node->args_val[i]);
-		cmd[i] = node->args_val[i];
+		//printf("'COMMAND(%s)'\n", node->args_val[i]);
+		cmd[i] = ft_strdup(node->args_val[i]);
 		i++;
 	}
-	cmd[i + 1] = NULL;
-	start_exec(head_env, cmd);
+	cmd[i] = NULL;
+	start_exec(head_env, cmd, node->pipe_size);
 	//printf("HELLO\n");
 	// if (is_builtin1(cmd[0]))
 
