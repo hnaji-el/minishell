@@ -42,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(SRCS) $(LIBFT) -o $(NAME) -g
+	@gcc $(FLAGS) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean

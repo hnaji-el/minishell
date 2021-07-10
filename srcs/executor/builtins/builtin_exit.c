@@ -21,13 +21,12 @@ int    lbash_exit(char **cmd)
     if (cmd[1] == NULL)
     {
         ft_putstr_fd("exit\n", 1);
-        exit(0);
-        return 0;
+        exit(EXIT_SUCCESS);
     }
     else if (cmd[2] != NULL)
     {
         ft_putstr_fd("exit\nbash: exit: too many arguments\n", 2);
-        return (1);
+        exit(EXIT_FAILURE);
     }
     else
     {

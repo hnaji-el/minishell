@@ -13,13 +13,12 @@
 #include "../../includes/main.h"
 #include "../../includes/executor.h"
 
-
 int    start_exec(t_node *head_env, char **cmd, int num_size)
 {
     char    *temp;
     pid_t    pid;
     //char    **str;
-    printf("NUM_size %d\n", num_size);
+    //printf("NUM_size %d\n", num_size);
     if (num_size == 0 && is_builtin1(cmd[0]) != -1)
         return(built_in(cmd, head_env));
     pid = fork();
@@ -33,13 +32,16 @@ int    start_exec(t_node *head_env, char **cmd, int num_size)
         {
             temp = find_path(cmd, -1);
             if (!temp)
-                return (127);
+            {
+                perror("");
+                exit(127);
+            }
             *cmd = temp;
             execute_cmd(head_env, cmd);
             return (0);
         }
         else
-            return(built_in(cmd, head_env));
+            exit(built_in(cmd, head_env));
     }
     wait(0);
     //write(1, "HELLO\n", 6);

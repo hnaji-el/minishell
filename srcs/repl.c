@@ -12,6 +12,7 @@ int		main(int argc, char *argv[], char *envp[])
 	t_node		*head_env;
 	int			r;
 	int			exit_status;
+	//int			fd = open()
 
 	head_env = NULL;
 	argc = 0;
