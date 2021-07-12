@@ -20,7 +20,7 @@ int		lbash_unset(t_node **head, char **cmd)
     t_node  *previous = NULL;
 
     //if list is empty
-    if (head == NULL)
+    if (*head == NULL)
         return (-1);
 	//navigate through list
 	while (ft_strcmp(current->data, cmd[1]) != 0)
@@ -47,10 +47,10 @@ int		lbash_unset(t_node **head, char **cmd)
 	return 0;
 }
 
-void	printlist(t_node *head)
+void	printlist(t_node **head)
 {
 	t_node	*ptr;
-	ptr = head;
+	ptr = *head;
 	//start from the beginning
 	while (ptr != NULL)
 	{

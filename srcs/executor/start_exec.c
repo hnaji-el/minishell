@@ -13,7 +13,7 @@
 #include "../../includes/main.h"
 #include "../../includes/executor.h"
 
-int    start_exec(t_node *head_env, char **cmd, int num_size)
+int    start_exec(t_node **head_env, char **cmd, int num_size)
 {
     char    *temp;
     pid_t    pid;
@@ -37,8 +37,7 @@ int    start_exec(t_node *head_env, char **cmd, int num_size)
                 exit(127);
             }
             *cmd = temp;
-            execute_cmd(head_env, cmd);
-            return (0);
+            exit(execute_cmd(head_env, cmd));
         }
         else
             exit(built_in(cmd, head_env));

@@ -13,7 +13,7 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-void	sort_env(t_node	*head)
+void	sort_env(t_node	**head)
 {
 	int    		count;
 	int			i;
@@ -22,12 +22,12 @@ void	sort_env(t_node	*head)
     t_node		*current;
 	t_node		*next;
 	
-	count = lenght(head);
+	count = lenght(*head);
 	i = -1;
     while (++i < count - 1)
     {
-		current = head;
-		next = head->next;
+		current = *head;
+		next = (*head)->next;
 		j = i;
         while ( ++j < count)
 		{
@@ -57,14 +57,14 @@ int		lenght(t_node	*current)
 	return lenght;
 }
 
-void    printenv_expor(t_node	*head)
+void    printenv_expor(t_node	**head)
 {
     char    **dst;
 
 	sort_env(head);
-    while (head != NULL)
+    while (*head != NULL)
     {
-       dst = ft_split(head->data, '=');
+       dst = ft_split((*head)->data, '=');
        ft_putstr_fd("declare -x ", 1);
        ft_putstr_fd(dst[0], 1);
 	   if (dst[1])
@@ -74,7 +74,7 @@ void    printenv_expor(t_node	*head)
        		write(1, "\"", 1);
 	   }
 	   write(1, "\n", 1);
-	   head = head->next;
+	   *head = (*head)->next;
     }
 }
 
@@ -85,17 +85,17 @@ void	add_var(int n, t_node **head, char *cmd)
 	
 	dst = ft_split(cmd, '=');
 
-	current = find(dst[0], *head);
+	current = find(dst[0], head);
 	//printf("CURRENT : %s\n", current->data);
 	if (current == NULL)
-		*head = insert(n, cmd, *head);
+		*head = insert(n, cmd, head);
 	else
-		(*head)->data = cmd;
+		(*head)->data = ft_strdup(cmd);
 	//("data : %s\n",current->data);
 	
 }
 
-t_node	*insert(int n, char *data, t_node *head)
+t_node	*insert(int n, char *data, t_node **head)
 {
 	
 	t_node	*temp;
@@ -107,11 +107,11 @@ t_node	*insert(int n, char *data, t_node *head)
 	temp->next = NULL;
 	if (n == 1)
 	{
-		temp->next = head;
-		head = temp;
-		return head;
+		temp->next = *head;
+		*head = temp;
+		return (*head);
 	}
-	temp1 = head;
+	temp1 = *head;
 	i = -1;
 	while(++i < n - 2)
 	{
@@ -119,20 +119,20 @@ t_node	*insert(int n, char *data, t_node *head)
 	}
 	temp->next = temp1->next;
 	temp1->next = temp;
-	return head;
+	return (*head);
 }
 
-t_node	*find(char *str, t_node *head)
+t_node	*find(char *str, t_node **head)
 {
 	//start from the first link
-	t_node	*current = head;
+	t_node	*current = *head;
 	char **dst;
 
 	// //if list is empty
 	if(current == NULL)
 		return NULL;
 	//navigate through list
-	dst = ft_split(current->data, '=');
+	dst = ft_split((current)->data, '=');
 	while(ft_strcmp(dst[0], str) != 0)
 	{
 		//if it is last node
@@ -149,7 +149,7 @@ t_node	*find(char *str, t_node *head)
 	return current;
 }
 
-int		lbash_export(t_node	*head_env, char **cmd)
+int		lbash_export(t_node	**head_env, char **cmd)
 {
 	int	i;
 	int	a;
@@ -159,10 +159,10 @@ int		lbash_export(t_node	*head_env, char **cmd)
 		printenv_expor(head_env);	
 	while (cmd[++i] != NULL)
 	{
-		add_var(a, &head_env, cmd[i]);
+		add_var(a, head_env, cmd[i]);
 		a++;
 	}
-	printenv_expor(head_env);
+	//printenv_expor(head_env);
 	return (0);
 }
 

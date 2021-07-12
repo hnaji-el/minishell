@@ -8,7 +8,7 @@ int		visitor_visit_redirection(t_redirect *node)
 	return (0);
 }
 
-int		visitor_visit_command(t_ast *node, t_node *head_env)
+int		visitor_visit_command(t_ast *node, t_node **head_env)
 {
 	int		i;
 	char	**cmd;
@@ -29,6 +29,7 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 	}
 	cmd[i] = NULL;
 	start_exec(head_env, cmd, node->pipe_size);
+	//printenv_expor(head_env);
 	//printf("HELLO\n");
 	// if (is_builtin1(cmd[0]))
 
@@ -40,7 +41,7 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 	return (0);
 }
 
-int		visitor_visit_pipeline(t_ast *node, t_node *head_env)
+int		visitor_visit_pipeline(t_ast *node, t_node **head_env)
 {
 	int		i;
 	int		ret;
@@ -56,7 +57,7 @@ int		visitor_visit_pipeline(t_ast *node, t_node *head_env)
 	return (ret);
 }
 
-int		visitor_visit_compound(t_ast *node, t_node *head_env)
+int		visitor_visit_compound(t_ast *node, t_node **head_env)
 {
 	int		i;
 	int		ret;
@@ -72,7 +73,7 @@ int		visitor_visit_compound(t_ast *node, t_node *head_env)
 	return(ret);
 }
 
-int		visitor_visit(t_ast *node, t_node *head_env)
+int		visitor_visit(t_ast *node, t_node **head_env)
 {
 	int		ret;
 	
