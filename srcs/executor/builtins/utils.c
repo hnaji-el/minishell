@@ -14,7 +14,7 @@
 #include "../../../includes/executor.h"
 
 
-t_node *linked_list(t_node *head, char **env)
+t_node	*linked_list(t_node *head, char **env)
 {
 	int		i;
     int     a;
@@ -23,7 +23,7 @@ t_node *linked_list(t_node *head, char **env)
 	a = 1;
 	while (env[++i] != NULL)
 	{
-		head = insert(a, env[i], &head);
+	 	head = insert(a, env[i], head);
 		++a;
 	}
 	return (head);

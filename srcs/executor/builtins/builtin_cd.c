@@ -31,7 +31,7 @@ int   change_dir(char **cmd, char **path, char **old_path)
 	return (0);
 }
 
-void  set_value(char	*str, char	*value, t_node **head_env)
+void  set_value(char	*str, char	*value, t_node *head_env)
 {
 	char	*temp;
 	t_node *current;
@@ -44,18 +44,18 @@ void  set_value(char	*str, char	*value, t_node **head_env)
 	free(str);
 	if (!current)
 	{
-		len = lenght(*head_env);
-		*head_env = insert(len, temp, head_env);
+		len = lenght(head_env);
+		insert(len, temp, head_env);
   	}
   	else
   	{
 		//printf("Hello\n");
 		free(current->data);
     	current->data = ft_strdup(temp);
-  	}
- }
+	}
+}
 
-int		lbash_cd(char **cmd, t_node **head_env)
+int		lbash_cd(char **cmd, t_node *head_env)
 {
 	char  *path;
 	char   *old_path;

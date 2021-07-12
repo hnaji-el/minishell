@@ -12,7 +12,8 @@ int		main(int argc, char *argv[], char *envp[])
 	t_node		*head_env;
 	int			r;
 	int			exit_status;
-	//int			fd = open("./srcs/text.txt", O_RDONLY);
+	//int			fd;
+	//fd = open("./srcs/text.txt", O_RDONLY);
 
 	head_env = NULL;
 	argc = 0;
@@ -21,6 +22,7 @@ int		main(int argc, char *argv[], char *envp[])
  * implement our basic REPL loop
  */
 	head_env = linked_list(head_env, envp);
+
 	exit_status = 0;
 	while (1)
 	{
@@ -38,11 +40,10 @@ int		main(int argc, char *argv[], char *envp[])
 		parser = init_parser(lexer);
 		ast = parser_parse_compound(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast, &head_env);
+		exit_status = visitor_visit(ast, head_env);
 		free_ast(ast);
 	}
 	return (0);
 }
-
 
 //////

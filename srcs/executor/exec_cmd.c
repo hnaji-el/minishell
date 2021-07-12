@@ -61,7 +61,7 @@ char *add_char(char *str, char c)
 	return (temp);
 }
 
-char	**convert_list(t_node **head_env)
+char	**convert_list(t_node *head_env)
 {
 	t_node	*current;
 	int		len;
@@ -70,11 +70,11 @@ char	**convert_list(t_node **head_env)
 
 	// find  the length of the
 	// given linked list
-	len = lenght(*head_env);
+	len = lenght(head_env);
 
 	//Creat aan array
 	str = malloc(len * sizeof(char *));
-	current = *head_env;
+	current = head_env;
 	//  Traverse the linked List and add the
 	// elements to the array one by one
 	i = 0;
@@ -116,7 +116,7 @@ char *find_path(char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(t_node **head_env, char **cmd)
+int		execute_cmd(t_node *head_env, char **cmd)
 {
 	char **env;
 

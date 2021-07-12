@@ -13,10 +13,10 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-int     lbash_env(t_node **head_env)
+int     lbash_env(t_node *head_env)
 {
 	t_node	*ptr;
-	ptr = *head_env;
+	ptr = head_env;
 	//start from the beginning
 	while (ptr != NULL)
 	{
@@ -25,7 +25,6 @@ int     lbash_env(t_node **head_env)
 	}
     return (0);
 }
-
 
 // int     main(int argc, char *argv[], char *envp[])
 // {

@@ -37,7 +37,7 @@ int     is_builtin1(char *str)
     return(-1);
 }
 
-int     built_in(char  **cmd, t_node **head_env)
+int     built_in(char  **cmd, t_node *head_env)
 {
     int		res;
     

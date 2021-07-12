@@ -13,7 +13,7 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-void	sort_env(t_node	**head)
+void	sort_env(t_node	*head)
 {
 	int    		count;
 	int			i;
@@ -22,12 +22,12 @@ void	sort_env(t_node	**head)
     t_node		*current;
 	t_node		*next;
 	
-	count = lenght(*head);
+	count = lenght(head);
 	i = -1;
     while (++i < count - 1)
     {
-		current = *head;
-		next = (*head)->next;
+		current = head;
+		next = head->next;
 		j = i;
         while ( ++j < count)
 		{
@@ -57,14 +57,16 @@ int		lenght(t_node	*current)
 	return lenght;
 }
 
-void    printenv_expor(t_node	**head)
+void    printenv_expor(t_node	*head)
 {
     char    **dst;
+	t_node	*current;
 
-	sort_env(head);
-    while (*head != NULL)
+	current = head;
+	sort_env(current);
+    while (current != NULL)
     {
-       dst = ft_split((*head)->data, '=');
+       dst = ft_split(current->data, '=');
        ft_putstr_fd("declare -x ", 1);
        ft_putstr_fd(dst[0], 1);
 	   if (dst[1])
@@ -74,28 +76,33 @@ void    printenv_expor(t_node	**head)
        		write(1, "\"", 1);
 	   }
 	   write(1, "\n", 1);
-	   *head = (*head)->next;
+	   current = current->next;
     }
 }
 
-void	add_var(int n, t_node **head, char *cmd)
+void	add_var(int n, t_node *head, char *cmd)
 {
 	t_node *current;
 	char	**dst;
 	
+	if (n == 0)
+		n = 1;
+	current = head;
 	dst = ft_split(cmd, '=');
 
 	current = find(dst[0], head);
-	//printf("CURRENT : %s\n", current->data);
+	//lbash_env(head);
+	//printf("BEFOR ADD VAR\n");
 	if (current == NULL)
-		*head = insert(n, cmd, head);
+		insert(n, cmd, head);
 	else
-		(*head)->data = ft_strdup(cmd);
+		current->data = ft_strdup(cmd);
 	//("data : %s\n",current->data);
-	
+	// lbash_env(current);
+	// exit(0);
+	//printf("After add var\n");
 }
-
-t_node	*insert(int n, char *data, t_node **head)
+t_node	*insert(int n, char *data, t_node *head)
 {
 	
 	t_node	*temp;
@@ -107,25 +114,27 @@ t_node	*insert(int n, char *data, t_node **head)
 	temp->next = NULL;
 	if (n == 1)
 	{
-		temp->next = *head;
-		*head = temp;
-		return (*head);
+		temp->next = head;
+		head = temp;
+		return(head);
 	}
-	temp1 = *head;
+	//lbash_env(&head);
+	//printf("BEFOR SWAAAAAAAAP\n");
+	temp1 = head;
 	i = -1;
-	while(++i < n - 2)
+	while(temp1->next != NULL)
 	{
 		temp1 = temp1->next;
 	}
-	temp->next = temp1->next;
+	//temp->next = NULL;
 	temp1->next = temp;
-	return (*head);
+	return (head);
 }
 
-t_node	*find(char *str, t_node **head)
+t_node	*find(char *str, t_node *head)
 {
 	//start from the first link
-	t_node	*current = *head;
+	t_node	*current = head;
 	char **dst;
 
 	// //if list is empty
@@ -149,20 +158,20 @@ t_node	*find(char *str, t_node **head)
 	return current;
 }
 
-int		lbash_export(t_node	**head_env, char **cmd)
+int		lbash_export(t_node	*head_env, char **cmd)
 {
 	int	i;
-	int	a;
-	a = 1;
+	//int	a;
 	i = 0;
 	if (cmd[1] == NULL)
 		printenv_expor(head_env);	
 	while (cmd[++i] != NULL)
 	{
-		add_var(a, head_env, cmd[i]);
-		a++;
+		add_var(lenght(head_env), head_env, cmd[i]);
 	}
 	//printenv_expor(head_env);
+	// lbash_env(head_env);
+	// exit(0);
 	return (0);
 }
 
