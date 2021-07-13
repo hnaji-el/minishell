@@ -18,31 +18,52 @@ int 		lbash_unset(t_node *head, char **cmd)
     //start from the first link
     t_node  *current = head;
     t_node  *previous = NULL;
+	char	**temp;
 
     //if list is empty
     if (head == NULL)
         return (-1);
 	//navigate through list
-	current = find(cmd[1], head);
-	if (current == NULL)
-		return (0);
-	else
+// 	current = find(cmd[1], head);
+// //	printf("VAR : %s\n", current->data);
+// 	if (current == NULL)
+// 		return (0);
+	temp = ft_split(current->data, '=');
+	while (ft_strcmp(temp[0], cmd[1]) != 0 && current->next)
 	{
 		//store reference to current link
 		previous = current;
 		//move to next link
 		current = current->next;
+		temp = ft_split(current->data, '=');
 	}
+	// else
+	// {
+	// 	//store reference to current link
+	// 	previous = current;
+	// 	//move to next link
+	// 	current = current->next;
+	// }
 	//found a match, update the link
-	if (current == head)
+	if (ft_strcmp(temp[0], cmd[1]) == 0)
 	{
-		//change first to point to next link
-		free((void *)head->data);
-		head = head->next;
+		if(previous)
+			previous->next = current->next;
+		else
+			head = current->next;
+		free(current->data);
+		free(current->next);
+		free(current);
 	}
-	else
-		//bypass the current link
-		previous->next = current->next;
+	// if (current == head)
+	// {
+	// 	//change first to point to next link
+	// 	free((void *)head->data);
+	// 	head = head->next;
+	// }
+	// else
+	// 	//bypass the current link
+	// 	previous->next = current->next;
 	return 0;
 }
 

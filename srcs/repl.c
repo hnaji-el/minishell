@@ -12,8 +12,8 @@ int		main(int argc, char *argv[], char *envp[])
 	t_node		*head_env;
 	int			r;
 	int			exit_status;
-	//int			fd;
-	//fd = open("./srcs/text.txt", O_RDONLY);
+	// int			fd;
+	// fd = open("./srcs/text.txt", O_RDONLY);
 
 	head_env = NULL;
 	argc = 0;

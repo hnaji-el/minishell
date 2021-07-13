@@ -1,2 +1,4 @@
-export hamid=nadiii
-unset hamid
+export hamid
+env
+clear
+ls

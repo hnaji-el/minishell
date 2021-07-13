@@ -23,6 +23,8 @@ int    start_exec(t_node *head_env, char **cmd, int num_size)
     pid = fork();
     if (pid == -1)
         exit(1);
+    // if (pid)
+    //    pid = fork();
     if (!pid)
     {
         if (!cmd[0])
