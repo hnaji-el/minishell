@@ -18,17 +18,16 @@ int    start_exec(t_node *head_env, char **cmd, int num_size)
     char    *temp;
     pid_t    pid;
 
+    // printf("%d\n", is_builtin1(cmd[0]));
     if (num_size == 0 && is_builtin1(cmd[0]) != -1)
         return(built_in(cmd, head_env));
     pid = fork();
     if (pid == -1)
         exit(1);
-    // if (pid)
-    //    pid = fork();
     if (!pid)
     {
         if (!cmd[0])
-            return (127);
+            exit (127);
         if (is_builtin(cmd[0]) == -1)
         {
             temp = find_path(cmd, -1);
@@ -43,6 +42,6 @@ int    start_exec(t_node *head_env, char **cmd, int num_size)
         else
             exit(built_in(cmd, head_env));
     }
-    wait(0);
+    waitpid(pid, NULL, 0);
     return (0);
 }

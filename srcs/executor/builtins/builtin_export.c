@@ -118,8 +118,7 @@ t_node	*insert(int n, char *data, t_node *head)
 		head = temp;
 		return(head);
 	}
-	//lbash_env(&head);
-	//printf("BEFOR SWAAAAAAAAP\n");
+
 	temp1 = head;
 	i = -1;
 	while(temp1->next != NULL)
