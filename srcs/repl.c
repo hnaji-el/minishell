@@ -3,10 +3,33 @@
 #include "../includes/parser.h"
 #include "../includes/executor.h"
 
+void	initialize_variables(char **envp, t_node **head_env, int *exit_status)
+{
+	*head_env = (void *)0;
+	*head_env = linked_list(*head_env, envp);
+	*exit_status = 0;
+}
+
+int		collect_and_check_cmd_line(char **cmd_line)
+{
+	*cmd_line = readline("AnasHamid$ ");
+	if (*cmd_line == NULL)
+	{
+		write(1, "\033[AAnasHamid$ exit\n", 19);
+		exit(0);
+	}
+	if (cmd_line[0][0] == '\0')
+	{
+		free(*cmd_line);
+		return (0);
+	}
+	return (1);
+}
+
 void	sig_handler(int c)
 {
 	char	*line_buffer;
-	
+
 	if (c == SIGINT)
 	{
 		line_buffer = strdup(rl_line_buffer);
@@ -25,43 +48,25 @@ void	sig_handler(int c)
 	}
 }
 
-int		main(int argc, char *argv[], char *envp[])
+int		main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
-	t_lexer		*lexer;
 	t_parser	*parser;
 	t_ast		*ast;
 	t_node		*head_env;
 	int			exit_status;
-	// int			fd;
-	// fd = open("./srcs/text.txt", O_RDONLY);
-/*
- * implement our basic REPL loop
- */
+
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-	head_env = NULL;
-	argc = 0;
-	argv = NULL;
-	head_env = linked_list(head_env, envp);
-	exit_status = 0;
+	initialize_variables(envp, &head_env, &exit_status);
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
-		cmd_line = readline("AnasHamid$ ");
-		if (cmd_line == NULL)
-		{
-			write(1, "\033[AAnasHamid$ exit\n", 19);
-			break ;
-		}
-		if (cmd_line[0] == '\0')
-		{
-			free(cmd_line);
+		if (collect_and_check_cmd_line(&cmd_line) == 0)
 			continue ;
-		}
-		if (ft_strncmp(cmd_line, "exit", 5) == 0)
-			break ;
-		lexer = init_lexer(cmd_line, exit_status);
-		parser = init_parser(lexer);
+		add_history(cmd_line);
+		parser = init_lexer_and_parser(cmd_line, exit_status);
 		ast = parser_parse_compound(parser);
 		free_parser(parser);
 		exit_status = visitor_visit(ast, head_env);

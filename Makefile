@@ -36,8 +36,11 @@ INCLUDES = ./includes/main.h \
 
 LIBFT = ./srcs/libft/libft.a
 
-READLINE_LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib \
+READLINE_LIB_IMAC = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib \
 			   -I /Users/$(USER)/.brew/opt/readline/include
+
+READLINE_LIB_MAC = -lreadline -L /usr/local/opt/readline/lib \
+			   -I /usr/local/opt/readline/include
 
 FLAGS = -Wall -Wextra -Werror -g
 
@@ -45,7 +48,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(READLINE_LIB) $(SRCS) $(LIBFT) -o $(NAME)
+	@gcc $(FLAGS) $(READLINE_LIB_MAC) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean

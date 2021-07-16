@@ -2,10 +2,12 @@
 #include "../../includes/parser.h"
 #include "../../includes/main.h"
 
-t_parser	*init_parser(t_lexer *lexer)
+t_parser	*init_lexer_and_parser(char *cmd_line, int exit_status)
 {
+	t_lexer		*lexer;
 	t_parser	*parser;
 
+	lexer = init_lexer(cmd_line, exit_status);
 	if ((parser = (t_parser *)malloc(sizeof(t_parser))) == NULL)
 		put_error(errno);
 	parser->lexer = lexer;
