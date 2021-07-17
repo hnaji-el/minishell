@@ -13,7 +13,7 @@ typedef struct	s_parser
 	t_token	*prev_token;
 }				t_parser;
 
-t_parser	*init_parser(t_lexer *lexer);
+t_parser	*init_lexer_and_parser(char *cmd_line, int exit_status);
 
 t_ast		*parser_parse_compound(t_parser *parser);
 t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast_cmp);
