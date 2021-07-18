@@ -83,11 +83,6 @@ char	**convert_list(t_node *head_env)
 		str[i++] = ft_strdup(current->data);
 		current = current->next;
 	}
-	// print the created array
-	// i = 0;
-	// while (str[i])
-	// 	printf("%s\n", str[i++]);
-	// exit(0);
 	return (str);
 }
 
@@ -98,6 +93,8 @@ char *find_path(char **cmd, int i)
 	char *dst;
 	struct stat buffer;
 
+	// if (lstat(cmd[0], &buffer))
+	// 	return (cmd[0]);
 	dst = getenv("PATH");
 	if (!dst)
 		return (NULL);
@@ -118,10 +115,9 @@ char *find_path(char **cmd, int i)
 
 int		execute_cmd(t_node *head_env, char **cmd)
 {
-	char **env;
-
-	env = convert_list(head_env);
-	if (!execve(*cmd, cmd, env))
+	//char **env;
+	
+	if (!execve(*cmd, cmd, convert_list(head_env)))
 	{
 		perror("could not execve");
 		return(1);
