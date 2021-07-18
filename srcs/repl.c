@@ -3,6 +3,8 @@
 #include "../includes/parser.h"
 #include "../includes/executor.h"
 
+int		visitor_vis(t_ast *ast);
+
 void	initialize_variables(char **envp, t_node **head_env, int *exit_status)
 {
 	*head_env = (void *)0;
@@ -69,8 +71,9 @@ int		main(int argc, char **argv, char **envp)
 		parser = init_lexer_and_parser(cmd_line, exit_status);
 		ast = parser_parse_compound(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast, head_env);
-		free_ast(ast);
+		exit_status = visitor_vis(ast);
+		//exit_status = visitor_visit(ast, head_env);
+		//free_ast(ast);
 	}
 	return (0);
 }

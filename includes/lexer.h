@@ -24,6 +24,7 @@ int		special_meaning_chars(int c);
 t_token	*lexer_get_next_token(t_lexer *lexer);
 t_token	*lexer_collect_id(t_lexer *lexer);
 t_token	*lexer_collect_redirec_great(t_lexer *lexer);
+t_token	*lexer_collect_redirec_less(t_lexer *lexer);
 t_token	*adva_return(t_lexer *lexer, t_token *token);
 
 /*                   lexer_collect_id.c                      */

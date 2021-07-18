@@ -5,13 +5,17 @@
 int			parser_parse_redirect(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 {
 	t_redirect_type	type;
+	int				index_i;
 
 	if (parser->cur_token->type == TOKEN_GREAT)
 		type = RED_OUTPUT;
 	else if (parser->cur_token->type == TOKEN_LESS)
 		type = RED_INPUT;
+	else if (parser->cur_token->type == TOKEN_DGREAT)
+ 		type = RED_APPEND;
 	else
-		type = RED_APPEND;
+ 		type = RED_HERE_DOC;
+	index_i = parser->lexer->cur_index;
 	expected_token(parser, parser->cur_token->type, ast_cmp);
 	if (expected_token(parser, TOKEN_WORD, ast_cmp))
 		return (1);
@@ -20,6 +24,8 @@ int			parser_parse_redirect(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 	ast->redir[ast->redir_size - 1] = (t_redirect *)malloc(sizeof(t_redirect));
 	if (ast->redir[ast->redir_size - 1] == NULL)
 		put_error(errno);
+	if (type == RED_HERE_DOC)
+ 		type = collect_delimiter_of_here_doc(parser->lexer, index_i);
 	ast->redir[ast->redir_size - 1]->type = type;
 	ast->redir[ast->redir_size - 1]->filename = parser->prev_token->value;
 	return (0);

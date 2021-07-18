@@ -1,4 +1,0 @@
-export hamid
-env
-clear
-ls
