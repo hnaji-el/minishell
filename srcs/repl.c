@@ -3,6 +3,8 @@
 #include "../includes/parser.h"
 #include "../includes/executor.h"
 
+int		visitor_vis(t_ast *ast);
+
 void	initialize_variables(char **envp, t_node **head_env, int *exit_status)
 {
 	*head_env = (void *)0;

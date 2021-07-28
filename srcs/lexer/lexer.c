@@ -38,6 +38,15 @@ t_token	*lexer_collect_redirec_great(t_lexer *lexer)
 	return (init_token(TOKEN_GREAT, ft_strdup(">")));
 }
 
+t_token	*lexer_collect_redirec_less(t_lexer *lexer)
+{
+	lexer_advance(lexer);
+	if (lexer->cur_char == '<')
+		return (adva_return(lexer,
+			init_token(TOKEN_HERE_DOC, ft_strdup("<<"))));
+	return (init_token(TOKEN_LESS, ft_strdup("<")));
+}
+
 t_token	*adva_return(t_lexer *lexer, t_token *token)
 {
 	lexer_advance(lexer);
@@ -56,7 +65,7 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 		if (lexer->cur_char == '>')
 			return (lexer_collect_redirec_great(lexer));
 		if (lexer->cur_char == '<')
-			return (adva_return(lexer, init_token(TOKEN_LESS, ft_strdup("<"))));
+			return (lexer_collect_redirec_less(lexer));
 		if (lexer->cur_char != '\0')
 			return (lexer_collect_id(lexer));
 	}

@@ -10,6 +10,7 @@ typedef enum	e_token_type
 	TOKEN_GREAT,
 	TOKEN_DGREAT,
 	TOKEN_LESS,
+	TOKEN_HERE_DOC,
 	TOKEN_SYN_ERR,
 	TOKEN_EOF
 }				t_token_type;

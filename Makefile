@@ -2,6 +2,7 @@
 NAME = minishell
 
 SRCS = ./srcs/repl.c \
+		./srcs/visitor.c \
 		./srcs/lexer/lexer.c \
 		./srcs/lexer/lexer_utils.c \
 		./srcs/lexer/lexer_collect_id.c \
@@ -12,6 +13,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/parser/parser_utils.c \
 		./srcs/parser/parser_free.c \
 		./srcs/parser/ast.c \
+		./srcs/parser/parser_here_doc.c \
 		./srcs/executor/executor.c \
 		./srcs/executor/exec_cmd.c \
 		./srcs/executor/start_exec.c \
@@ -48,7 +50,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(READLINE_LIB_IMAC) $(SRCS) $(LIBFT) -o $(NAME)
+	@gcc $(FLAGS) $(READLINE_LIB_MAC) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean

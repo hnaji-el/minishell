@@ -13,7 +13,9 @@ typedef enum	e_redirect_type
 {
 	RED_INPUT,
 	RED_OUTPUT,
-	RED_APPEND
+	RED_APPEND,
+	RED_HERE_DOC,
+	RED_HERE_DOC_EXP
 }				t_redirect_type;
 
 typedef struct	s_redirect
