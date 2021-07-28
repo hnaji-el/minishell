@@ -73,7 +73,7 @@ char	**convert_list(t_node *head_env)
 	len = lenght(head_env);
 
 	//Creat aan array
-	str = malloc(len * sizeof(char *));
+	str = malloc((len + 1) * sizeof(char *));
 	current = head_env;
 	//  Traverse the linked List and add the
 	// elements to the array one by one
@@ -83,6 +83,7 @@ char	**convert_list(t_node *head_env)
 		str[i++] = ft_strdup(current->data);
 		current = current->next;
 	}
+	str[i] = NULL;
 	return (str);
 }
 
@@ -113,11 +114,15 @@ char *find_path(char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(t_node *head_env, char **cmd)
+int		execute_cmd(t_node *head_env, char **cmd, int last_fd)
 {
-	//char **env;
-	
-	if (!execve(*cmd, cmd, convert_list(head_env)))
+	char **env;
+
+	dup2(last_fd, 0);
+	if (last_fd != 0)
+		close(last_fd);
+	env = convert_list(head_env);
+	if (!execve(*cmd, cmd, env))
 	{
 		perror("could not execve");
 		return(1);

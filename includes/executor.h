@@ -31,7 +31,7 @@ int		lbash_exit(char **cmd);
 void	sort_env(t_node	*head);
 int		lenght(t_node	*current);
 void    printenv_expor(t_node	*head);
-void	add_var(int n, t_node *head, char *cmd);
+int     add_var(int n, t_node *head, char *cmd);
 t_node  *insert(int n, char *data, t_node *head);
 t_node	*find(char *str, t_node *head);
 int     lbash_export(t_node *head_env, char **cmd);
@@ -40,15 +40,17 @@ int     lbash_unset(t_node *head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
 char	*find_path(char **cmd, int i);
-int		execute_cmd(t_node *head_env, char **cmd);
+int		execute_cmd(t_node *head_env, char **cmd, int last_fd);
 char	*get_path(char *path, char **envp);
 char	*add_char(char *str, char c);
 int		is_builtin(char *str);
 int		built_in(char  **cmd, t_node *head_env);
 t_node  *linked_list(t_node *head, char **env);
-int		start_exec(t_node *head_env, char **cmd, int num_size);
+int		start_exec(t_node *head_env, char **cmd, int num_size, t_ast *node);
 char	**convert_list(t_node *head_env);
 int     is_builtin1(char *str);
+int		correct_var(const char *var);
+int     get_in_fd(t_redirect *node_re, int *last_fd);
 
 
 #endif

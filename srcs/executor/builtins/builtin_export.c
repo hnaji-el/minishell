@@ -61,18 +61,22 @@ void    printenv_expor(t_node	*head)
 {
     char    **dst;
 	t_node	*current;
+	char *str;
 
 	current = head;
 	sort_env(current);
     while (current != NULL)
     {
-       dst = ft_split(current->data, '=');
+       str = ft_strchr(current->data, '=');
+	   if (str)
+			str = str + 1;
+	   dst = ft_split(current->data, '=');
        ft_putstr_fd("declare -x ", 1);
        ft_putstr_fd(dst[0], 1);
-	   if (dst[1])
+	   if (str)
 	   {
 	   		write(1, "=\"", 2);
-       		ft_putstr_fd(dst[1], 1);
+       		ft_putstr_fd(str, 1);
        		write(1, "\"", 1);
 	   }
 	   write(1, "\n", 1);
@@ -80,31 +84,42 @@ void    printenv_expor(t_node	*head)
     }
 }
 
-void	add_var(int n, t_node *head, char *cmd)
+int		correct_var(const char *var)
+{
+	int		i;
+
+	if (ft_isdigit(var[0]))
+		return(0);
+	i = 0;
+	while (var[i])
+		if (!ft_isalnum(var[i++]))
+			return (0);
+	return (1);
+}
+
+int		add_var(int n, t_node *head, char *cmd)
 {
 	t_node *current;
 	char	**dst;
-	
+
 	if (n == 0)
 		n = 1;
 	current = head;
 	dst = ft_split(cmd, '=');
-
-	current = find(dst[0], head);
-	//lbash_env(head);
-	//printf("BEFOR ADD VAR\n");
+	if (!correct_var(dst[0]))
+	{
+		perror("lbash: not a valid is_identifier");
+		return (127);
+	}
+	current = find(dst[0], current);
 	if (current == NULL)
 		insert(n, cmd, head);
 	else
 		current->data = ft_strdup(cmd);
-	//("data : %s\n",current->data);
-	// lbash_env(current);
-	// exit(0);
-	//printf("After add var\n");
+	return (0);
 }
 t_node	*insert(int n, char *data, t_node *head)
 {
-	
 	t_node	*temp;
 	t_node	*temp1;
 	int		i;
@@ -118,7 +133,6 @@ t_node	*insert(int n, char *data, t_node *head)
 		head = temp;
 		return(head);
 	}
-
 	temp1 = head;
 	i = -1;
 	while(temp1->next != NULL)
@@ -160,7 +174,6 @@ t_node	*find(char *str, t_node *head)
 int		lbash_export(t_node	*head_env, char **cmd)
 {
 	int	i;
-	//int	a;
 	i = 0;
 	if (cmd[1] == NULL)
 		printenv_expor(head_env);	
@@ -168,9 +181,6 @@ int		lbash_export(t_node	*head_env, char **cmd)
 	{
 		add_var(lenght(head_env), head_env, cmd[i]);
 	}
-	//printenv_expor(head_env);
-	// lbash_env(head_env);
-	// exit(0);
 	return (0);
 }
 

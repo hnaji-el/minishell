@@ -26,10 +26,10 @@ int     is_builtin(char *str)
 
 int     is_builtin1(char *str)
 {
-    if (!ft_strcmp(str, "cd"))
-        return (1);
     if (!ft_strcmp(str, "export"))
         return (2);
+    if (!ft_strcmp(str, "cd"))
+        return (1);
     if (!ft_strcmp(str, "unset"))
         return (3);
     if (!ft_strcmp(str, "exit"))

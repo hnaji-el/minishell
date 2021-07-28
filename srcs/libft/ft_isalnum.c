@@ -14,7 +14,8 @@
 
 int		ft_isalnum(int c)
 {
-	if ((c > 47 && c < 58) || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if ((c > 47 && c < 58) || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+	|| c == '-' || c == '_')
 		return (1);
 	return (0);
 }

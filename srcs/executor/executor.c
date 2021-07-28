@@ -27,7 +27,7 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 		i++;
 	}
 	cmd[i] = NULL;
-	start_exec(head_env, cmd, node->pipe_size);
+	start_exec(head_env, cmd, node->pipe_size, node);
 	return (0);
 }
 
