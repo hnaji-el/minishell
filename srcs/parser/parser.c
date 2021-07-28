@@ -25,7 +25,7 @@ int			parser_parse_redirect(t_parser *parser, t_ast *ast, t_ast *ast_cmp)
 	if (ast->redir[ast->redir_size - 1] == NULL)
 		put_error(errno);
 	if (type == RED_HERE_DOC)
- 		type = collect_delimiter_of_here_doc(parser, index_i);
+ 		debug_here_document(parser, &type, index_i);
 	ast->redir[ast->redir_size - 1]->type = type;
 	ast->redir[ast->redir_size - 1]->filename = parser->prev_token->value;
 	return (0);

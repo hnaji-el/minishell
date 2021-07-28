@@ -2,10 +2,9 @@
 #include "../includes/main.h"
 #include "../includes/executor.h"
 
-int		visitor_redirection(t_redirect *node)
+void	visitor_redirection(t_redirect *node)
 {
 	printf("REDIRECTION(%s, %d)\n", node->filename, node->type);
-	return (0);
 }
 
 void	visitor_command(t_ast *node)
@@ -21,7 +20,7 @@ void	visitor_command(t_ast *node)
 	i = 0;
 	while (i < node->args_size)
 	{
-		printf("command(%s)\n", node->args_val[i]);
+		printf("COMMAND(%s)\n", node->args_val[i]);
 		i++;
 	}
 }
@@ -33,7 +32,7 @@ void	visitor_pipeline(t_ast *node)
 	i = 0;
 	while (i < node->pipe_size)
 	{
-		printf("---------pipelines------\n");
+		printf("---------pipeline------\n");
 		visitor_command(node->pipe_val[i]);
 		i++;
 	}

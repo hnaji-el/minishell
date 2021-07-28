@@ -38,22 +38,23 @@ char	*collect_simple_chars(t_lexer *lexer, int *index)
 	return (str);
 }
 
-t_redirect_type	collect_delimiter_of_here_doc(t_parser *parser, int index_i)
+void	debug_here_document(t_parser *parser, t_redirect_type *type, int i)
 {
 	char	*value;
 	char	*str;
 	char	*tmp;
 	int		flag;
 
-	index_i += 1;
+	i += 1;
 	flag = 0;
 	value = ft_strdup_("");
-	while (!special_meaning_chars(parser->lexer->cmd_line[index_i]))
+	while (!special_meaning_chars(parser->lexer->cmd_line[i]))
 	{
-		if (parser->lexer->cmd_line[index_i] == '"' || parser->lexer->cmd_line[index_i] == '\'')
-			str = collect_single_double_quotes(parser->lexer, &index_i, &flag);
+		printf("%c|%d\n", parser->lexer->cmd_line[i], i);
+		if (parser->lexer->cmd_line[i] == '"' || parser->lexer->cmd_line[i] == '\'')
+			str = collect_single_double_quotes(parser->lexer, &i, &flag);
 		else
-			str = collect_simple_chars(parser->lexer, &index_i);
+			str = collect_simple_chars(parser->lexer, &i);
 		tmp = ft_strjoin(value, str);
 		if (tmp == NULL)
 			put_error(errno);
@@ -64,6 +65,5 @@ t_redirect_type	collect_delimiter_of_here_doc(t_parser *parser, int index_i)
 	free(parser->prev_token->value);
 	parser->prev_token->value = value;
 	if (flag == 0)
-		return (RED_HERE_DOC_EXP);
-	return (RED_HERE_DOC);
+		*type = RED_HERE_DOC_EXP;
 }

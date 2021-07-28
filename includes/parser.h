@@ -34,6 +34,6 @@ int			detect_token(t_parser *parser);
 void		*realloc_(void *old_alloc, size_t count, size_t old_size);
 
 
-t_redirect_type collect_delimiter_of_here_doc(t_parser *parser, int index_i);
+void		debug_here_document(t_parser *parser,t_redirect_type *type, int i);
 
 #endif
