@@ -8,7 +8,7 @@ int		visitor_visit_redirection(t_redirect *node)
 	return (0);
 }
 
-int		visitor_visit_command(t_ast *node, t_node *head_env)
+int		visitor_visit_command(t_ast *node, t_node *head_env, int last_fd)
 {
 	int		i;
 	char	**cmd;
@@ -27,11 +27,11 @@ int		visitor_visit_command(t_ast *node, t_node *head_env)
 		i++;
 	}
 	cmd[i] = NULL;
-	start_exec(head_env, cmd, node->pipe_size, node);
+	start_exec(head_env, cmd, node->pipe_size, node, last_fd);
 	return (0);
 }
 
-int		visitor_visit_pipeline(t_ast *node, t_node *head_env)
+int		visitor_visit_pipeline(t_ast *node, t_node *head_env, int last_fd)
 {
 	int		i;
 	int		ret;
@@ -40,13 +40,13 @@ int		visitor_visit_pipeline(t_ast *node, t_node *head_env)
 	i = 0;
 	while (i < node->pipe_size)
 	{
-		ret = visitor_visit_command(node->pipe_val[i], head_env);
+		ret = visitor_visit_command(node->pipe_val[i], head_env, last_fd);
 		i++;
 	}
 	return (ret);
 }
 
-int		visitor_visit_compound(t_ast *node, t_node *head_env)
+int		visitor_visit_compound(t_ast *node, t_node *head_env, int last_fd)
 {
 	int		i;
 	int		ret;
@@ -56,19 +56,19 @@ int		visitor_visit_compound(t_ast *node, t_node *head_env)
 	while (i < node->comp_size)
 	{
 		// printf("---------compound------\n");
-		return (visitor_visit_pipeline(node->comp_val[i], head_env));
+		return (visitor_visit_pipeline(node->comp_val[i], head_env, last_fd));
 		i++;
 	}
 	return(ret);
 }
 
-int		visitor_visit(t_ast *node, t_node *head_env)
+int		visitor_visit(t_ast *node, t_node *head_env, int last_fd)
 {
 	int		ret;
 	
 	if (node == NULL)
 		return (258);
 	if (node->type == AST_COMPOUND)
-		ret = visitor_visit_compound(node, head_env);
+		ret = visitor_visit_compound(node, head_env, last_fd);
 	return (0);
 }

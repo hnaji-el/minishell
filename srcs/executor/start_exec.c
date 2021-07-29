@@ -14,7 +14,7 @@
 #include "../../includes/executor.h"
 
 
-int     get_in_fd(t_redirect *node_re, int *last_fd)
+int     in_fd(t_redirect *node_re, int *last_fd)
 {
     char    *file_re;
     int     fd = *last_fd;
@@ -34,27 +34,63 @@ int     get_in_fd(t_redirect *node_re, int *last_fd)
     return (0);
 }
 
-int    start_exec(t_node *head_env, char **cmd, int num_size, t_ast *node)
+int     out_fd(t_redirect *node_re, int *out_fd)
+{
+        char *file_re;
+        int     fd;
+
+        fd = *out_fd;
+        file_re = node_re->filename;
+        if (file_re)
+        {
+            if (node_re->type == 1)
+                fd = open(node_re->filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+            if (fd < 0)
+                return (-1);
+            if (*out_fd != 1)
+                close(*out_fd);
+            out_fd = fd;
+        }
+        else
+            return (1);
+        return (0);
+}
+
+int    start_exec(t_node *head_env, char **cmd, int num_size, t_ast *node, int last_fd)
 {
     char    *temp;
     pid_t    pid;
     int     i;
     int     last_fd = 0;
+    int     fds[2];
 
     if (num_size == 0 && is_builtin1(cmd[0]) != -1)
         return(built_in(cmd, head_env));
+    pipe(fds);
+    pid = process(cmd, last_fd, fds, head_env, node);
+    close(fds[0]);
+    waitpid(pid, NULL, 0);
+    return (0);
+}
+
+int     process(char    **cmd, int  last_fd, int fds[], t_node *head_env, t_ast *node)
+{
+    pid_t   pid;
+    char    *temp;
+    int     i;
+    
     pid = fork();
     if (pid == -1)
         exit(1);
     if (pid == 0)
     {
-        if (!cmd[0])
+        if (!cmd)
             exit (127);
         i = -1;
         while (node->redir[++i])
         {
             printf("node->redir");
-            if (get_in_fd(node->redir[i], &last_fd))
+            if (get_in_fd(node->redir[i], &last_fd) != 0 || out_fd(node->redir[i],))
             {
                 printf("error redire\n");
                 exit (EXIT_FAILURE);
@@ -74,6 +110,7 @@ int    start_exec(t_node *head_env, char **cmd, int num_size, t_ast *node)
         else
             exit(built_in(cmd, head_env));
     }
-    waitpid(pid, NULL, 0);
-    return (0);
+    close(fds[1]);
+    return (pid);
+    // waitpid(pid, NULL, 0);
 }
