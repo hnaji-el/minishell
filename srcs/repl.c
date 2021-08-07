@@ -69,10 +69,10 @@ int		main(int argc, char **argv, char **envp)
 			continue ;
 		add_history(cmd_line);
 		parser = init_lexer_and_parser(cmd_line, exit_status);
-		ast = parser_parse_compound(parser);
+		ast = parser_parse(parser);
 		free_parser(parser);
 		exit_status = visitor_visit(ast, head_env, 0);
-		free_ast(ast);
+		free_ast_pipeline(ast);
 	}
 	return (0);
 }

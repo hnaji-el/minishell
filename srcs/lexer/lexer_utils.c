@@ -32,7 +32,7 @@ void	lexer_skip_whitespaces(t_lexer *lexer)
 
 int		special_meaning_chars(int c)
 {
-	if (c == '|' || c == ';' || c == '>' || c == '<' || c == '\0' ||
+	if (c == '|' || c == '>' || c == '<' || c == '\0' ||
 		c == ' '  || c == '\t')
 		return (1);
 	return (0);

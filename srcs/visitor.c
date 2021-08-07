@@ -38,22 +38,9 @@ void	visitor_pipeline(t_ast *node)
 	}
 }
 
-void	visitor_compound(t_ast *node)
-{
-	int		i;
-
-	i = 0;
-	while (i < node->comp_size)
-	{
-		printf("---------compound------\n");
-		visitor_pipeline(node->comp_val[i]);
-		i++;
-	}
-}
-
 int		visitor_vis(t_ast *node)
 {
-	if (node->type == AST_COMPOUND)
-		visitor_compound(node);
+	if (node != NULL && node->type == AST_PIPELINE)
+		visitor_pipeline(node);
 	return (0);
 }

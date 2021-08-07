@@ -2,34 +2,36 @@
 #include "../../includes/parser.h"
 #include "../../includes/main.h"
 
-void	collect_single_double_quotes(t_lexer *lexer, int *index, int *flag, char **value)
+int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 {
 	char	*str;
-	char	*fr;
+	char	*tmp;
 	int		index_i;
 	int		index_f;
+	char	c;
 
-	index_i = *index;
-	while (lexer->cmd_line[*index] != '\'' && lexer->cmd_line[*index] != '"')
+	c = lexer->cmd_line[*index];
+	index_i = ++(*index);
+	while (lexer->cmd_line[*index] != c)
 		(*index)++;
 	index_f = *index;
 	*index += 1;
 	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
 	if (str == NULL)
 		put_error(errno);
-	fr = *value;
-	*value = ft_strjoin(*value, str);
-	if (*value == NULL)
+	tmp = ft_strjoin(*value, str);
+	if (tmp == NULL)
 		put_error(errno);
+	free(*value);
 	free(str);
-	free(fr);
-	*flag = 1;
+	*value = tmp;
+	return (1);
 }
 
 void	collect_simple_chars(t_lexer *lexer, int *index, char **value)
 {
 	char	*str;
-	char	*fr;
+	char	*tmp;
 	int		index_i;
 	int		index_f;
 
@@ -42,12 +44,12 @@ void	collect_simple_chars(t_lexer *lexer, int *index, char **value)
 	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
 	if (str == NULL)
 		put_error(errno);
-	fr = *value;
-	*value = ft_strjoin(*value, str);
-	if (*value == NULL)
+	tmp = ft_strjoin(*value, str);
+	if (tmp == NULL)
 		put_error(errno);
+	free(*value);
 	free(str);
-	free(fr);
+	*value = tmp;
 }
 
 void	skip_whitespaces(char *cmd_line, int *index)
@@ -56,20 +58,21 @@ void	skip_whitespaces(char *cmd_line, int *index)
 		(*index)++;
 }
 
-void	debug_here_document(t_parser *parser, t_redirect_type *type, int i)
+void	debug_here_document(t_parser *parser, t_red_type *type, int index)
 {
 	char	*value;
 	int		flag;
 
 	flag = 0;
 	value = ft_strdup_("");
-	skip_whitespaces(parser->lexer->cmd_line, &i);
-	while (!special_meaning_chars(parser->lexer->cmd_line[i]))
+	skip_whitespaces(parser->lexer->cmd_line, &index);
+	while (!special_meaning_chars(parser->lexer->cmd_line[index]))
 	{
-		if (parser->lexer->cmd_line[i] == '"' || parser->lexer->cmd_line[i] == '\'')
-			collect_single_double_quotes(parser->lexer, &i, &flag, &value);
+		if (parser->lexer->cmd_line[index] == '"' ||
+			parser->lexer->cmd_line[index] == '\'')
+			flag = collect_single_double_quotes(parser->lexer, &index, &value);
 		else
-			collect_simple_chars(parser->lexer, &i, &value);
+			collect_simple_chars(parser->lexer, &index, &value);
 	}
 	free(parser->prev_token->value);
 	parser->prev_token->value = value;

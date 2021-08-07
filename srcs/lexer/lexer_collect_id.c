@@ -21,9 +21,7 @@ char	*lexer_collect_double_quotes(t_lexer *lexer)
 	lexer_advance(lexer);
 	while (lexer->cur_char != '"' && lexer->cur_char != '\0')
 	{
-		if (lexer->cur_char == '\\')
-			lexer_collect_escape_char_in_double_q(lexer, &value);
-		else if (lexer->cur_char == '$')
+		if (lexer->cur_char == '$')
 			lexer_collect_env_variables(lexer, &value);
 		else
 			lexer_collect_simple_chars_in_double_q(lexer, &value);
@@ -56,19 +54,6 @@ char	*lexer_collect_single_quotes(t_lexer *lexer)
 	return (str);
 }
 
-char	*lexer_collect_escape_char(t_lexer *lexer)
-{
-	char	*str;
-
-	lexer_advance(lexer);
-	if (lexer->cur_char == '\0')
-		return (NULL);
-	if ((str = ft_substr(lexer->cmd_line, lexer->cur_index, 1)) == NULL)
-		put_error(errno);
-	lexer_advance(lexer);
-	return (str);
-}
-
 char	*lexer_collect_simple_chars(t_lexer *lexer)
 {
 	char	*str;
@@ -77,7 +62,7 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 
 	index_i = lexer->cur_index;
 	while (!special_meaning_chars(lexer->cur_char) && lexer->cur_char != '"' &&
-			lexer->cur_char != '\'' && lexer->cur_char != '\\' &&
+			lexer->cur_char != '\'' &&
 			lexer->cur_char != '$')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
