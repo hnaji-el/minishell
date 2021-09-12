@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 17:56:26 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/12 17:56:33 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/token.h"
 #include "../../includes/main.h"
@@ -8,7 +19,8 @@ t_token	*init_token(t_token_type type, char *value)
 
 	if (value == NULL)
 		put_error(errno);
-	if ((token = (t_token *)malloc(sizeof(t_token))) == NULL)
+	token = (t_token *)malloc(sizeof(t_token));
+	if (token == NULL)
 		put_error(errno);
 	token->type = type;
 	token->value = value;

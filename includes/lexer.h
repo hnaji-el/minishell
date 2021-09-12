@@ -19,7 +19,6 @@ void	lexer_skip_whitespaces(t_lexer *lexer);
 void	lexer_advance(t_lexer *lexer);
 int		special_meaning_chars(int c);
 
-
 /*                  lexer.c                       */
 t_token	*lexer_get_next_token(t_lexer *lexer);
 t_token	*lexer_collect_id(t_lexer *lexer);
