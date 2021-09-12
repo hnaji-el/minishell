@@ -29,7 +29,6 @@ t_token	*adva_return(t_lexer *lexer, t_token *token);
 
 /*                   lexer_collect_id.c                      */
 char	*lexer_collect_simple_chars(t_lexer *lexer);
-char	*lexer_collect_escape_char(t_lexer *lexer);
 char	*lexer_collect_single_quotes(t_lexer *lexer);
 char	*lexer_collect_double_quotes(t_lexer *lexer);
 void	add_to_value(char **value, char *str);
@@ -43,7 +42,6 @@ char	*get_word(char *env, int *index);
 
 /*                 lexer_collect_double_q.c                     */
 void	lexer_collect_simple_chars_in_double_q(t_lexer *lexer, char **value);
-void	lexer_collect_escape_char_in_double_q(t_lexer *lexer, char ** value);
 void	lexer_collect_env_variables(t_lexer *lexer, char **value);
 char	*collect_env_variables(t_lexer *lexer);
 char	*ft_strdup_(char *str);

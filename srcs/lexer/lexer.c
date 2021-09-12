@@ -14,8 +14,6 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 			str = lexer_collect_double_quotes(lexer);
 		else if (lexer->cur_char == '\'')
 			str = lexer_collect_single_quotes(lexer);
-		else if (lexer->cur_char == '\\')
-			str = lexer_collect_escape_char(lexer);
 		else if (lexer->cur_char == '$')
 			str = env_vars_and_word_splitting(lexer, ft_strlen(value));
 		else
@@ -60,8 +58,6 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 		lexer_skip_whitespaces(lexer);
 		if (lexer->cur_char == '|')
 			return (adva_return(lexer, init_token(TOKEN_PIPE, ft_strdup("|"))));
-		if (lexer->cur_char == ';')
-			return (adva_return(lexer, init_token(TOKEN_SEMI, ft_strdup(";"))));
 		if (lexer->cur_char == '>')
 			return (lexer_collect_redirec_great(lexer));
 		if (lexer->cur_char == '<')

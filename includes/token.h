@@ -6,7 +6,6 @@ typedef enum	e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
-	TOKEN_SEMI,
 	TOKEN_GREAT,
 	TOKEN_DGREAT,
 	TOKEN_LESS,
