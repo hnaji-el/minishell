@@ -114,13 +114,13 @@ char *find_path(char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(t_node *head_env, char **cmd, int last_fd)
+int		execute_cmd(t_node *head_env, char **cmd)
 {
 	char **env;
 
-	dup2(last_fd, 0);
-	if (last_fd != 0)
-		close(last_fd);
+	//dup2(last_fd, 0);
+	//if (last_fd != 0)
+	//	close(last_fd);
 	env = convert_list(head_env);
 	if (!execve(*cmd, cmd, env))
 	{
