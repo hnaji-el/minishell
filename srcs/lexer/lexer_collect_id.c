@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_collect_id.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/15 09:36:24 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/15 09:36:33 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 #include "../../includes/main.h"
@@ -7,7 +18,8 @@ void	add_to_value(char **value, char *str)
 	char	*fr;
 
 	fr = *value;
-	if (!(*value = ft_strjoin(*value, str)))
+	*value = ft_strjoin(*value, str);
+	if (*value == NULL)
 		put_error(errno);
 	free(fr);
 	free(str);
@@ -49,7 +61,8 @@ char	*lexer_collect_single_quotes(t_lexer *lexer)
 	if (lexer->cur_char == '\0')
 		return (NULL);
 	lexer_advance(lexer);
-	if ((str = ft_substr(lexer->cmd_line, index_i, index_f - index_i)) == NULL)
+	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
+	if (str == NULL)
 		put_error(errno);
 	return (str);
 }
@@ -66,7 +79,8 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 			lexer->cur_char != '$')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
-	if ((str = ft_substr(lexer->cmd_line, index_i, index_f - index_i)) == NULL)
+	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
+	if (str == NULL)
 		put_error(errno);
 	return (str);
 }

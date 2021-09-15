@@ -42,7 +42,8 @@ void	lexer_collect_env_variables(t_lexer *lexer, char **value)
 	lexer_advance(lexer);
 	if (lexer->cur_char == '?')
 	{
-		if ((str = ft_itoa(lexer->exit_status)) == NULL)
+		str = ft_itoa(lexer->exit_status);
+		if (str == NULL)
 			put_error(errno);
 		lexer_advance(lexer);
 	}
@@ -51,7 +52,8 @@ void	lexer_collect_env_variables(t_lexer *lexer, char **value)
 	else
 		str = collect_env_variables(lexer);
 	fr = *value;
-	if (!(*value = ft_strjoin(*value, str)))
+	*value = ft_strjoin(*value, str);
+	if (*value == NULL)
 		put_error(errno);
 	free(str);
 	free(fr);
@@ -71,10 +73,12 @@ void	lexer_collect_simple_chars_in_double_q(t_lexer *lexer, char **value)
 	index_f = lexer->cur_index;
 	if (lexer->cur_char == '\0')
 		return ;
-	if (!(str = ft_substr(lexer->cmd_line, index_i, index_f - index_i)))
+	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
+	if (str == NULL)
 		put_error(errno);
 	fr = *value;
-	if (!(*value = ft_strjoin(*value, str)))
+	*value = ft_strjoin(*value, str);
+	if (*value == NULL)
 		put_error(errno);
 	free(str);
 	free(fr);
