@@ -7,8 +7,11 @@ int		visitor_vis(t_ast *ast);
 
 void	initialize_variables(char **envp, t_node **head_env, int *exit_status)
 {
+	// *head_env = (void *)0;
+	// *head_env = linked_list(*head_env, envp);
+	// *exit_status = 0;
 	*head_env = (void *)0;
-	*head_env = linked_list(*head_env, envp);
+	envp = NULL;
 	*exit_status = 0;
 }
 
@@ -71,7 +74,7 @@ int		main(int argc, char **argv, char **envp)
 		parser = init_lexer_and_parser(cmd_line, exit_status);
 		ast = parser_parse(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast, head_env);
+		exit_status = visitor_vis(ast);
 		free_ast_pipeline(ast);
 	}
 	return (0);

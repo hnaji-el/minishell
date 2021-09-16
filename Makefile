@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
+#    Updated: 2021/09/16 08:43:40 by hnaji-el         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = minishell
 
@@ -6,7 +17,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/lexer/lexer.c \
 		./srcs/lexer/lexer_utils.c \
 		./srcs/lexer/lexer_collect_id.c \
-		./srcs/lexer/lexer_collect_id1.c \
+		./srcs/lexer/lexer_word_splitting.c \
 		./srcs/lexer/lexer_collect_double_q.c \
 		./srcs/lexer/token.c \
 		./srcs/parser/parser.c \
@@ -14,18 +25,6 @@ SRCS = ./srcs/repl.c \
 		./srcs/parser/parser_free.c \
 		./srcs/parser/ast.c \
 		./srcs/parser/parser_here_doc.c \
-		./srcs/executor/executor.c \
-		./srcs/executor/exec_cmd.c \
-		./srcs/executor/start_exec.c \
-		./srcs/executor/builtins/builtin_cd.c \
-		./srcs/executor/builtins/builtin_echo.c \
-		./srcs/executor/builtins/builtin_env.c \
-		./srcs/executor/builtins/builtin_exit.c \
-		./srcs/executor/builtins/builtin_export.c \
-		./srcs/executor/builtins/builtin_pwd.c \
-		./srcs/executor/builtins/builtin_unset.c \
-		./srcs/executor/builtins/is_builtin.c \
-		./srcs/executor/builtins/utils.c \
 		./srcs/get_next_line/get_next_line.c \
 		./srcs/get_next_line/get_next_line_utils.c
 

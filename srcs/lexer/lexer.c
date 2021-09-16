@@ -13,32 +13,6 @@
 #include "../../includes/lexer.h"
 #include "../../includes/main.h"
 
-t_token	*lexer_collect_id(t_lexer *lexer)
-{
-	char	*value;
-	char	*str;
-
-	value = ft_strdup_("");
-	while (!special_meaning_chars(lexer->cur_char))
-	{
-		if (lexer->cur_char == '"')
-			str = lexer_collect_double_quotes(lexer);
-		else if (lexer->cur_char == '\'')
-			str = lexer_collect_single_quotes(lexer);
-		else if (lexer->cur_char == '$')
-			str = env_vars_and_word_splitting(lexer, ft_strlen(value));
-		else
-			str = lexer_collect_simple_chars(lexer);
-		if (str == NULL)
-		{
-			free(value);
-			return (init_token(TOKEN_SYN_ERR, ft_strdup("")));
-		}
-		add_to_value(&value, str);
-	}
-	return (init_token(TOKEN_WORD, value));
-}
-
 t_token	*lexer_collect_redirec_great(t_lexer *lexer)
 {
 	lexer_advance(lexer);

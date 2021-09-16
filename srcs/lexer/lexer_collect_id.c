@@ -25,28 +25,6 @@ void	add_to_value(char **value, char *str)
 	free(str);
 }
 
-char	*lexer_collect_double_quotes(t_lexer *lexer)
-{
-	char	*value;
-
-	value = ft_strdup_("");
-	lexer_advance(lexer);
-	while (lexer->cur_char != '"' && lexer->cur_char != '\0')
-	{
-		if (lexer->cur_char == '$')
-			lexer_collect_env_variables(lexer, &value);
-		else
-			lexer_collect_simple_chars_in_double_q(lexer, &value);
-	}
-	if (lexer->cur_char == '\0')
-	{
-		free(value);
-		return (NULL);
-	}
-	lexer_advance(lexer);
-	return (value);
-}
-
 char	*lexer_collect_single_quotes(t_lexer *lexer)
 {
 	char	*str;
@@ -83,4 +61,30 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 	if (str == NULL)
 		put_error(errno);
 	return (str);
+}
+
+t_token	*lexer_collect_id(t_lexer *lexer)
+{
+	char	*value;
+	char	*str;
+
+	value = ft_strdup_("");
+	while (!special_meaning_chars(lexer->cur_char))
+	{
+		if (lexer->cur_char == '"')
+			str = lexer_collect_double_quotes(lexer);// Possible //
+		else if (lexer->cur_char == '\'')
+			str = lexer_collect_single_quotes(lexer);// Possible //
+		else if (lexer->cur_char == '$')
+			str = env_vars_and_word_splitting(lexer, ft_strlen(value));// ImPossible
+		else
+			str = lexer_collect_simple_chars(lexer);// ImPossible //
+		if (str == NULL)
+		{
+			free(value);
+			return (init_token(TOKEN_SYN_ERR, ft_strdup("")));
+		}
+		add_to_value(&value, str);
+	}
+	return (init_token(TOKEN_WORD, value));
 }
