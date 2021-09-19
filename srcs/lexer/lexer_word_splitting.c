@@ -11,34 +11,33 @@
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-#include "../../includes/main.h"
 
-// char	*ft_getenv(char *name, t_node *head)
-// {
-// 	t_node	*current;
-// 	char 	**dst;
-// 	char 	*value;
+char	*ft_getenv(char *name, t_node *head)
+{
+	t_node	*current;
+	char 	**dst;
+	char 	*value;
 
-// 	if(head == NULL)
-// 		return (NULL);
-// 	current = head;
-// 	while(1)
-// 	{
-// 		dst = ft_split(current->data, '=');
-// 		if (strcmp(dst[0], name) == 0)
-// 			break ;
-// 		free(dst[0]);
-// 		free(dst[1]);
-// 		free(dst);
-// 		current = current->next;
-// 		if (current == NULL)
-// 			return (NULL);
-// 	}
-// 	value = dst[1];
-// 	free(dst[0]);
-// 	free(dst);
-// 	return (value);
-// }
+	if(head == NULL)
+		return (NULL);
+	current = head;
+	while(1)
+	{
+		dst = ft_split(current->data, '=');
+		if (strcmp(dst[0], name) == 0)
+			break ;
+		free(dst[0]);
+		free(dst[1]);
+		free(dst);
+		current = current->next;
+		if (current == NULL)
+			return (NULL);
+	}
+	value = dst[1];
+	free(dst[0]);
+	free(dst);
+	return (value);
+}
 
 void	check_allocation(char *str)
 {

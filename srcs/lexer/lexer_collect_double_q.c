@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-#include "../../includes/main.h"
 
 char	*collect_env_variables(t_lexer *lexer)
 {
@@ -28,7 +27,7 @@ char	*collect_env_variables(t_lexer *lexer)
 	if (str == NULL)
 		put_error(errno);
 	fr = str;
-	str = getenv(str);
+	str = ft_getenv(str, lexer->envp_ll);
 	if (str == NULL)
 		str = ft_strdup_("");
 	else

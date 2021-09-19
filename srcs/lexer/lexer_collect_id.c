@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-#include "../../includes/main.h"
 
 void	add_to_value(char **value, char *str)
 {

@@ -15,7 +15,6 @@
 
 # include "ast.h"
 # include "lexer.h"
-# include "main.h"
 
 typedef struct	s_parser
 {
@@ -36,7 +35,7 @@ t_ast		*free_ast_command(t_ast *ast);
 void		free_parser(t_parser *parser);
 void		free_token(t_token *token);
 
-t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s/*, t_node *envp_ll*/);
+t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll);
 int			expected_token(t_parser *parser, t_token_type type);
 int			parser_expected_syn_err(t_parser *parser);
 int			detect_token(t_parser *parser);

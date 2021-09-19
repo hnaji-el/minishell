@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
-#include "../../includes/main.h"
 
 t_token	*lexer_collect_redirec_great(t_lexer *lexer)
 {

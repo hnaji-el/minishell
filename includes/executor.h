@@ -2,7 +2,7 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include "parser.h"
+# include "ast.h"
 
 
 typedef struct s_node

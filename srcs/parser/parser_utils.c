@@ -11,14 +11,13 @@
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
-#include "../../includes/main.h"
 
-t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s/*, t_node *envp_ll*/)
+t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll)
 {
 	t_lexer		*lexer;
 	t_parser	*parser;
 
-	lexer = init_lexer(cmd_line, exit_s/*, envp_ll*/);
+	lexer = init_lexer(cmd_line, exit_s, envp_ll);
 	parser = (t_parser *)malloc(sizeof(t_parser));
 	if (parser == NULL)
 		put_error(errno);
