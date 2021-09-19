@@ -80,8 +80,8 @@ void	lexer_collect_simple_chars_in_double_q(t_lexer *lexer, char **value)
 	int		index_f;
 
 	index_i = lexer->cur_index;
-	while (lexer->cur_char != '"' && lexer->cur_char != '\0' &&
-		lexer->cur_char != '$')
+	while (lexer->cur_char != '"' && lexer->cur_char != '\0'
+		&& lexer->cur_char != '$')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
 	if (lexer->cur_char == '\0')

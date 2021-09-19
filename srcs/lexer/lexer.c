@@ -25,7 +25,7 @@ t_token	*lexer_collect_redirec_less(t_lexer *lexer)
 	lexer_advance(lexer);
 	if (lexer->cur_char == '<')
 		return (adva_return(lexer,
-			init_token(TOKEN_HERE_DOC, ft_strdup("<<"))));
+				init_token(TOKEN_HERE_DOC, ft_strdup("<<"))));
 	return (init_token(TOKEN_LESS, ft_strdup("<")));
 }
 

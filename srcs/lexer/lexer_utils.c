@@ -42,10 +42,10 @@ void	lexer_skip_whitespaces(t_lexer *lexer)
 		lexer_advance(lexer);
 }
 
-int		special_meaning_chars(int c)
+int	special_meaning_chars(int c)
 {
-	if (c == '|' || c == '>' || c == '<' || c == '\0' ||
-		c == ' '  || c == '\t')
+	if (c == '|' || c == '>' || c == '<' || c == '\0'
+		|| c == ' ' || c == '\t')
 		return (1);
 	return (0);
 }

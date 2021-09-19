@@ -51,9 +51,8 @@ char	*lexer_collect_simple_chars(t_lexer *lexer)
 	int		index_f;
 
 	index_i = lexer->cur_index;
-	while (!special_meaning_chars(lexer->cur_char) && lexer->cur_char != '"' &&
-			lexer->cur_char != '\'' &&
-			lexer->cur_char != '$')
+	while (!special_meaning_chars(lexer->cur_char) && lexer->cur_char != '"'
+		&& lexer->cur_char != '\'' && lexer->cur_char != '$')
 		lexer_advance(lexer);
 	index_f = lexer->cur_index;
 	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);

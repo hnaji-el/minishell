@@ -15,13 +15,13 @@
 char	*ft_getenv(char *name, t_node *head)
 {
 	t_node	*current;
-	char 	**dst;
-	char 	*value;
+	char	**dst;
+	char	*value;
 
-	if(head == NULL)
+	if (head == NULL)
 		return (NULL);
 	current = head;
-	while(1)
+	while (1)
 	{
 		dst = ft_split(current->data, '=');
 		if (strcmp(dst[0], name) == 0)
@@ -75,7 +75,7 @@ char	*lexer_word_splitting(t_lexer *lexer, char *env, char *str, size_t n)
 		word = get_next_word(env, &i);
 		fr = str;
 		if (n > 0 || ((env[i] == ' ' || env[i] == '\t')
-			&& !special_meaning_chars(lexer->cur_char)))
+				&& !special_meaning_chars(lexer->cur_char)))
 		{
 			str = ft_strjoin_c(str, word, ' ');
 			check_allocation(str);
@@ -104,8 +104,8 @@ char	*env_vars_and_word_splitting(t_lexer *lexer, size_t size)
 	num_of_words = ft_num_word(env);
 	if (num_of_words == 0)
 	{
-		if ((env[0] == ' ' || env[0] == '\t') && size > 0 &&
-			!special_meaning_chars(lexer->cur_char))
+		if ((env[0] == ' ' || env[0] == '\t') && size > 0
+			&& !special_meaning_chars(lexer->cur_char))
 		{
 			free(str);
 			str = ft_strdup_(" ");

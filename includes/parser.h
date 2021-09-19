@@ -16,7 +16,7 @@
 # include "ast.h"
 # include "lexer.h"
 
-typedef struct	s_parser
+typedef struct s_parser
 {
 	t_lexer	*lexer;
 	t_token	*cur_token;
@@ -41,7 +41,7 @@ int			parser_expected_syn_err(t_parser *parser);
 int			detect_token(t_parser *parser);
 void		*realloc_(void *old_alloc, size_t count, size_t old_size);
 
-void		debug_here_document(t_parser *parser,t_red_type *type, int index);
+void		debug_here_document(t_parser *parser, t_red_type *type, int index);
 void		skip_whitespaces(char *cmd_line, int *index);
 void		collect_simple_chars(t_lexer *lexer, int *index, char **value);
 int			collect_single_double_quotes(t_lexer *lexer, int *index,
