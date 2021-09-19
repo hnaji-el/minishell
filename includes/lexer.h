@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/18 09:59:51 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/18 09:59:55 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
@@ -11,10 +22,11 @@ typedef struct	s_lexer
 	int		cur_index;
 	char	cur_char;
 	int		exit_status;
+	//t_node	*envp_ll;
 }				t_lexer;
 
 /*                  lexer_utils.c                  */
-t_lexer	*init_lexer(char *cmd_line, int exit_status);
+t_lexer	*init_lexer(char *cmd_line, int exit_status/*, t_node *envp_ll*/);
 void	lexer_skip_whitespaces(t_lexer *lexer);
 void	lexer_advance(t_lexer *lexer);
 int		special_meaning_chars(int c);
@@ -34,6 +46,7 @@ void	add_to_value(char **value, char *str);
 
 
 /*                  lexer_collect_id1.c                  */
+//char	*ft_getenv(char *name, t_node *head);
 char	*env_vars_and_word_splitting(t_lexer *lexer, size_t size);
 char	*lexer_word_splitting(t_lexer *lexer, char *env, char *str, size_t n);
 char	*get_word(char *env, int *index);

@@ -13,16 +13,18 @@
 #include "../../includes/lexer.h"
 #include "../../includes/main.h"
 
-t_lexer	*init_lexer(char *cmd_line, int exit_status)
+t_lexer	*init_lexer(char *cmd_line, int exit_status/*, t_node *envp_ll*/)
 {
 	t_lexer	*lexer;
 
-	if (!(lexer = (t_lexer *)malloc(sizeof(t_lexer))))
+	lexer = (t_lexer *)malloc(sizeof(t_lexer));
+	if (lexer == NULL)
 		put_error(errno);
 	lexer->cmd_line = cmd_line;
 	lexer->cur_index = 0;
 	lexer->cur_char = cmd_line[0];
 	lexer->exit_status = exit_status;
+	//lexer->envp_ll = envp_ll;
 	return (lexer);
 }
 

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/18 10:06:33 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/18 10:06:36 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
@@ -25,7 +36,7 @@ t_ast		*free_ast_command(t_ast *ast);
 void		free_parser(t_parser *parser);
 void		free_token(t_token *token);
 
-t_parser	*init_lexer_and_parser(char *cmd_line, int exit_status);
+t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s/*, t_node *envp_ll*/);
 int			expected_token(t_parser *parser, t_token_type type);
 int			parser_expected_syn_err(t_parser *parser);
 int			detect_token(t_parser *parser);

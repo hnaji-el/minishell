@@ -72,13 +72,13 @@ t_token	*lexer_collect_id(t_lexer *lexer)
 	while (!special_meaning_chars(lexer->cur_char))
 	{
 		if (lexer->cur_char == '"')
-			str = lexer_collect_double_quotes(lexer);// Possible //
+			str = lexer_collect_double_quotes(lexer);
 		else if (lexer->cur_char == '\'')
-			str = lexer_collect_single_quotes(lexer);// Possible //
+			str = lexer_collect_single_quotes(lexer);
 		else if (lexer->cur_char == '$')
-			str = env_vars_and_word_splitting(lexer, ft_strlen(value));// ImPossible
+			str = env_vars_and_word_splitting(lexer, ft_strlen(value));
 		else
-			str = lexer_collect_simple_chars(lexer);// ImPossible //
+			str = lexer_collect_simple_chars(lexer);
 		if (str == NULL)
 		{
 			free(value);
