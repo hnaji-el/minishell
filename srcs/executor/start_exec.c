@@ -13,90 +13,82 @@
 #include "../../includes/main.h"
 #include "../../includes/executor.h"
 
-
-// int     get_in_fd(t_redirect *node_re, int *last_fd)
-// {
-//     char    *file_re;
-//     int     fd = *last_fd;
-
-//     file_re = node_re->filename;
-//     if (node_re->type == 0)
-//     {
-//         fd = open(file_re, O_RDONLY);
-//         if (fd < 0)
-//             return(-1);
-//         if (*last_fd)
-//             close(*last_fd);
-//         *last_fd = fd;
-//     }
-//     else
-//         return (1);
-//     return (0);
-// }
-
-// int     out_fd(t_redirect *node_re, int *out_fd)
-// {
-//         char *file_re;
-//         int     fd;
-
-//         fd = *out_fd;
-//         file_re = node_re->filename;
-//         if (file_re)
-//         {
-//             if (node_re->type == 1)
-//                 fd = open(node_re->filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-//             if (fd < 0)
-//                 return (-1);
-//             if (*out_fd != 1)
-//                 close(*out_fd);
-//             *out_fd = fd;
-//         }
-//         else
-//             return (1);
-//         return (0);
-// }
-
-int    start_exec(t_node *head_env, char **cmd, int num_size, t_ast *node)
+int    start_exec(t_node *head_env, t_ast *pipecmd, int index, int last_fd, int num_size)
 {
-    //char    *temp;
-    pid_t    pid;
-    node = NULL; 
-   // int     i;
-   // int     last_fd = 0;
-    //int     fds[2];
-
-    if (num_size == 0 && is_builtin1(cmd[0]) != -1)
-        return(built_in(cmd, head_env));
+    pid_t    pid;//    / node = NULL;
+   // int      i;
+    // if (node->redir_size != 0)
+    // {
+    //     while ()
+    //     {
+    //         /* code */
+    //     }
+    // }
+    // printf("%s\n", );
+    pipecmd->args_val[pipecmd->args_size] = NULL; // fix this hamid
+    if (num_size == 1 && is_builtin1(pipecmd->args_val[0]) != -1)
+        return(built_in(pipecmd->args_val, head_env));
    // pipe(fds);
-    pid = process(cmd, head_env);
+    pid = process(head_env, *pipecmd, &last_fd);
     //close(fds[0]);
-    waitpid(pid, NULL, 0);
+    if (index < num_size)
+        start_exec(head_env, pipecmd + 1, index + 1, last_fd, num_size);
+    waitpid(pid, 0, 0);
+    return (0);
+}
+int get_out_fd(t_redirect red, int *out_fd)
+{
+
+
+    if (red.type == RED_APPEND)
+        *out_fd = open(red.filename, O_CREAT | O_APPEND);
+    else
+        *out_fd = open(red.filename, O_CREAT );
     return (0);
 }
 
-int     process(char    **cmd, t_node *head_env)
+int     get_in_fd(t_redirect red, int *last_fd)
+{
+    *last_fd = open(red.filename, O_RDONLY);
+    return (0);
+}
+
+int     get_file_fd(int *last_fd, int *out_fd, t_ast pipecmd)
+{
+    int  i;
+
+     t_redirect *reds = *(pipecmd.redir);
+    i = 0;
+    while (i < pipecmd.redir_size)
+    {
+        if (reds[i].type == RED_OUTPUT || reds[i].type == RED_APPEND)
+            get_out_fd(reds[i], out_fd);
+        else
+            get_in_fd(reds[i], last_fd);
+        i++;
+    }
+    return (0);
+}
+
+int     process(t_node *head_env, t_ast pipecmd, int *last_fd)
 {
     pid_t   pid;
     char    *temp;
-    int     i;
+    char **cmd = pipecmd.args_val;   
+    int     fds[2];
 
+    pipe(fds);
     pid = fork();
     if (pid == -1)
         exit(1);
     if (pid == 0)
     {
+        if (get_file_fd(last_fd, &fds[1],pipecmd) != 0)
+        {
+            exit(-1);
+        }
         if (!cmd)
-            exit (127);
-        i = -1;
-        // while (node->redir[++i])
-        // {
-        //     printf("node->redir");
-        //     if (get_in_fd(node->redir[i], &last_fd) != 0)
-        //     {
-        //         printf("error redire\n");
-        //         exit (EXIT_FAILURE);
-        //     }
-        // }
+            exit (127); 
         if (is_builtin(cmd[0]) == -1)
         {
             temp = find_path(cmd, -1);

@@ -54,7 +54,7 @@ int		main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
 	t_parser	*parser;
-	t_ast		*ast;
+	t_ast		*ast; 
 	t_node		*head_env;
 	int			exit_status;
 

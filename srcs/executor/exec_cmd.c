@@ -114,13 +114,15 @@ char *find_path(char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(t_node *head_env, char **cmd)
+int		execute_cmd(t_node *head_env, int last_fd, int out_fd ,char **cmd)
 {
 	char **env;
 
-	//dup2(last_fd, 0);
-	//if (last_fd != 0)
-	//	close(last_fd);
+	dup2(last_fd, 0);
+	if(last_fd)
+		close(last_fd);
+	if (total < cmd.size || redi.outred)
+		dup2(out_fd, 1);
 	env = convert_list(head_env);
 	if (!execve(*cmd, cmd, env))
 	{
