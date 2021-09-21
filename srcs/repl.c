@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/21 22:56:19 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/21 23:02:14 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,8 @@ int		main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
 	t_parser	*parser;
-<<<<<<< HEAD
-	t_ast		*ast; 
-	t_node		*head_env;
-=======
 	t_ast		*ast;
 	t_node		*envp_ll;
->>>>>>> 7869fb84d55f92ba356104507bf0f11b7c977495
 	int			exit_status;
 
 	signal(SIGINT, sig_handler);
