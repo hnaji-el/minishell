@@ -81,7 +81,6 @@ t_ast		*parser_parse_simple_command(t_parser *parser)
 		expected_token(parser, TOKEN_WORD);
 		return (free_ast_command(ast));
 	}
-	/* NOTE: Add NULL pointer here*/
 	return (ast);
 }
 
@@ -103,6 +102,23 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast)
 	return (ast);
 }
 
+t_ast		*add_integer(t_ast *ast)
+{
+	int		pipe_size;
+	int		i;
+
+	i = 0;
+	if (ast == NULL)
+		return (NULL);
+	pipe_size = ast->pipe_size;
+	while (i < pipe_size)
+	{
+		ast->pipe_val[i]->pipe_size = pipe_size;
+		i++;
+	}
+	return (ast);
+}
+
 t_ast		*parser_parse(t_parser *parser)
 {
 	t_ast	*ast;
@@ -119,6 +135,5 @@ t_ast		*parser_parse(t_parser *parser)
 	ast->pipe_size += 1;
 	if (parser->cur_token->type == TOKEN_PIPE)
 		ast = parser_parse_pipeline(parser, ast);
-	/* NOTE: Add NULL pointer here */
-	return (ast);
+	return (add_integer(ast));
 }
