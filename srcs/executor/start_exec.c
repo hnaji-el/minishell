@@ -98,7 +98,7 @@ int     process(t_node *head_env, t_ast pipecmd, int *last_fd)
                 exit(127);
             }
             *cmd = temp;
-            exit(execute_cmd(head_env, cmd));
+            exit(execute_cmd(head_env, last_fd, out_fd, cmd, pipecmd));
         }
         else
             exit(built_in(cmd, head_env));

@@ -1,6 +1,6 @@
 
 #include "../../includes/parser.h"
-#include "../../includes/main.h"
+//#include "../../includes/main.h"
 
 t_red_type	get_type_of_redirection(t_parser *parser)
 {

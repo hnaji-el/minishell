@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/18 09:58:24 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/18 09:58:27 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-typedef enum	e_ast_type
+typedef enum e_ast_type
 {
 	AST_PIPELINE,
 	AST_COMMAND,
 }				t_ast_type;
 
-typedef enum	e_red_type
+typedef enum e_red_type
 {
 	RED_INPUT,
 	RED_OUTPUT,
@@ -17,16 +28,16 @@ typedef enum	e_red_type
 	RED_HERE_DOC_EXP
 }				t_red_type;
 
-typedef struct	s_redirect
+typedef struct s_redirect
 {
 	t_red_type	type;
-	char			*filename;
+	char		*filename;
 }				t_redirect;
 
-typedef struct	s_ast
+typedef struct s_ast
 {
 	t_ast_type		type;
-
+	
 		/*	AST_PIPELINE  */
 	struct s_ast	**pipe_val;
 	int				pipe_size;

@@ -1,7 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   repl.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/17 17:02:13 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../includes/main.h"
 #include "../includes/parser.h"
-#include "../includes/executor.h"
 
 int		visitor_vis(t_ast *ast);
 
@@ -54,13 +63,18 @@ int		main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
 	t_parser	*parser;
+<<<<<<< HEAD
 	t_ast		*ast; 
 	t_node		*head_env;
+=======
+	t_ast		*ast;
+	t_node		*envp_ll;
+>>>>>>> 7869fb84d55f92ba356104507bf0f11b7c977495
 	int			exit_status;
 
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-	initialize_variables(envp, &head_env, &exit_status);
+	initialize_variables(envp, &envp_ll, &exit_status);
 	(void)argc;
 	(void)argv;
 	while (1)
@@ -68,10 +82,10 @@ int		main(int argc, char **argv, char **envp)
 		if (collect_and_check_cmd_line(&cmd_line) == 0)
 			continue ;
 		add_history(cmd_line);
-		parser = init_lexer_and_parser(cmd_line, exit_status);
+		parser = init_lexer_and_parser(cmd_line, exit_status, envp_ll);
 		ast = parser_parse(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast, head_env);
+		exit_status = visitor_visit(ast, envp_ll);
 		free_ast_pipeline(ast);
 	}
 	return (0);

@@ -1,6 +1,6 @@
 
 #include "../../includes/parser.h"
-#include "../../includes/main.h"
+//#include "../../includes/main.h"
 
 t_ast	*init_ast(t_ast_type type)
 {

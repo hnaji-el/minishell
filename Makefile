@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
+#    Updated: 2021/09/19 11:36:38 by hnaji-el         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = minishell
 
@@ -6,7 +17,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/lexer/lexer.c \
 		./srcs/lexer/lexer_utils.c \
 		./srcs/lexer/lexer_collect_id.c \
-		./srcs/lexer/lexer_collect_id1.c \
+		./srcs/lexer/lexer_word_splitting.c \
 		./srcs/lexer/lexer_collect_double_q.c \
 		./srcs/lexer/token.c \
 		./srcs/parser/parser.c \

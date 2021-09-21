@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/17 17:16:29 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/17 17:16:34 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/parser.h"
-#include "../../includes/main.h"
 
-t_parser	*init_lexer_and_parser(char *cmd_line, int exit_status)
+t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll)
 {
 	t_lexer		*lexer;
 	t_parser	*parser;
 
-	lexer = init_lexer(cmd_line, exit_status);
-	if ((parser = (t_parser *)malloc(sizeof(t_parser))) == NULL)
+	lexer = init_lexer(cmd_line, exit_s, envp_ll);
+	parser = (t_parser *)malloc(sizeof(t_parser));
+	if (parser == NULL)
 		put_error(errno);
 	parser->lexer = lexer;
 	parser->cur_token = lexer_get_next_token(lexer);
