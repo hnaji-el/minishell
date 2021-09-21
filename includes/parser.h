@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 10:06:33 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/18 10:06:36 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:48:28 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		free_token(t_token *token);
 
 t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll);
 int			expected_token(t_parser *parser, t_token_type type);
-int			parser_expected_syn_err(t_parser *parser);
+int			parser_check_syn_error(t_parser *parser);
 int			detect_token(t_parser *parser);
 void		*realloc_(void *old_alloc, size_t count, size_t old_size);
 

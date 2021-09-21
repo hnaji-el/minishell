@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:16:29 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/17 17:16:34 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:48:28 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int			expected_token(t_parser *parser, t_token_type type)
 	return (1);
 }
 
-int			parser_expected_syn_err(t_parser *parser)
+int			parser_check_syn_error(t_parser *parser)
 {
-	if (parser->cur_token->type == TOKEN_PIPE ||
-		parser->cur_token->type == TOKEN_SYN_ERR)
+	if (parser->cur_token->type == TOKEN_PIPE
+		|| parser->cur_token->type == TOKEN_SYN_ERR)
 		return (expected_token(parser, TOKEN_WORD)); 
 	if (parser->cur_token->type == TOKEN_EOF)
 	{
@@ -61,9 +61,9 @@ int			parser_expected_syn_err(t_parser *parser)
 
 int			detect_token(t_parser *parser)
 {
-	if (parser->cur_token->type == TOKEN_PIPE ||
-		parser->cur_token->type == TOKEN_SYN_ERR ||
-		parser->cur_token->type == TOKEN_EOF)
+	if (parser->cur_token->type == TOKEN_PIPE
+		|| parser->cur_token->type == TOKEN_SYN_ERR
+		|| parser->cur_token->type == TOKEN_EOF)
 		return (1);
 	return (0);
 }
