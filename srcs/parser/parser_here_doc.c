@@ -1,6 +1,5 @@
 
 #include "../../includes/parser.h"
-//#include "../../includes/main.h"
 
 int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 {
@@ -68,8 +67,8 @@ void	debug_here_document(t_parser *parser, t_red_type *type, int index)
 	skip_whitespaces(parser->lexer->cmd_line, &index);
 	while (!special_meaning_chars(parser->lexer->cmd_line[index]))
 	{
-		if (parser->lexer->cmd_line[index] == '"' ||
-			parser->lexer->cmd_line[index] == '\'')
+		if (parser->lexer->cmd_line[index] == '"'
+			|| parser->lexer->cmd_line[index] == '\'')
 			flag = collect_single_double_quotes(parser->lexer, &index, &value);
 		else
 			collect_simple_chars(parser->lexer, &index, &value);

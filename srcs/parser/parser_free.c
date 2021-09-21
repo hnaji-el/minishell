@@ -1,6 +1,5 @@
 
 #include "../../includes/parser.h"
-//#include "../../includes/main.h"
 
 void		free_token(t_token *token)
 {
@@ -31,15 +30,11 @@ t_ast		*free_ast_command(t_ast *ast)
 {
 	if (ast != NULL)
 	{
-		while (ast->args_size > 0)
-		{
-			ast->args_size -= 1;
+		while (ast->args_size-- > 0)
 			free(ast->args_val[ast->args_size]);
-		}
 		free(ast->args_val);
-		while (ast->redir_size > 0)
+		while (ast->redir_size-- > 0)
 		{
-			ast->redir_size -= 1;
 			free(ast->redir[ast->redir_size]->filename);
 			free(ast->redir[ast->redir_size]);
 		}
@@ -53,11 +48,8 @@ t_ast		*free_ast_pipeline(t_ast *ast)
 {
 	if (ast != NULL)
 	{
-		while (ast->pipe_size > 0)
-		{
-			ast->pipe_size -= 1;
+		while (ast->pipe_size-- > 0)
 			free_ast_command(ast->pipe_val[ast->pipe_size]);
-		}
 		free(ast->pipe_val);
 		free(ast);
 	}

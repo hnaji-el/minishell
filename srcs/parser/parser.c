@@ -1,6 +1,5 @@
 
 #include "../../includes/parser.h"
-//#include "../../includes/main.h"
 
 t_red_type	get_type_of_redirection(t_parser *parser)
 {
@@ -18,7 +17,7 @@ t_red_type	get_type_of_redirection(t_parser *parser)
 }
 
 /*	
- *	add FILENAME and type of REDIRECTION to ast_command,
+ *	add <FILENAME> and <type> of REDIRECTION to ast_command,
  *	return 1 if not get <WORD> after <RED> (syntax error)
  *	NO Free,
  *	NO Fail
@@ -67,7 +66,7 @@ t_ast		*parser_parse_simple_command(t_parser *parser)
 {
 	t_ast	*ast;
 
-	if (parser_expected_syn_err(parser))
+	if (parser_check_syn_error(parser))
 		return (NULL);
 	ast = init_ast(AST_COMMAND);
 	while (!detect_token(parser))
@@ -103,6 +102,23 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast)
 	return (ast);
 }
 
+t_ast		*add_integer(t_ast *ast)
+{
+	int		pipe_size;
+	int		i;
+
+	i = 0;
+	if (ast == NULL)
+		return (NULL);
+	pipe_size = ast->pipe_size;
+	while (i < pipe_size)
+	{
+		ast->pipe_val[i]->pipe_size = pipe_size;
+		i++;
+	}
+	return (ast);
+}
+
 t_ast		*parser_parse(t_parser *parser)
 {
 	t_ast	*ast;
@@ -119,5 +135,5 @@ t_ast		*parser_parse(t_parser *parser)
 	ast->pipe_size += 1;
 	if (parser->cur_token->type == TOKEN_PIPE)
 		ast = parser_parse_pipeline(parser, ast);
-	return (ast);
+	return (add_integer(ast));
 }

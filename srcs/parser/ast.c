@@ -1,12 +1,12 @@
 
 #include "../../includes/parser.h"
-//#include "../../includes/main.h"
 
 t_ast	*init_ast(t_ast_type type)
 {
 	t_ast	*ast;
 
-	if (!(ast = (t_ast *)malloc(sizeof(t_ast))))
+	ast = (t_ast *)malloc(sizeof(t_ast));
+	if (ast == NULL)
 		put_error(errno);
 	ast->type = type;
 	ast->pipe_val = (void *)0;

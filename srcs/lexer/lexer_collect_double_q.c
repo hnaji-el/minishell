@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_collect_double_q.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 10:57:15 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/16 10:58:14 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/20 15:32:28 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	*collect_env_variables(t_lexer *lexer)
 	str = ft_getenv(str, lexer->envp_ll);
 	if (str == NULL)
 		str = ft_strdup_("");
-	else
-		str = ft_strdup_(str);
 	free(fr);
 	return (str);
 }
