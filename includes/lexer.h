@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 09:59:51 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/18 09:59:55 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:10:47 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_token	*lexer_collect_redirec_less(t_lexer *lexer);
 t_token	*lexer_collect_id(t_lexer *lexer);
 char	*lexer_collect_simple_chars(t_lexer *lexer);
 char	*lexer_collect_single_quotes(t_lexer *lexer);
+int		check_closed_quotes(char *str, int index, char c);
 void	add_to_value(char **value, char *str);
 
 /*                 lexer_collect_double_q.c                     */

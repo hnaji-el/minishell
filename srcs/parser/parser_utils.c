@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:16:29 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/20 16:48:28 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:54:14 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,20 @@ int			expected_token(t_parser *parser, t_token_type type)
 		parser->cur_token = lexer_get_next_token(parser->lexer);
 		return (0);
 	}
-	else if (parser->cur_token->type == TOKEN_SYN_ERR)
-		printf("bash: syntax error: unexpected end of file\n");
-	else
-		printf(
-			"bash: syntax error near unexpected token `%s'\n",
-			parser->cur_token->value
-			);
+	printf("bash: syntax error near unexpected token `%s'\n",
+			parser->cur_token->value);
 	return (1);
 }
 
 int			parser_check_syn_error(t_parser *parser)
 {
-	if (parser->cur_token->type == TOKEN_PIPE
-		|| parser->cur_token->type == TOKEN_SYN_ERR)
+	if (parser->cur_token->type == TOKEN_PIPE)
 		return (expected_token(parser, TOKEN_WORD)); 
 	if (parser->cur_token->type == TOKEN_EOF)
 	{
 		printf("bash: syntax error: unexpected end of file\n");
 		return (1);
 	}
-	return (0);
-}
-
-int			detect_token(t_parser *parser)
-{
-	if (parser->cur_token->type == TOKEN_PIPE
-		|| parser->cur_token->type == TOKEN_SYN_ERR
-		|| parser->cur_token->type == TOKEN_EOF)
-		return (1);
 	return (0);
 }
 

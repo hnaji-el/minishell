@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
-#    Updated: 2021/09/19 11:36:38 by hnaji-el         ###   ########.fr        #
+#    Updated: 2021/09/21 22:56:42 by hnaji-el         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,17 @@ NAME = minishell
 SRCS = ./srcs/repl.c \
 		./srcs/visitor.c \
 		./srcs/lexer/lexer.c \
-		./srcs/lexer/lexer_utils.c \
 		./srcs/lexer/lexer_collect_id.c \
-		./srcs/lexer/lexer_word_splitting.c \
 		./srcs/lexer/lexer_collect_double_q.c \
+		./srcs/lexer/lexer_word_splitting.c \
+		./srcs/lexer/lexer_utils.c \
 		./srcs/lexer/token.c \
 		./srcs/parser/parser.c \
+		./srcs/parser/parser_simple_command.c \
+		./srcs/parser/parser_here_doc.c \
 		./srcs/parser/parser_utils.c \
 		./srcs/parser/parser_free.c \
 		./srcs/parser/ast.c \
-		./srcs/parser/parser_here_doc.c \
 		./srcs/executor/executor.c \
 		./srcs/executor/exec_cmd.c \
 		./srcs/executor/start_exec.c \
