@@ -1,22 +1,14 @@
 
 #include "../../includes/parser.h"
 
-t_red_type	get_type_of_redirection(t_parser *parser, t_ast *ast)
+t_red_type	get_type_of_redirection(t_parser *parser)
 {
 	t_red_type	type;
 
 	if (parser->cur_token->type == TOKEN_GREAT)
-	{
 		type = RED_OUTPUT;
-		if (ast->flag != 1)
-			ast->flag = 1;
-	}
 	else if (parser->cur_token->type == TOKEN_DGREAT)
-	{
  		type = RED_APPEND;
-		if (ast->flag != 1)
-			ast->flag = 1;
-	}
 	else if (parser->cur_token->type == TOKEN_LESS)
 		type = RED_INPUT;
 	else
@@ -36,7 +28,7 @@ int			parser_parse_redirect(t_parser *parser, t_ast *ast)
 	t_red_type	type;
 	int			index_i;
 
-	type = get_type_of_redirection(parser, ast);
+	type = get_type_of_redirection(parser);
 	index_i = parser->lexer->cur_index;
 	expected_token(parser, parser->cur_token->type);
 	if (expected_token(parser, TOKEN_WORD))

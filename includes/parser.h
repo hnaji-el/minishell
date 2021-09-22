@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 10:06:33 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/22 15:43:57 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:03:11 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_ast		*fill_pipe_size_of_all_nodes(t_ast *ast);
 t_ast		*parser_parse_simple_command(t_parser *parser);
 void		parser_parse_cmd_args(t_parser *parser, t_ast *ast);
 int			parser_parse_redirect(t_parser *parser, t_ast *ast);
-t_red_type	get_type_of_redirection(t_parser *parser, t_ast *ast);
+t_red_type	get_type_of_redirection(t_parser *parser);
 
 /*                      parser_here_doc.c                     */
 void		debug_here_document(t_parser *parser, t_red_type *type, int index);
