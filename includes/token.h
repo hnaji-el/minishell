@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 09:56:02 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/18 09:56:08 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:23:25 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef enum e_token_type
 	TOKEN_DGREAT,
 	TOKEN_LESS,
 	TOKEN_HERE_DOC,
-	TOKEN_SYN_ERR,
 	TOKEN_EOF
 }			t_token_type;
 

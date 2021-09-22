@@ -1,42 +1,28 @@
 
-#include "../includes/main.h"
 #include "../includes/parser.h"
 
-// void	visitor_redirection(t_redirect *node)
-// {
-// 	printf("REDIRECTION(%s, %d)\n", node->filename, node->type);
-// }
+void	visitor_redirection(t_redirect *node)
+{
+	printf("REDIRECTION(%s, %d)\n", node->filename, node->type);
+}
 
-// void	visitor_command(t_ast *node)
-// {
-// 	int		i;
+void	visitor_command(t_ast *node)
+{
+	int		i;
 
-// 	i = 0;
-// 	while (i < node->redir_size)
-// 	{
-// 		visitor_redirection(node->redir[i]);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < node->args_size)
-// 	{
-// 		printf("COMMAND(%s)\n", node->args_val[i]);
-// 		i++;
-// 	}
-// }
-
-// void	visitor_pipeline(t_ast *node)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (i < node->pipe_size)
-// 	{
-// 		printf("---------pipeline------\n");
-// 		visitor_command(node->pipe_val[i]);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < node->redir_size)
+	{
+		visitor_redirection(node->redir[i]);
+		i++;
+	}
+	i = 0;
+	while (i < node->args_size)
+	{
+		printf("COMMAND(%s)\n", node->args_val[i]);
+		i++;
+	}
+}
 
 void	visitor_pipeline(t_ast *node)
 {
@@ -45,7 +31,8 @@ void	visitor_pipeline(t_ast *node)
 	i = 0;
 	while (i < node->pipe_size)
 	{
-		printf("cmdi:%d\n", node->pipe_val[i]->pipe_size);
+		printf("---------pipeline------\n");
+		visitor_command(node->pipe_val[i]);
 		i++;
 	}
 }

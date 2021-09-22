@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 10:57:15 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/20 15:32:28 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:16:36 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,16 @@ char	*lexer_collect_double_quotes(t_lexer *lexer)
 {
 	char	*value;
 
-	value = ft_strdup_("");
 	lexer_advance(lexer);
-	while (lexer->cur_char != '"' && lexer->cur_char != '\0')
+	if (!check_closed_quotes(lexer->cmd_line, lexer->cur_index, '"'))
+		return (ft_strdup_("\""));
+	value = ft_strdup_("");
+	while (lexer->cur_char != '"')
 	{
 		if (lexer->cur_char == '$')
 			lexer_collect_env_variables(lexer, &value);
 		else
 			lexer_collect_simple_chars_in_double_q(lexer, &value);
-	}
-	if (lexer->cur_char == '\0')
-	{
-		free(value);
-		return (NULL);
 	}
 	lexer_advance(lexer);
 	return (value);

@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/21 17:21:44 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/21 23:02:14 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
 	t_parser	*parser;
-	t_ast		*ast; 
+	t_ast		*ast;
 	t_node		*envp_ll;
 	int			exit_status;
 
