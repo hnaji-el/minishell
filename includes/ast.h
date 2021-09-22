@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 09:58:24 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/20 15:58:34 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/22 15:32:52 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_ast
 	int				args_size;
 	t_redirect		**redir;
 	int				redir_size;
+	int				flag;
 }				t_ast;
 
 t_ast	*init_ast(t_ast_type type);

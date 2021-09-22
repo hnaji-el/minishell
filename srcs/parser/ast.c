@@ -15,5 +15,6 @@ t_ast	*init_ast(t_ast_type type)
 	ast->args_size = 0;
 	ast->redir = (void *)0;
 	ast->redir_size = 0;
+	ast->flag = 0;
 	return (ast);
 }
