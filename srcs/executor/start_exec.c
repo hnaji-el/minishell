@@ -15,6 +15,7 @@
 
 int    start_exec(t_node *head_env, t_ast *pipecmd, int index, int last_fd, int num_size)
 {
+    
     pid_t    pid;//    / node = NULL;
    // int      i;
     // if (node->redir_size != 0)
@@ -58,6 +59,7 @@ int     get_file_fd(int *last_fd, int *out_fd, t_ast pipecmd)
     int  i;
 
      t_redirect *reds = *(pipecmd.redir);
+     printf("redir2 : %d\n", pipecmd.redir_size);
     i = 0;
     while (i < pipecmd.redir_size)
     {
@@ -83,12 +85,14 @@ int     process(t_node *head_env, t_ast pipecmd, int *last_fd)
         exit(1);
     if (pid == 0)
     {
-        if (get_file_fd(last_fd, &fds[1],pipecmd) != 0)
+        if (get_file_fd(last_fd, &fds[1], pipecmd) != 0)
         {
             exit(-1);
         }
+      printf("hello\n");
         if (!cmd)
             exit (127); 
+        // printf("hello\n");
         if (is_builtin(cmd[0]) == -1)
         {
             temp = find_path(cmd, -1);
@@ -98,7 +102,9 @@ int     process(t_node *head_env, t_ast pipecmd, int *last_fd)
                 exit(127);
             }
             *cmd = temp;
-            exit(execute_cmd(head_env, last_fd, out_fd, cmd, pipecmd));
+            // printf("hello\n");
+            printf("%s\n", *cmd);
+            exit(execute_cmd(head_env, *last_fd, fds[1], cmd, pipecmd));
         }
         else
             exit(built_in(cmd, head_env));

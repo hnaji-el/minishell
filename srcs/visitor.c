@@ -43,7 +43,6 @@ void	visitor_pipeline(t_ast *node)
 	int		i;
 
 	i = 0;
-	printf("pipe:%d\n", node->pipe_size);
 	while (i < node->pipe_size)
 	{
 		printf("cmdi:%d\n", node->pipe_val[i]->pipe_size);

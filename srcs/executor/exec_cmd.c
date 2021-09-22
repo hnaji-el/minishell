@@ -117,12 +117,13 @@ char *find_path(char **cmd, int i)
 int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd)
 {
 	char **env;
-	t_redirect *redi = pipecmd.redir;
-	
+	t_redirect *redi = *  pipecmd.redir;
+
+	printf("size : %d\n", pipecmd.pipe_size);
 	dup2(last_fd, 0);
 	if(last_fd)
 		close(last_fd);
-	if (total < pipecmd.pipe_size || redi.type == RED_OUTPUT)
+	if (/*total < pipecmd.pipe_size || */redi->type == RED_OUTPUT)
 		dup2(out_fd, 1);
 	env = convert_list(head_env);
 	if (!execve(*cmd, cmd, env))

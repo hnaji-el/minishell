@@ -63,13 +63,8 @@ int		main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
 	t_parser	*parser;
-<<<<<<< HEAD
 	t_ast		*ast; 
-	t_node		*head_env;
-=======
-	t_ast		*ast;
 	t_node		*envp_ll;
->>>>>>> 7869fb84d55f92ba356104507bf0f11b7c977495
 	int			exit_status;
 
 	signal(SIGINT, sig_handler);
