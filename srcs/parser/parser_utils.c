@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:16:29 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/21 22:54:14 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:39:37 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,9 @@ int			expected_token(t_parser *parser, t_token_type type)
 
 int			parser_check_syn_error(t_parser *parser)
 {
-	if (parser->cur_token->type == TOKEN_PIPE)
-		return (expected_token(parser, TOKEN_WORD)); 
-	if (parser->cur_token->type == TOKEN_EOF)
-	{
-		printf("bash: syntax error: unexpected end of file\n");
-		return (1);
-	}
+	if (parser->cur_token->type == TOKEN_PIPE
+		|| parser->cur_token->type == TOKEN_EOF)
+		return (expected_token(parser, TOKEN_WORD));
 	return (0);
 }
 

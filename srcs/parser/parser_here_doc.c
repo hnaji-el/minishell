@@ -11,6 +11,12 @@ int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 
 	c = lexer->cmd_line[*index];
 	index_i = ++(*index);
+	// ATT: Add here
+	// if (!check_closed_quotes(lexer->cmd_line, index_i, c))
+	// {
+	// 	tmp = ft_strjoin;
+	// }
+	//
 	while (lexer->cmd_line[*index] != c)
 		(*index)++;
 	index_f = *index;
