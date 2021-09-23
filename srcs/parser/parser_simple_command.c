@@ -77,5 +77,7 @@ t_ast		*parser_parse_simple_command(t_parser *parser)
 		else if (parser_parse_redirect(parser, ast))
 			return (free_ast_command(ast));
 	}
+	ast->args_val = realloc_(ast->args_val, sizeof(char *), ast->args_size);
+	ast->args_val[ast->args_size] = NULL;
 	return (ast);
 }
