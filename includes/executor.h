@@ -40,7 +40,7 @@ int     lbash_unset(t_node *head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
 char	*find_path(char **cmd, int i);
-int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd);
+int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd, int totalPipe);
 char	*get_path(char *path, char **envp);
 char	*add_char(char *str, char c);
 int		is_builtin(char *str);
@@ -50,7 +50,7 @@ int		start_exec(t_node *head_env, t_ast *pipecmd, int index, int last_fd, int nu
 char	**convert_list(t_node *head_env);
 int     is_builtin1(char *str);
 int		correct_var(const char *var);
-int     process(t_node *head_env, t_ast pipecmd, int *last_fd);
+int     process(t_node *head_env, t_ast pipecmd, int *last_fd, int totalPipe);
 
 
 #endif

@@ -114,17 +114,17 @@ char *find_path(char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd)
+int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd, int totalPipe)
 {
 	char **env;
 	t_redirect **redi = pipecmd.redir;
 
-	printf("size : %d\n", pipecmd.pipe_size);
+	 printf("size : %d\n", pipecmd.flag);
 	dup2(last_fd, 0);
 	if(last_fd)
 		close(last_fd);
-	//if (/*total < pipecmd.pipe_size ||*/)
-	//	 dup2(out_fd, 1);
+	if (totalPipe < pipecmd.pipe_size || pipecmd.flag == 1)
+		 dup2(out_fd, 1);
 	env = convert_list(head_env);
 	if (!execve(*cmd, cmd, env))
 	{
