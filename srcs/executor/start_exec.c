@@ -18,12 +18,9 @@ int    start_exec(t_node *head_env, t_ast *pipecmd, int index, int last_fd, int 
     
     pid_t    pid;    
     
-    //pipecmd->args_val[pipecmd->args_size] = NULL; // fix this hamid
     if (num_size == 1 && is_builtin1(pipecmd->args_val[0]) != -1)
         return(built_in(pipecmd->args_val, head_env));
-   // pipe(fds);
     pid = process(head_env, *pipecmd, &last_fd, index);
-    //close(fds[0]);
     if (index < num_size)
         start_exec(head_env, pipecmd + 1, index + 1, last_fd, num_size);
     waitpid(pid, 0, 0);
@@ -43,7 +40,6 @@ int get_out_fd(t_redirect red, int *out_fd)
     if (*out_fd != 1)
         close(*out_fd);
     *out_fd = fd;
-    printf("WSALLL\n");
     return (0);
 }
 
