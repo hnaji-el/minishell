@@ -16,9 +16,9 @@
 int    start_exec(t_node *head_env, t_ast *pipecmd, int index, int last_fd, int num_size)
 {
     
-    pid_t    pid;
-
-    pipecmd->args_val[pipecmd->args_size] = NULL; // fix this hamid
+    pid_t    pid;    
+    
+    //pipecmd->args_val[pipecmd->args_size] = NULL; // fix this hamid
     if (num_size == 1 && is_builtin1(pipecmd->args_val[0]) != -1)
         return(built_in(pipecmd->args_val, head_env));
    // pipe(fds);

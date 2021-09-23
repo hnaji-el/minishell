@@ -117,9 +117,8 @@ char *find_path(char **cmd, int i)
 int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd, int totalPipe)
 {
 	char **env;
-	t_redirect **redi = pipecmd.redir;
 
-	 printf("size : %d\n", pipecmd.flag);
+	// printf("size : %d\n", pipecmd.flag);
 	dup2(last_fd, 0);
 	if(last_fd)
 		close(last_fd);
