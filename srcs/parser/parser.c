@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/23 16:08:32 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/23 16:09:20 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-t_ast		*fill_pipe_size_of_all_nodes(t_ast *ast)
+t_ast	*fill_pipe_size_of_all_nodes(t_ast *ast)
 {
 	int		i;
 
@@ -16,7 +27,7 @@ t_ast		*fill_pipe_size_of_all_nodes(t_ast *ast)
 	return (ast);
 }
 
-t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast)
+t_ast	*parser_parse_pipeline(t_parser *parser, t_ast *ast)
 {
 	t_ast	*ast_simple_cmd;
 
@@ -27,14 +38,14 @@ t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast)
 		if (ast_simple_cmd == NULL)
 			return (free_ast_pipeline(ast));
 		ast->pipe_val = realloc_(ast->pipe_val, sizeof(t_ast *),
-			ast->pipe_size);
+				ast->pipe_size);
 		ast->pipe_size += 1;
 		ast->pipe_val[ast->pipe_size - 1] = ast_simple_cmd;
 	}
 	return (ast);
 }
 
-t_ast		*parser_parse(t_parser *parser)
+t_ast	*parser_parse(t_parser *parser)
 {
 	t_ast	*ast;
 	t_ast	*ast_simple_cmd;

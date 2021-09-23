@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_free.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/23 16:09:51 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/23 16:10:21 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-void		free_token(t_token *token)
+void	free_token(t_token *token)
 {
 	if (token != NULL)
 	{
@@ -11,7 +22,7 @@ void		free_token(t_token *token)
 	}
 }
 
-void		free_parser(t_parser *parser)
+void	free_parser(t_parser *parser)
 {
 	if (parser != NULL)
 	{
@@ -26,7 +37,7 @@ void		free_parser(t_parser *parser)
 	}
 }
 
-t_ast		*free_ast_command(t_ast *ast)
+t_ast	*free_ast_command(t_ast *ast)
 {
 	if (ast != NULL)
 	{
@@ -44,7 +55,7 @@ t_ast		*free_ast_command(t_ast *ast)
 	return (NULL);
 }
 
-t_ast		*free_ast_pipeline(t_ast *ast)
+t_ast	*free_ast_pipeline(t_ast *ast)
 {
 	if (ast != NULL)
 	{

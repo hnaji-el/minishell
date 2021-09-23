@@ -6,13 +6,13 @@
 /*   By: ael-kass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 18:56:05 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/06/18 18:56:08 by ael-kass         ###   ########.fr       */
+/*   Updated: 2021/09/23 15:55:31 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	const unsigned char		*a;
 	const unsigned char		*b;

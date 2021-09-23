@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 09:36:24 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/21 22:24:18 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 16:05:51 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	add_to_value(char **value, char *str)
 	free(str);
 }
 
-int		check_closed_quotes(char *str, int index, char c)
+int	check_closed_quotes(char *str, int index, char c)
 {
 	int		i;
 

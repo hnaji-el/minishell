@@ -6,13 +6,13 @@
 /*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 17:47:03 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/01/01 17:50:07 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 15:28:24 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi_plus(char **str)
+int	ft_atoi_plus(char **str)
 {
 	long	nb;
 	int		sign;
