@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:16:29 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/23 22:21:28 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/24 07:57:50 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	expected_token(t_parser *parser, t_token_type type)
 		return (0);
 	}
 	printf("bash: syntax error near unexpected token `%s'\n",
-			parser->cur_token->value);
+		parser->cur_token->value);
 	return (1);
 }
 

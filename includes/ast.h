@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 09:58:24 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/22 15:32:52 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/24 10:59:28 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,8 @@ typedef enum e_ast_type
 typedef struct s_ast
 {
 	t_ast_type		type;
-	
-		/*	AST_PIPELINE  */
 	struct s_ast	**pipe_val;
 	int				pipe_size;
-		/*	AST_COMMAND   */
 	char			**args_val;
 	int				args_size;
 	t_redirect		**redir;

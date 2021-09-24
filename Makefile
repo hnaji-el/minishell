@@ -6,7 +6,7 @@
 #    By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
-#    Updated: 2021/09/23 21:51:48 by hnaji-el         ###   ########.fr        #
+#    Updated: 2021/09/24 15:45:43 by hnaji-el         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,6 @@ SRCS = ./srcs/repl.c \
 		./srcs/executor/builtins/builtin_unset.c \
 		./srcs/executor/builtins/is_builtin.c \
 		./srcs/executor/builtins/utils.c \
-		./srcs/get_next_line/get_next_line.c \
-		./srcs/get_next_line/get_next_line_utils.c
 
 INCLUDES = ./includes/main.h \
 		./includes/token.h \
