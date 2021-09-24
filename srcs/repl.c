@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/23 15:04:52 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 22:14:22 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		main(int argc, char **argv, char **envp)
 		parser = init_lexer_and_parser(cmd_line, exit_status, envp_ll);
 		ast = parser_parse(parser);
 		free_parser(parser);
-		exit_status = visitor_visit(ast, envp_ll);
+		exit_status = visitor_vis(ast);
 		free_ast_pipeline(ast);
 	}
 	return (0);

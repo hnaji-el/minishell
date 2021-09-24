@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 10:06:33 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/22 16:03:11 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 22:19:23 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void		skip_whitespaces(char *cmd_line, int *index);
 void		collect_simple_chars(t_lexer *lexer, int *index, char **value);
 int			collect_single_double_quotes(t_lexer *lexer, int *index,
 				char **value);
+int			add_single_or_double_q_to_value(char **value, char c);
 
 /*                      parser_utils.c                     */
 t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll);

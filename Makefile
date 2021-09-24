@@ -6,7 +6,7 @@
 #    By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
-#    Updated: 2021/09/23 15:04:25 by hnaji-el         ###   ########.fr        #
+#    Updated: 2021/09/23 21:51:48 by hnaji-el         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(READLINE_LIB_IMAC) $(SRCS) $(LIBFT) -o $(NAME)
+	@gcc $(FLAGS) $(READLINE_LIB_MAC) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean

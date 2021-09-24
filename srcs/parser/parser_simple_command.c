@@ -16,14 +16,7 @@ t_red_type	get_type_of_redirection(t_parser *parser)
 	return (type);
 }
 
-/*	
- *	add <FILENAME> and <type> of REDIRECTION to ast_command,
- *	return 1 if not get <WORD> after <RED> (syntax error)
- *	NO Free,
- *	NO Fail
- */
-
-int			parser_parse_redirect(t_parser *parser, t_ast *ast)
+int	parser_parse_redirect(t_parser *parser, t_ast *ast)
 {
 	t_red_type	type;
 	int			index_i;
@@ -45,13 +38,7 @@ int			parser_parse_redirect(t_parser *parser, t_ast *ast)
 	return (0);
 }
 
-/*	
- *	add args(<WORD>) to ast_command,
- *	NO Free,
- *	NO Fail
- */
-
-void		parser_parse_cmd_args(t_parser *parser, t_ast *ast)
+void	parser_parse_cmd_args(t_parser *parser, t_ast *ast)
 {
 	while (parser->cur_token->type == TOKEN_WORD)
 	{
@@ -62,7 +49,7 @@ void		parser_parse_cmd_args(t_parser *parser, t_ast *ast)
 	}
 }
 
-t_ast		*parser_parse_simple_command(t_parser *parser)
+t_ast	*parser_parse_simple_command(t_parser *parser)
 {
 	t_ast	*ast;
 

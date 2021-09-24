@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:16:29 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/22 16:39:37 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 22:21:28 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll)
 	return (parser);
 }
 
-int			expected_token(t_parser *parser, t_token_type type)
+int	expected_token(t_parser *parser, t_token_type type)
 {
 	if (parser->cur_token->type == type)
 	{
@@ -41,7 +41,7 @@ int			expected_token(t_parser *parser, t_token_type type)
 	return (1);
 }
 
-int			parser_check_syn_error(t_parser *parser)
+int	parser_check_syn_error(t_parser *parser)
 {
 	if (parser->cur_token->type == TOKEN_PIPE
 		|| parser->cur_token->type == TOKEN_EOF)
@@ -49,7 +49,7 @@ int			parser_check_syn_error(t_parser *parser)
 	return (0);
 }
 
-void		*realloc_(void *old_alloc, size_t count, size_t old_size)
+void	*realloc_(void *old_alloc, size_t count, size_t old_size)
 {
 	void	*new_allo;
 

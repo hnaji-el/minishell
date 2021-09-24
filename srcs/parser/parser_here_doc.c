@@ -1,7 +1,19 @@
 
 #include "../../includes/parser.h"
 
-int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
+int	add_single_or_double_q_to_value(char **value, char c)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin_c(*value, "", c);
+	if (tmp == NULL)
+		put_error(errno);
+	free(*value);
+	*value = tmp;
+	return (0);
+}
+
+int	collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 {
 	char	*str;
 	char	*tmp;
@@ -11,17 +23,8 @@ int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 
 	c = lexer->cmd_line[*index];
 	index_i = ++(*index);
-	// ATT: Add here
 	if (!check_closed_quotes(lexer->cmd_line, index_i, c))
-	{
-		tmp = ft_strjoin_c(*value, "", c);
-		if (tmp == NULL)
-			put_error(errno);
-		free(*value);
-		*value = tmp;
-		return (0);
-	}
-	//
+		return (add_single_or_double_q_to_value(value, c));
 	while (lexer->cmd_line[*index] != c)
 		(*index)++;
 	index_f = *index;
