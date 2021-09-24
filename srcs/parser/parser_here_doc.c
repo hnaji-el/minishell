@@ -1,7 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_here_doc.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/24 07:50:15 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/24 12:02:18 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
+void	add_single_or_double_q_to_value(char **value, char c)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin_c(*value, "", c);
+	if (tmp == NULL)
+		put_error(errno);
+	free(*value);
+	*value = tmp;
+	return ;
+}
+
+void	collect_single_double_quotes(t_lexer *lexer, int *index,
+													char **value, int *flag)
 {
 	char	*str;
 	char	*tmp;
@@ -11,12 +35,8 @@ int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 
 	c = lexer->cmd_line[*index];
 	index_i = ++(*index);
-	// ATT: Add here
-	// if (!check_closed_quotes(lexer->cmd_line, index_i, c))
-	// {
-	// 	tmp = ft_strjoin;
-	// }
-	//
+	if (!check_closed_quotes(lexer->cmd_line, index_i, c))
+		return (add_single_or_double_q_to_value(value, c));
 	while (lexer->cmd_line[*index] != c)
 		(*index)++;
 	index_f = *index;
@@ -30,7 +50,7 @@ int		collect_single_double_quotes(t_lexer *lexer, int *index, char **value)
 	free(*value);
 	free(str);
 	*value = tmp;
-	return (1);
+	*flag = 1;
 }
 
 void	collect_simple_chars(t_lexer *lexer, int *index, char **value)
@@ -41,9 +61,9 @@ void	collect_simple_chars(t_lexer *lexer, int *index, char **value)
 	int		index_f;
 
 	index_i = *index;
-	while (!special_meaning_chars(lexer->cmd_line[*index]) &&
-			lexer->cmd_line[*index] != '"' &&
-			lexer->cmd_line[*index] != '\'')
+	while (!special_meaning_chars(lexer->cmd_line[*index])
+		&& lexer->cmd_line[*index] != '"'
+		&& lexer->cmd_line[*index] != '\'')
 		(*index)++;
 	index_f = *index;
 	str = ft_substr(lexer->cmd_line, index_i, index_f - index_i);
@@ -75,7 +95,7 @@ void	debug_here_document(t_parser *parser, t_red_type *type, int index)
 	{
 		if (parser->lexer->cmd_line[index] == '"'
 			|| parser->lexer->cmd_line[index] == '\'')
-			flag = collect_single_double_quotes(parser->lexer, &index, &value);
+			collect_single_double_quotes(parser->lexer, &index, &value, &flag);
 		else
 			collect_simple_chars(parser->lexer, &index, &value);
 	}

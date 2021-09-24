@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 08:58:27 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/02/08 15:38:19 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 22:53:35 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,18 @@ long	ft_atoi_l(const char *str)
 	nb = 0;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
-	if (*str == '+' && *(str + 1) == '-')
-		return (0);
-	if (*str == '+')
-		str++;
 	if (*str == '-')
-	{
 		sign = sign * (-1);
+	if (*str == '-' || *str == '+')
 		str++;
-	}
 	while (*str >= '0' && *str <= '9')
 	{
 		nb = nb * 10 + (*str - '0');
 		str++;
 	}
-	if (nb < 0)
-		return ((sign > 0) ? -1 : 0);
+	if (nb < 0 && sign > 0)
+		return (-1);
+	if (nb < 0 && sign < 0)
+		return (0);
 	return (sign * nb);
 }

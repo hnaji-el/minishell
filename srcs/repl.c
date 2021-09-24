@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/23 11:02:26 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/24 15:46:08 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	initialize_variables(char **envp, t_node **head_env, int *exit_status)
 	*exit_status = 0;
 }
 
-int		collect_and_check_cmd_line(char **cmd_line)
+int	collect_and_check_cmd_line(char **cmd_line)
 {
 	*cmd_line = readline("AnasHamid$ ");
 	if (*cmd_line == NULL)
@@ -59,7 +59,7 @@ void	sig_handler(int c)
 	}
 }
 
-int		main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*cmd_line;
 	t_parser	*parser;

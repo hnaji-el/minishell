@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_simple_command.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/24 07:55:23 by hnaji-el          #+#    #+#             */
+/*   Updated: 2021/09/24 07:57:27 by hnaji-el         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
@@ -8,22 +19,15 @@ t_red_type	get_type_of_redirection(t_parser *parser)
 	if (parser->cur_token->type == TOKEN_GREAT)
 		type = RED_OUTPUT;
 	else if (parser->cur_token->type == TOKEN_DGREAT)
- 		type = RED_APPEND;
+		type = RED_APPEND;
 	else if (parser->cur_token->type == TOKEN_LESS)
 		type = RED_INPUT;
 	else
- 		type = RED_HERE_DOC;
+		type = RED_HERE_DOC;
 	return (type);
 }
 
-/*	
- *	add <FILENAME> and <type> of REDIRECTION to ast_command,
- *	return 1 if not get <WORD> after <RED> (syntax error)
- *	NO Free,
- *	NO Fail
- */
-
-int			parser_parse_redirect(t_parser *parser, t_ast *ast)
+int	parser_parse_redirect(t_parser *parser, t_ast *ast)
 {
 	t_red_type	type;
 	int			index_i;
@@ -39,19 +43,13 @@ int			parser_parse_redirect(t_parser *parser, t_ast *ast)
 	if (ast->redir[ast->redir_size - 1] == NULL)
 		put_error(errno);
 	if (type == RED_HERE_DOC)
- 		debug_here_document(parser, &type, index_i);
+		debug_here_document(parser, &type, index_i);
 	ast->redir[ast->redir_size - 1]->type = type;
 	ast->redir[ast->redir_size - 1]->filename = parser->prev_token->value;
 	return (0);
 }
 
-/*	
- *	add args(<WORD>) to ast_command,
- *	NO Free,
- *	NO Fail
- */
-
-void		parser_parse_cmd_args(t_parser *parser, t_ast *ast)
+void	parser_parse_cmd_args(t_parser *parser, t_ast *ast)
 {
 	while (parser->cur_token->type == TOKEN_WORD)
 	{
@@ -62,7 +60,7 @@ void		parser_parse_cmd_args(t_parser *parser, t_ast *ast)
 	}
 }
 
-t_ast		*parser_parse_simple_command(t_parser *parser)
+t_ast	*parser_parse_simple_command(t_parser *parser)
 {
 	t_ast	*ast;
 
@@ -70,7 +68,7 @@ t_ast		*parser_parse_simple_command(t_parser *parser)
 		return (NULL);
 	ast = init_ast(AST_COMMAND);
 	while (parser->cur_token->type != TOKEN_PIPE
-			&& parser->cur_token->type != TOKEN_EOF)
+		&& parser->cur_token->type != TOKEN_EOF)
 	{
 		if (parser->cur_token->type == TOKEN_WORD)
 			parser_parse_cmd_args(parser, ast);

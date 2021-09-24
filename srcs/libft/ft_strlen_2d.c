@@ -6,13 +6,13 @@
 /*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 17:07:50 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/01/07 15:37:08 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/23 16:01:04 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		ft_strlen_2d(char **str)
+size_t	ft_strlen_2d(char **str)
 {
 	size_t		len;
 

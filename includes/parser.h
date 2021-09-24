@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 10:06:33 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/22 16:03:11 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/24 10:52:36 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ t_red_type	get_type_of_redirection(t_parser *parser);
 void		debug_here_document(t_parser *parser, t_red_type *type, int index);
 void		skip_whitespaces(char *cmd_line, int *index);
 void		collect_simple_chars(t_lexer *lexer, int *index, char **value);
-int			collect_single_double_quotes(t_lexer *lexer, int *index,
-				char **value);
+void		collect_single_double_quotes(t_lexer *lexer, int *index,
+				char **value, int *flag);
+void		add_single_or_double_q_to_value(char **value, char c);
 
 /*                      parser_utils.c                     */
 t_parser	*init_lexer_and_parser(char *cmd_line, int exit_s, t_node *envp_ll);
@@ -52,6 +53,5 @@ t_ast		*free_ast_pipeline(t_ast *ast);
 t_ast		*free_ast_command(t_ast *ast);
 void		free_parser(t_parser *parser);
 void		free_token(t_token *token);
-
 
 #endif

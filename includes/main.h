@@ -6,26 +6,25 @@
 /*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 10:06:42 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/18 10:06:46 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/24 10:56:01 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_C
-# define MAIN_C
+#ifndef MAIN_H
+# define MAIN_H
 
 /* strerror() and printf() function */
 # include <stdio.h>
 
 /* my own libft and get_next_line */
 # include "../srcs/libft/libft.h"
-# include "../srcs/get_next_line/get_next_line.h"
 
 /* GNU Readline Library */
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 /* signal() and kill() system call functions */
-#include <signal.h>
+# include <signal.h>
 
 /* open() function */
 # include <fcntl.h>
