@@ -94,8 +94,6 @@ char *find_path(char **cmd, int i)
 	char *dst;
 	struct stat buffer;
 
-	// if (lstat(cmd[0], &buffer))
-	// 	return (cmd[0]);
 	dst = getenv("PATH");
 	if (!dst)
 		return (NULL);
@@ -114,21 +112,29 @@ char *find_path(char **cmd, int i)
 	return (NULL);
 }
 
-int		execute_cmd(t_node *head_env, int last_fd, int out_fd, char **cmd, t_ast pipecmd, int totalPipe)
+int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pipecmd, int totalPipe)
 {
 	char **env;
 
-	// printf("size : %d\n", pipecmd.flag);
+	printf("%d\n", pipecmd->flag);
 	dup2(last_fd, 0);
 	if(last_fd)
 		close(last_fd);
-	if (totalPipe < pipecmd.pipe_size || pipecmd.flag == 1)
-		 dup2(out_fd, 1);
+	if (totalPipe < pipecmd->pipe_size || pipecmd->flag == 1)
+		 dup2(fds[1], 1);
+	close(fds[0]);
+	close(fds[1]);
 	env = convert_list(head_env);
-	if (!execve(*cmd, cmd, env))
+	
+	if (is_builtin(cmd[0]) == -1)
 	{
-		perror("could not execve");
-		return(1);
+		if (!execve(*cmd, cmd, env))
+		{
+			perror("could not execve");
+			return(1);
+		}
 	}
+	else
+		built_in(cmd, head_env);
 	return(0);
 }

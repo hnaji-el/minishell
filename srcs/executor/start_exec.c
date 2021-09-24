@@ -13,16 +13,18 @@
 #include "../../includes/main.h"
 #include "../../includes/executor.h"
 
-int    start_exec(t_node *head_env, t_ast *pipecmd, int index, int last_fd, int num_size)
+int    start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int num_size)
 {
+    pid_t    pid;
+    int      fds[2]; 
     
-    pid_t    pid;    
-    
-    if (num_size == 1 && is_builtin1(pipecmd->args_val[0]) != -1)
-        return(built_in(pipecmd->args_val, head_env));
-    pid = process(head_env, *pipecmd, &last_fd, index);
+    if (num_size == 1 && is_builtin1((*pipecmd)->args_val[0]) != -1)
+        return(built_in((*pipecmd)->args_val, head_env));
+    pipe(fds);
+    pid = process(head_env, *pipecmd, &last_fd, index, fds);
     if (index < num_size)
-        start_exec(head_env, pipecmd + 1, index + 1, last_fd, num_size);
+        start_exec(head_env, pipecmd + 1, index + 1, fds[0], num_size);
+    close(fds[0]);
     waitpid(pid, 0, 0);
     return (0);
 }
@@ -67,7 +69,6 @@ int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd)
     {
         if (reds[i]->type == RED_OUTPUT || reds[i]->type == RED_APPEND)
         {
-            // flag = 1;
             pipecmd->flag = 1;
             get_out_fd(*reds[i], out_fd);
         }
@@ -79,37 +80,30 @@ int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd)
     return (0);
 }
 
-int     process(t_node *head_env, t_ast pipecmd, int *last_fd, int totalPipe)
+int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, int fds[])
 {
     pid_t   pid;
     char    *temp;
-    char **cmd = pipecmd.args_val;   
-    int     fds[2];
+    char **cmd = pipecmd->args_val;
 
-    pipe(fds);
     pid = fork();
     if (pid == -1)
         exit(1);
     if (pid == 0)
     {
-        get_file_fd(last_fd, &fds[1], &pipecmd);
+        get_file_fd(last_fd, &fds[1], pipecmd);
         if (!cmd)
             exit (127); 
-        if (is_builtin(cmd[0]) == -1)
-        {
             temp = find_path(cmd, -1);
             if (!temp)
             {
                 perror("");
-                exit(127);
+                //exit(127);
             }
             *cmd = temp;
-            exit(execute_cmd(head_env, *last_fd, fds[1], cmd, pipecmd, totalPipe));
-        }
-        else
-            exit(built_in(cmd, head_env));
+            exit(execute_cmd(head_env, *last_fd, fds, cmd, pipecmd, totalPipe));
     }
-    //close(fds[1]);
+    close(fds[1]);
     return (pid);
     // waitpid(pid, NULL, 0);
 }
