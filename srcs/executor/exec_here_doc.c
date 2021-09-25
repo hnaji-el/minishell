@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnaji-el <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 12:34:54 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/24 12:34:57 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/25 22:58:09 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char    *collect_env_vars_in_here_doc(char *here_doc, int *i, t_node *envp_ll)
     return (str);
 }
 
-char    *collect_simple_chars(char *here_doc, int *index)
+char    *collect_simple_characters(char *here_doc, int *index)
 {
     char    *str;
     int     index_i;
@@ -85,11 +85,11 @@ void    exec_expansion_and_put_line(char *here_doc, int *fd, t_node *envp_ll)
         if (here_doc[i] == '$')
             str = collect_env_vars_in_here_doc(here_doc, &i, envp_ll);
         else
-            str = collect_simple_chars(here_doc, &i);
+            str = collect_simple_characters(here_doc, &i);
         ft_putstr_fd(str, *fd);
         free(str);
     }
-    write(1, "\n", 1);
+    write(*fd, "\n", 1);
 }
 
 void    exec_here_doc(int *fd, char *delimiter, t_red_type type, t_node *envp_ll)

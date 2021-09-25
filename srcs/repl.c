@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/25 13:10:28 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/25 23:00:33 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ int	collect_and_check_cmd_line(char **cmd_line)
 
 void	sig_handler(int c)
 {
-//	char	*line_buffer;
+	char	*line_buffer;
 
 	if (c == SIGINT)
 	{
-//		line_buffer = strdup(rl_line_buffer);
-//		rl_on_new_line();
-//		rl_replace_line("", 1);
-//		rl_redisplay();
-//		write(2, line_buffer, strlen(line_buffer));
-//		write(2, "  \b\b\nimannnAnasHamid$ ", 22);
-//		free(line_buffer);
+		line_buffer = strdup(rl_line_buffer);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+		write(2, line_buffer, strlen(line_buffer));
+		write(2, "  \b\b\nimannnAnasHamid$ ", 22);
+		free(line_buffer);
 	}
 	if (c == SIGQUIT)
 	{
@@ -59,9 +59,9 @@ void	sig_handler(int c)
 	}
 }
 
- int	main(int argc, char **argv, char **envp)
- {
- 	char		*cmd_line;
+int	main(int argc, char **argv, char **envp)
+{
+	char		*cmd_line;
  	t_parser	*parser;
  	t_ast		*ast;
  	t_node		*envp_ll;
