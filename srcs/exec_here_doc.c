@@ -34,24 +34,18 @@ char	*collect_env_var(char *here_doc, int *i, t_node *envp_ll)
 	return (str);
 }
 
-char	*collect_exit_status_in_here_doc(int *i)
-{
-	char	*str;
-
-	str = ft_itoa(exit_status); // exit_status : global variable
-	if (str == NULL)
-		put_error(errno);
-	*i += 1;
-	return (str);
-}
-
 char    *collect_env_vars_in_here_doc(char *here_doc, int *i, t_node *envp_ll)
 {
     char    *str;
 
 	*i += 1;
 	if (here_doc[*i] == '?')
-		str = collect_exit_status_in_here_doc(i);
+	{
+		str = ft_itoa(127); // exit_status : global variable
+		if (str == NULL)
+			put_error(errno);
+		*i += 1;
+	}
 	else if (here_doc[*i] != '_' && !ft_isalpha(here_doc[*i]))
 	{
 		str = ft_substr(here_doc, (*i) - 1, 2);
@@ -89,7 +83,7 @@ void    exec_expansion_and_put_line(char *here_doc, int *fd, t_node *envp_ll)
     while (here_doc[i] != '\0')
     {
         if (here_doc[i] == '$')
-            str = collect_env_vars_in_here_doc(here_doc, &i, envp_ll);// NOTE: ...
+            str = collect_env_vars_in_here_doc(here_doc, &i, envp_ll);
         else
             str = collect_simple_chars(here_doc, &i);
         ft_putstr_fd(str, *fd);
@@ -102,9 +96,9 @@ void    exec_here_doc(int *fd, char *delimiter, t_red_type type, t_node *envp_ll
 {
     char    *here_doc;
 
-    here_doc = readline("> ");
     while (1)
     {
+		here_doc = readline("> ");
         if (!ft_strcmp(here_doc, delimiter))
             break ;
         if (type == RED_HERE_DOC)

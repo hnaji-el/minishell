@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/24 15:46:08 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/25 13:10:28 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ int	collect_and_check_cmd_line(char **cmd_line)
 
 void	sig_handler(int c)
 {
-	char	*line_buffer;
+//	char	*line_buffer;
 
 	if (c == SIGINT)
 	{
-		line_buffer = strdup(rl_line_buffer);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-		write(2, line_buffer, strlen(line_buffer));
-		write(2, "  \b\b\nAnasHamid$ ", 16);
-		free(line_buffer);
+//		line_buffer = strdup(rl_line_buffer);
+//		rl_on_new_line();
+//		rl_replace_line("", 1);
+//		rl_redisplay();
+//		write(2, line_buffer, strlen(line_buffer));
+//		write(2, "  \b\b\nimannnAnasHamid$ ", 22);
+//		free(line_buffer);
 	}
 	if (c == SIGQUIT)
 	{
@@ -59,29 +59,29 @@ void	sig_handler(int c)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	char		*cmd_line;
-	t_parser	*parser;
-	t_ast		*ast;
-	t_node		*envp_ll;
-	int			exit_status;
+ int	main(int argc, char **argv, char **envp)
+ {
+ 	char		*cmd_line;
+ 	t_parser	*parser;
+ 	t_ast		*ast;
+ 	t_node		*envp_ll;
+ 	int			exit_status;
 
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
-	initialize_variables(envp, &envp_ll, &exit_status);
-	(void)argc;
-	(void)argv;
-	while (1)
-	{
-		if (collect_and_check_cmd_line(&cmd_line) == 0)
-			continue ;
-		add_history(cmd_line);
-		parser = init_lexer_and_parser(cmd_line, exit_status, envp_ll);
-		ast = parser_parse(parser);
-		free_parser(parser);
-		exit_status = visitor_visit(ast, envp_ll);
-		free_ast_pipeline(ast);
-	}
-	return (0);
-}
+ 	signal(SIGINT, sig_handler);
+ 	signal(SIGQUIT, sig_handler);
+ 	initialize_variables(envp, &envp_ll, &exit_status);
+ 	(void)argc;
+ 	(void)argv;
+ 	while (1)
+ 	{
+ 		if (collect_and_check_cmd_line(&cmd_line) == 0)
+ 			continue ;
+ 		add_history(cmd_line);
+ 		parser = init_lexer_and_parser(cmd_line, exit_status, envp_ll);
+ 		ast = parser_parse(parser);
+ 		free_parser(parser);
+ 		exit_status = visitor_visit(ast, envp_ll);
+ 		free_ast_pipeline(ast);
+ 	}
+ 	return (0);
+ }
