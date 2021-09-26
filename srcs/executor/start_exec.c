@@ -105,5 +105,4 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
     }
     close(fds[1]);
     return (pid);
-    // waitpid(pid, NULL, 0);
 }
