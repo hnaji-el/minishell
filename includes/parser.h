@@ -27,7 +27,7 @@ typedef struct s_parser
 t_ast		*parser_parse(t_parser *parser);
 t_ast		*parser_parse_pipeline(t_parser *parser, t_ast *ast);
 t_ast		*fill_pipe_size_of_all_nodes(t_ast *ast);
-void    	exec_here_doc(int *fd, char *delimiter,
+void    	exec_here_doc(int fd, char *delimiter,
 								t_red_type type, t_node *envp_ll);
 
 /*                  parser_simple_command.c                   */

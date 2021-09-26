@@ -74,7 +74,7 @@ char    *collect_simple_characters(char *here_doc, int *index)
     return (str);
 }
 
-void    exec_expansion_and_put_line(char *here_doc, int *fd, t_node *envp_ll)
+void    exec_expansion_and_put_line(char *here_doc, int fd, t_node *envp_ll)
 {
     char    *str;
     int     i;
@@ -86,13 +86,13 @@ void    exec_expansion_and_put_line(char *here_doc, int *fd, t_node *envp_ll)
             str = collect_env_vars_in_here_doc(here_doc, &i, envp_ll);
         else
             str = collect_simple_characters(here_doc, &i);
-        ft_putstr_fd(str, *fd);
+        ft_putstr_fd(str, fd);
         free(str);
     }
-    write(*fd, "\n", 1);
+    write(fd, "\n", 1);
 }
 
-void    exec_here_doc(int *fd, char *delimiter, t_red_type type, t_node *envp_ll)
+void    exec_here_doc(int fd, char *delimiter, t_red_type type, t_node *envp_ll)
 {
     char    *here_doc;
 
@@ -102,7 +102,7 @@ void    exec_here_doc(int *fd, char *delimiter, t_red_type type, t_node *envp_ll
         if (!ft_strcmp(here_doc, delimiter))
             break ;
         if (type == RED_HERE_DOC)
-            ft_putendl_fd(here_doc, *fd);
+            ft_putendl_fd(here_doc, fd);
         if (type == RED_HERE_DOC_EXP)
             exec_expansion_and_put_line(here_doc, fd, envp_ll);
         free(here_doc);

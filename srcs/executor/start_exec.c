@@ -34,9 +34,9 @@ int get_out_fd(t_redirect red, int *out_fd)
 
     fd = *out_fd;
     if (red.type == RED_APPEND)
-        fd = open(red.filename, O_RDWR | O_CREAT | O_APPEND, 0644);
+        fd = open(red.filename, O_RDWR | O_CREAT | O_APPEND, 0777);
     else
-        fd = open(red.filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+        fd = open(red.filename, O_RDWR | O_CREAT | O_TRUNC, 0777);
     if (fd < 0)
         return (-1);
     if (*out_fd != 1)
