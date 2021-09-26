@@ -116,7 +116,7 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 {
 	char **env;
 
-	printf("%d\n", pipecmd->flag);
+	// printf("%d\n", pipecmd->flag);
 	dup2(last_fd, 0);
 	if(last_fd)
 		close(last_fd);
