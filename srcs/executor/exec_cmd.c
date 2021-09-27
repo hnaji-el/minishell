@@ -116,7 +116,6 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 {
 	char **env;
 
-	// printf("%d\n", pipecmd->flag);
 	dup2(last_fd, 0);
 	if(last_fd)
 		close(last_fd);
@@ -125,9 +124,10 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 	close(fds[0]);
 	close(fds[1]);
 	env = convert_list(head_env);
-	
+	//printf("%s\n", cmd[0]);
 	if (is_builtin(cmd[0]) == -1)
 	{
+		//printf("hello\n");
 		if (!execve(*cmd, cmd, env))
 		{
 			perror("could not execve");

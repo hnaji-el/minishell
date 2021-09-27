@@ -6,7 +6,7 @@
 #    By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
-#    Updated: 2021/09/24 15:45:43 by hnaji-el         ###   ########.fr        #
+#    Updated: 2021/09/26 13:17:30 by hnaji-el         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS = ./srcs/repl.c \
 		./srcs/executor/executor.c \
 		./srcs/executor/exec_cmd.c \
 		./srcs/executor/start_exec.c \
+		./srcs/executor/exec_here_doc.c \
 		./srcs/executor/builtins/builtin_cd.c \
 		./srcs/executor/builtins/builtin_echo.c \
 		./srcs/executor/builtins/builtin_env.c \
@@ -54,7 +55,7 @@ READLINE_LIB_IMAC = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib \
 READLINE_LIB_MAC = -lreadline -L /usr/local/opt/readline/lib \
 			   -I /usr/local/opt/readline/include
 
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 all: $(NAME)
 

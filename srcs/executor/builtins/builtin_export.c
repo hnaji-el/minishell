@@ -63,7 +63,6 @@ void    printenv_expor(t_node	*head)
 	t_node	*current;
 	char *str;
 
-	printf("hello\n");
 	current = head;
 	sort_env(current);
     while (current != NULL)
@@ -185,11 +184,3 @@ int		lbash_export(t_node	*head_env, char **cmd)
 	}
 	return (0);
 }
-
-// int main(int argc, char *argv[], char  *envp[])
-// {
-//     char *cmd[30] = {"export", "sala=123"};
-//     lbash_export(envp, cmd);
-//     printf("------------SUCCESS------\n");
-//     return(0);
-// }
