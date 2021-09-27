@@ -1,17 +1,18 @@
 
 #include "../../includes/parser.h"
 
-int visitor_visit(t_ast *node, t_node *head_env)
+void	visitor_visit(t_ast *node, t_node *head_env)
 {
 
 	if (node == NULL)
-		return (127);
-
+	{
+		g_exit_s = 258;
+		return (void);
+	}
 	if (node->type == AST_PIPELINE)
 	{
 			start_exec(head_env, node->pipe_val, 1, 0, node->pipe_size);
 	}
-	return (0);
 }
 
 

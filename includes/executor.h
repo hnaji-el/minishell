@@ -18,11 +18,7 @@ typedef struct s_env
 }       t_env;
 
 
-int		visitor_visit(t_ast *node, t_node *head_env);
-int		visitor_visit_compound(t_ast *node, t_node *head_env);
-int		visitor_visit_pipeline(t_ast *node, t_node *head_env);
-int		visitor_visit_command(t_ast *node, t_node *head_env);
-int		visitor_visit_redirection(t_redirect *node);
+void	visitor_visit(t_ast *node, t_node *head_env);
 int		lbash_cd(char **cmd, t_node *head_env);
 int		check_n(char *args, int *flag);
 int		lbash_echo(char **args);
