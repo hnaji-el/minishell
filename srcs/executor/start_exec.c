@@ -134,8 +134,7 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
             temp = find_path(cmd, -1);
             if (temp == NULL)
             {
-                perror("");
-                    //exit(127);
+                exit(printf_error(cmd[0], ": command not found", 127));
             }
             *cmd = temp;
         }

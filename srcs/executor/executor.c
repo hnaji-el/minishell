@@ -1,6 +1,5 @@
 
-#include "../../includes/main.h"
-#include "../../includes/executor.h"
+#include "../../includes/parser.h"
 
 int visitor_visit(t_ast *node, t_node *head_env)
 {
@@ -15,29 +14,17 @@ int visitor_visit(t_ast *node, t_node *head_env)
 	return (0);
 }
 
-// int start_exec(t_node *head_env, t_ast *pipeCmd, int index, int last_fd, envs)
-// {
 
-// 	// cd export 
-	
-// 	int fds[2];
-// 	pipe(fds);
+int	printf_error(char *cmd, char *str, int	error)
+{
+	char	*tmp;
 
-// 	int pid = fork();
-
-// 	if (!pid)
-// 	{
-// 		//find path
-// 		//populate_file_descriptors
-// 		dup2(last_fd, 0);
-// 		if (redir || index < *pipeCmd.pipe_size)
-// 			dup2(fds[1], 1);
-// 		// execute
-// 	}
-// 	close(fds[1]);
-// 	if (index < pipeCmd[0])
-// 		start_exec(pipeCmd + 1, index + 1, fds[0], envs);
-// 	close(fds[0]);
-// 	waitpid(pid, 0,0);
-// 	return (0);
-// }
+	tmp = ft_itoa(error);
+	if (cmd)
+		ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(str, 2);
+	free(tmp);
+	errno = error;
+	g_exit_s = error;
+	return (error);
+}
