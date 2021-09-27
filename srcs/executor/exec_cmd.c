@@ -70,6 +70,8 @@ char	**convert_list(t_node *head_env)
 
 	// find  the length of the
 	// given linked list
+	if (head_env == NULL)
+		return (NULL);
 	len = lenght(head_env);
 
 	//Creat aan array
@@ -123,6 +125,8 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 		 dup2(fds[1], 1);
 	close(fds[0]);
 	close(fds[1]);
+	// printf("head_env: %s\n", head_env->data);
+	// exit(0);
 	env = convert_list(head_env);
 	//printf("%s\n", cmd[0]);
 	if (is_builtin(cmd[0]) == -1)

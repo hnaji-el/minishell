@@ -20,6 +20,8 @@ int	lbash_unset(t_node *head, char **cmd)
 	t_node  *previous = NULL;
 	char	**temp;
 
+	if (!cmd[1])
+		return(0);
 	//if list is empty
 	if (head == NULL)
 		return (-1);
@@ -28,14 +30,17 @@ int	lbash_unset(t_node *head, char **cmd)
 	// //	printf("VAR : %s\n", current->data);
 	// 	if (current == NULL)
 	// 		return (0);
-	temp = ft_split(current->data, '=');
-	while (ft_strcmp(temp[0], cmd[1]) != 0 && current->next)
+	//temp = ft_split(current->data, '=');
+	previous = current;
+	while (current)
 	{
+		temp = ft_split(current->data, '=');
+		if (ft_strcmp(temp[0], cmd[1]) == 0)
+			break ;
 		//store reference to current link
 		previous = current;
 		//move to next link
 		current = current->next;
-		temp = ft_split(current->data, '=');
 	}
 	// else
 	// {
@@ -45,15 +50,15 @@ int	lbash_unset(t_node *head, char **cmd)
 	// 	current = current->next;
 	// }
 	//found a match, update the link
-	if (ft_strcmp(temp[0], cmd[1]) == 0)
+	if (current)
 	{
-		if(previous)
+		if(current != head)
 			previous->next = current->next;
 		else
 			head = current->next;
-		free(current->data);
-		free(current->next);
-		free(current);
+		// free(current->data);
+		// free(current->next);
+		// free(current);
 	}
 	return (0);
 }

@@ -49,6 +49,8 @@ int		lenght(t_node	*current)
 	int		lenght;
 	lenght = 0;
 
+	if (current == NULL)
+		return (-1);
 	while (current != NULL)
 	{
 		current = current->next;
@@ -175,7 +177,6 @@ int		lbash_export(t_node	*head_env, char **cmd)
 {
 	int	i;
 	i = 0;
-	printf("%s\n", cmd[1]);
 	if (cmd[1] == NULL)
 		printenv_expor(head_env);	
 	while (cmd[++i] != NULL)

@@ -73,7 +73,7 @@ int     get_here_doc(t_redirect red, int *last_fd, t_node *head_env)
 
     fd = *last_fd;
     fd = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
-    //printf("%d\n", fd);
+ //   printf("")
     if (fd < 0)
     {
         perror("No such file or directory\n");
@@ -83,6 +83,8 @@ int     get_here_doc(t_redirect red, int *last_fd, t_node *head_env)
     if (*last_fd)
         close(*last_fd);
     *last_fd = fd;
+    close(*last_fd);
+    *last_fd = open("/tmp/heredoc", O_RDONLY);
     return (0);
 }
 
@@ -128,14 +130,15 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
         if (!(*cmd))
             exit (127); 
         if (is_builtin(cmd[0]) == -1)
-            temp = find_path(cmd, -1);
-        if (temp == NULL)
         {
-            perror("");
-                //exit(127);
-         }
-        if (is_builtin(cmd[0]) == -1)
+            temp = find_path(cmd, -1);
+            if (temp == NULL)
+            {
+                perror("");
+                    //exit(127);
+            }
             *cmd = temp;
+        }
         exit(execute_cmd(head_env, *last_fd, fds, cmd, pipecmd, totalPipe));
     }
     close(fds[1]);
