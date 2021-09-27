@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:02:08 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/25 23:00:33 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/27 14:33:58 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int		visitor_vis(t_ast *ast);
 
-void	initialize_variables(char **envp, t_node **head_env, int *exit_status)
+void	initialize_variables(char **envp, t_node **head_env/*, int *exit_status*/)
 {
 	*head_env = (void *)0;
 	*head_env = linked_list(*head_env, envp);
-	*exit_status = 0;
+	//*exit_status = 0;
 }
 
 int	collect_and_check_cmd_line(char **cmd_line)
@@ -65,11 +65,11 @@ int	main(int argc, char **argv, char **envp)
  	t_parser	*parser;
  	t_ast		*ast;
  	t_node		*envp_ll;
- 	int			exit_status;
+ 	//int			exit_status;
 
  	signal(SIGINT, sig_handler);
  	signal(SIGQUIT, sig_handler);
- 	initialize_variables(envp, &envp_ll, &exit_status);
+ 	initialize_variables(envp, &envp_ll/*, &exit_status*/);
  	(void)argc;
  	(void)argv;
  	while (1)
@@ -77,10 +77,10 @@ int	main(int argc, char **argv, char **envp)
  		if (collect_and_check_cmd_line(&cmd_line) == 0)
  			continue ;
  		add_history(cmd_line);
- 		parser = init_lexer_and_parser(cmd_line, exit_status, envp_ll);
+ 		parser = init_lexer_and_parser(cmd_line, g_exit_s, envp_ll);
  		ast = parser_parse(parser);
  		free_parser(parser);
- 		exit_status = visitor_visit(ast, envp_ll);
+ 		visitor_visit(ast, envp_ll);
  		free_ast_pipeline(ast);
  	}
  	return (0);

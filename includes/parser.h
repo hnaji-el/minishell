@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 10:06:33 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/25 23:08:43 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/27 14:31:40 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "ast.h"
 # include "lexer.h"
+
+int		g_exit_s;
 
 typedef struct s_parser
 {

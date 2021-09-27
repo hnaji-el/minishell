@@ -6,7 +6,7 @@
 /*   By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 12:34:54 by hnaji-el          #+#    #+#             */
-/*   Updated: 2021/09/25 22:58:09 by hnaji-el         ###   ########.fr       */
+/*   Updated: 2021/09/27 14:36:13 by hnaji-el         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char    *collect_env_vars_in_here_doc(char *here_doc, int *i, t_node *envp_ll)
 	*i += 1;
 	if (here_doc[*i] == '?')
 	{
-		str = ft_itoa(127); // exit_status : global variable
+		str = ft_itoa(g_exit_s);
 		if (str == NULL)
 			put_error(errno);
 		*i += 1;
