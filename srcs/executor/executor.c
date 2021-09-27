@@ -7,7 +7,7 @@ void	visitor_visit(t_ast *node, t_node *head_env)
 	if (node == NULL)
 	{
 		g_exit_s = 258;
-		return (void);
+		return ;
 	}
 	if (node->type == AST_PIPELINE)
 	{
@@ -25,7 +25,17 @@ int	printf_error(char *cmd, char *str, int	error)
 		ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(str, 2);
 	free(tmp);
-	errno = error;
-	g_exit_s = error;
+	 g_exit_s = error;
 	return (error);
+}
+
+void	get_return_stat(int ret, int flag)
+{
+	if (flag)
+	{
+		if (WIFEXITED(ret))
+			g_exit_s = WEXITSTATUS(ret);
+		if (WIFSIGNALED(ret))
+			g_exit_s = WTERMSIG(ret) + 128;
+	}
 }

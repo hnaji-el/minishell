@@ -96,6 +96,8 @@ char *find_path(char **cmd, int i)
 	char *dst;
 	struct stat buffer;
 
+	if (!lstat(cmd[0], &buffer) && !S_ISDIR(buffer.st_mode) && (buffer.st_mode & S_IXUSR))
+			return (cmd[0]);
 	dst = getenv("PATH");
 	if (!dst)
 		return (NULL);
@@ -106,7 +108,7 @@ char *find_path(char **cmd, int i)
 		temp[i] = add_char(temp[i], '/');
 		free(temp1);
 		temp1 = ft_strjoin(temp[i], cmd[0]);
-		if (!lstat(temp1, &buffer))
+		if (!lstat(temp1, &buffer) && !S_ISDIR(buffer.st_mode) && (buffer.st_mode & S_IXUSR))
 			return (temp1);
 		free(temp1);
 	}

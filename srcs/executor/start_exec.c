@@ -29,7 +29,8 @@ int    start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int
     if (index < num_size)
         start_exec(head_env, pipecmd + 1, index + 1, fds[0], num_size);
     close(fds[0]);
-    waitpid(pid, &ret, 0); 
+    waitpid(pid, &ret, 0);
+    get_return_stat(ret, index == num_size);
     return (0);
 }
 
@@ -94,8 +95,6 @@ int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd, t_node *head_env)
 
     t_redirect **reds = pipecmd->redir;
     i = 0;
-    // printf("%d\n", reds[i]->type);
-    // exit(1);
     while (i < pipecmd->redir_size)
     {
         if (reds[i]->type == RED_OUTPUT || reds[i]->type == RED_APPEND)
@@ -110,7 +109,6 @@ int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd, t_node *head_env)
 
         i++;
     }
-
     return (0);
 }
 

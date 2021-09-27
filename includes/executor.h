@@ -48,6 +48,6 @@ int     is_builtin1(char *str);
 int		correct_var(const char *var);
 int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, int fds[]);
 int     printf_error(char *cmd, char *str, int	error);
-
+void	get_return_stat(int ret, int flag);
 
 #endif

@@ -48,7 +48,7 @@ void	sig_handler(int c)
 		rl_replace_line("", 1);
 		rl_redisplay();
 		write(2, line_buffer, strlen(line_buffer));
-		write(2, "  \b\b\nimannnAnasHamid$ ", 22);
+		write(2, "  \b\b\nAnasHamid$ ", 16);
 		free(line_buffer);
 	}
 	if (c == SIGQUIT)
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
  	t_node		*envp_ll;
  	//int			exit_status;
 
- 	signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
  	signal(SIGQUIT, sig_handler);
  	initialize_variables(envp, &envp_ll/*, &exit_status*/);
  	(void)argc;
@@ -81,6 +81,7 @@ int	main(int argc, char **argv, char **envp)
  		ast = parser_parse(parser);
  		free_parser(parser);
  		visitor_visit(ast, envp_ll);
+		// printf("%d\n", g_exit_s);
  		free_ast_pipeline(ast);
  	}
  	return (0);
