@@ -65,6 +65,9 @@ void    printenv_expor(t_node	*head)
 	t_node	*current;
 	char *str;
 
+	current = find("_", head);
+	lbash_unset(head, &current->data);
+	free(current->data);
 	current = head;
 	sort_env(current);
     while (current != NULL)

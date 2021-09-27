@@ -56,9 +56,9 @@ int	lbash_unset(t_node *head, char **cmd)
 			previous->next = current->next;
 		else
 			head = current->next;
-		// free(current->data);
-		// free(current->next);
-		// free(current);
+		 free(current->data);
+		 free(current->next);
+		 free(current);
 	}
 	return (0);
 }
