@@ -66,6 +66,6 @@ int	built_in(char **cmd, t_node *head_env)
 	if (res == 6)
 		return (lbash_pwd());
 	if (res == 7)
-		return (lbash_env(head_env));
+		return (lbash_env(head_env, cmd));
 	return (-1);
 }

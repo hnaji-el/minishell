@@ -19,7 +19,9 @@ int	lbash_unset(t_node *head, char **cmd)
 	t_node  *current = head;
 	t_node  *previous = NULL;
 	char	**temp;
+	int		i;
 
+	printf("HELLO\n")
 	if (!cmd[1])
 		return(0);
 	//if list is empty
@@ -31,16 +33,26 @@ int	lbash_unset(t_node *head, char **cmd)
 	// 	if (current == NULL)
 	// 		return (0);
 	//temp = ft_split(current->data, '=');
+	i = 1;
 	previous = current;
-	while (current)
+	while (current != NULL && cmd[i] != NULL)
 	{
 		temp = ft_split(current->data, '=');
-		if (ft_strcmp(temp[0], cmd[1]) == 0)
-			break ;
-		//store reference to current link
+		if (!correct_var(temp[0]))
+			print_error(temp[0], ": unset : not a valid is_identifier", 1);
+		if (ft_strcmp(temp[0], cmd[i]) == 0)
+		{
+			if (current != head)
+				previous->next = current->next;
+			else
+				head = current->next;
+			free(current->data);
+			free(current->next);
+		 	free(current);
+		}
 		previous = current;
-		//move to next link
 		current = current->next;
+		i++;
 	}
 	// else
 	// {
@@ -50,16 +62,16 @@ int	lbash_unset(t_node *head, char **cmd)
 	// 	current = current->next;
 	// }
 	//found a match, update the link
-	if (current)
-	{
-		if(current != head)
-			previous->next = current->next;
-		else
-			head = current->next;
-		 free(current->data);
-		 free(current->next);
-		 free(current);
-	}
+	// if (current)
+	// {
+	// 	if(current != head)
+	// 		previous->next = current->next;
+	// 	else
+	// 		head = current->next;
+	// 	 free(current->data);
+	// 	 free(current->next);
+	// 	 free(current);
+	// }
 	return (0);
 }
 

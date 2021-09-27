@@ -13,6 +13,19 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
+int    is_valid(char *str)
+{
+    if (*str == '+' || *str == '-')
+        str++;
+    while (*str)
+    {
+        if (!ft_isdigit(*str))
+            return (0);
+        str++;
+    }
+    return (1);
+}
+
 int    lbash_exit(char **cmd)
 {
     int     re;
@@ -23,10 +36,14 @@ int    lbash_exit(char **cmd)
         ft_putstr_fd("exit\n", 1);
         exit(EXIT_SUCCESS);
     }
+    else if (!is_valid(cmd[1]))
+    {
+        ft_putstr_fd("exit\n", 1);
+        exit(print_error(cmd[1], ": exit: numeric argument required", 255));
+    }
     else if (cmd[2] != NULL)
     {
-        ft_putstr_fd("exit\nbash: exit: too many arguments\n", 2);
-        exit(EXIT_FAILURE);
+        exit(print_error(NULL, "exit\nbash: exit: too many arguments", 1));
     }
     else
     {
@@ -34,13 +51,5 @@ int    lbash_exit(char **cmd)
         re = ft_atoi(cmd[1]);
         exit(re);
     }
+    return (0);
 }
-
-// int     main()
-// {
-//     while (1)
-//     {
-//     char *cmd[30] = {"exit"};
-//     printf("%d\n", lbash_exit(cmd));
-//     }
-// }

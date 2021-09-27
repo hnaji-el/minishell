@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, sig_handler);
  	signal(SIGQUIT, sig_handler);
  	initialize_variables(envp, &envp_ll/*, &exit_status*/);
-	lbash_unset()
+	// lbash_unset()
  	(void)argc;
  	(void)argv;
  	while (1)

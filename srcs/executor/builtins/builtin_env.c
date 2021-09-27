@@ -13,11 +13,13 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-int     lbash_env(t_node *head_env)
+int     lbash_env(t_node *head_env, char **cmd)
 {
 	t_node	*ptr;
 	ptr = head_env;
 	//start from the beginning
+	if (cmd[1] != NULL)
+		exit(print_error(cmd[1], ": No such file or directory", 127));
 	while (ptr != NULL)
 	{
 		if (!ft_strchr(ptr->data, '='))
@@ -28,10 +30,3 @@ int     lbash_env(t_node *head_env)
 	}
     return (0);
 }
-
-// int     main(int argc, char *argv[], char *envp[])
-// {
-//     argc = 0;
-//     argv = NULL;
-//     lbash_env(envp);
-// }

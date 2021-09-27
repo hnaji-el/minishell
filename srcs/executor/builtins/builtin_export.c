@@ -112,10 +112,7 @@ int		add_var(int n, t_node *head, char *cmd)
 	current = head;
 	dst = ft_split(cmd, '=');
 	if (!correct_var(dst[0]))
-	{
-		perror("lbash: not a valid is_identifier");
-		return (127);
-	}
+		print_error(dst[0], ": export : not a valid is_identifier", 1);
 	current = find(dst[0], current);
 	if (current == NULL)
 		insert(n, cmd, head);
