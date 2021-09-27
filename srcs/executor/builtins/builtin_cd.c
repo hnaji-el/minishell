@@ -22,10 +22,7 @@ int   change_dir(char **cmd, char **path, char **old_path)
 		*path = ft_strdup(getenv("HOME"));
 	*old_path = getcwd(NULL, 1024);
 	if (chdir(*path) != 0)
-	{
-		perror("PATH not exist or a file");
-		return (1);
-	}
+		exit(print_error(cmd[1], ": No such file or directory", 1));
 	free(*path);
 	*path = getcwd(NULL, 1024);
 	return (0);
@@ -67,7 +64,6 @@ int		lbash_cd(char **cmd, t_node *head_env)
 	}
 	free(path);
 	free(old_path);
-	//return (lbash_env(head_env));
 	return (0);
 }
 

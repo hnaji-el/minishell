@@ -44,10 +44,3 @@ int     lbash_echo(char **cmd)
     }
     return (0);
 }
-
-// int main()
-// {
-//     char *cmd[20] = {"echo", "-n", "sdjf", "dfgkdghsdfgs"};
-//     lbash_echo(cmd);
-//     return 0;
-// }

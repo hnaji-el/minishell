@@ -127,13 +127,9 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 		 dup2(fds[1], 1);
 	close(fds[0]);
 	close(fds[1]);
-	// printf("head_env: %s\n", head_env->data);
-	// exit(0);
 	env = convert_list(head_env);
-	//printf("%s\n", cmd[0]);
 	if (is_builtin(cmd[0]) == -1)
 	{
-		//printf("hello\n");
 		if (!execve(*cmd, cmd, env))
 		{
 			perror("could not execve");

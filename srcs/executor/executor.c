@@ -16,7 +16,7 @@ void	visitor_visit(t_ast *node, t_node *head_env)
 }
 
 
-int	printf_error(char *cmd, char *str, int	error)
+int	print_error(char *cmd, char *str, int	error)
 {
 	char	*tmp;
 

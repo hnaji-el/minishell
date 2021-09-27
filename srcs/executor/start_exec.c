@@ -19,9 +19,7 @@ int    start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int
     pid_t    pid;
     int      fds[2]; 
     int      ret;
-    
-   // printf("%s\n", (*pipecmd)->args_val[0]);
-  //  exit(0);
+
     if (num_size == 1 && is_builtin1((*pipecmd)->args_val[0]) != -1)
         return(built_in((*pipecmd)->args_val, head_env));
     pipe(fds);
@@ -58,10 +56,7 @@ int     get_in_fd(t_redirect red, int *last_fd)
     fd = *last_fd;
     fd = open(red.filename, O_RDONLY);
     if (fd < 0)
-    {
-        perror("No such file or directory\n");
-        exit (EXIT_FAILURE);
-    }
+        exit(print_error(red.filename, ": No such file or directory", 1));
     if (*last_fd)
         close(*last_fd);
     *last_fd = fd;
@@ -74,10 +69,9 @@ int     get_here_doc(t_redirect red, int *last_fd, t_node *head_env)
 
     fd = *last_fd;
     fd = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
- //   printf("")
     if (fd < 0)
     {
-        perror("No such file or directory\n");
+       write(2, "shell: Heredoc failure", 23);
         exit (EXIT_FAILURE);
     }
     exec_here_doc(fd, red.filename, red.type, head_env);
@@ -131,9 +125,7 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
         {
             temp = find_path(cmd, -1);
             if (temp == NULL)
-            {
-                exit(printf_error(cmd[0], ": command not found", 127));
-            }
+                exit(print_error(cmd[0], ": command not found", 127));
             *cmd = temp;
         }
         exit(execute_cmd(head_env, *last_fd, fds, cmd, pipecmd, totalPipe));
