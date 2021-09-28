@@ -22,10 +22,11 @@ int     lbash_env(t_node *head_env, char **cmd)
 		exit(print_error(cmd[1], ": No such file or directory", 127));
 	while (ptr != NULL)
 	{
-		if (!ft_strchr(ptr->data, '='))
-			ptr = ptr->next;
-		ft_putstr(ptr->data);
-		write(1, "\n", 1);
+		if (ft_strchr(ptr->data, '='))
+		{
+			ft_putstr(ptr->data);
+			write(1, "\n", 1);
+		}
 		ptr = ptr->next;
 	}
     return (0);
