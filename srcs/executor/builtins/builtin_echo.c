@@ -39,6 +39,8 @@ int     lbash_echo(char **cmd)
         {
             ft_putstr_fd(*cmd, 1);
             cmd++;
+            if (*cmd != NULL)
+                write(1, " ", 1);
         }
         write(1, "\n", 1);
     }
