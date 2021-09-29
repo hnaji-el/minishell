@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/main.h"
-#include "../../../includes/executor.h"
+#include "../../../includes/parser.h"
 
 int    is_valid(char *str)
 {

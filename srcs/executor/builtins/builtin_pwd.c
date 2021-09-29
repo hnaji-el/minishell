@@ -10,22 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/main.h"
-#include "../../../includes/executor.h"
+#include "../../../includes/parser.h"
 
-int lbash_pwd(void)
+int lbash_pwd(t_node *head_env)
 {
     char *path;
 
-    path = getcwd(NULL, 1024);
+    path = ft_getenv("PWD", head_env);
     ft_putendl_fd(path, 1);
     free(path);
     return (0);
 }
 
-// int main(int argc, char *argv[], char *envp[])
-// {
-//     lbash_pwd();
-//     //printf ("------SUCCESS-----");
-//     return 0;
-// }

@@ -10,23 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/main.h"
-#include "../../../includes/executor.h"
+#include "../../../includes/parser.h"
 
-int   change_dir(t_node *head, char **cmd, char **path, char **old_path)
+int   change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 {
 
-    if(cmd[1])
+	if(cmd[1])
 		*path = ft_strdup(cmd[1]);
     else
-		*path = ft_strdup(ft_getenv("HOME", head));
-	printf("PATH : %s\n", *path);
+		*path = ft_strdup(ft_getenv("HOME", head_env));
 	*old_path = getcwd(NULL, 1024);
-	printf("OLD PATH : %s\n", *old_path);
-	if (chdir(*path) != 0)
-		print_error(cmd[1], ": No such file or directory", 1);
-	free(*path);
-	*path = getcwd(NULL, 1024);
+	if (!*old_path && (!ft_strcmp(cmd[1], ".") || !ft_strcmp(cmd[1], "./")))
+	{
+	 	print_error(NULL, 
+		 	"cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 0);
+		*old_path = ft_getenv("PWD", head_env);
+		*old_path = ft_strjoin(*old_path, "/");
+		printf("path %s\n", *path);
+		*path = ft_strjoin(*old_path, *path);
+		printf("path1 %s\n", *path);
+	 }
+	else
+	{
+		*old_path = ft_getenv("PWD", head_env);
+		if (chdir(*path) != 0)
+			print_error(cmd[1], ": No such file or directory", 1);
+		free(*path);
+		*path = getcwd(NULL, 1024);
+	}
 	return (0);
 }
 
@@ -35,8 +46,8 @@ void  set_value(char	*str, char	*value, t_node *head_env, char **cmd)
 	char	*temp;
 	t_node *current;
 	int		len;
-	static int	a = 1;
 
+	cmd = NULL;
 	current = find(str, head_env);
 	temp = ft_strjoin(str, "=");
 	str = temp;
@@ -51,12 +62,6 @@ void  set_value(char	*str, char	*value, t_node *head_env, char **cmd)
   	{
 		free(current->data);
     	current->data = ft_strdup(temp);
-		if (current->data == NULL && (!ft_strcmp(cmd[1], ".") && a == 1))
-		{
-			a = 0;
-			print_error(NULL, 
-			"cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 0);
-		}
 	}
 }
 
@@ -74,19 +79,3 @@ int		lbash_cd(char **cmd, t_node *head_env)
 	free(old_path);
 	return (0);
 }
-
-// int     main(int argc, char **argv, char **envp)
-// {
-// 	argc = 0;
-// 	argv = 0;
-// 	char *cmd[2];
-// 	t_node *head;
-
-// 	head = NULL;
-// 	head = linked_list(head, envp);
-// 	cmd[0] = "cd";
-// 	cmd[1] = "../..";
-// 	lbash_cd(cmd, head);
-// 	printf("successful\n");
-// 	return (0);
-// }

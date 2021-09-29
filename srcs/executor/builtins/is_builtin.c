@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/main.h"
-#include "../../../includes/executor.h"
+#include "../../../includes/parser.h"
 
 int	is_builtin(char *str)
 {
@@ -64,7 +63,7 @@ int	built_in(char **cmd, t_node *head_env)
 	if (res == 5)
 		return (lbash_echo(cmd));
 	if (res == 6)
-		return (lbash_pwd());
+		return (lbash_pwd(head_env));
 	if (res == 7)
 		return (lbash_env(head_env, cmd));
 	return (-1);

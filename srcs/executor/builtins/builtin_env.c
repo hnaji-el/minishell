@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/main.h"
-#include "../../../includes/executor.h"
+#include "../../../includes/parser.h"
 
 int     lbash_env(t_node *head_env, char **cmd)
 {

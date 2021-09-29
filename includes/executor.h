@@ -31,7 +31,7 @@ int     add_var(int n, t_node *head, char *cmd);
 t_node  *insert(int n, char *data, t_node *head);
 t_node	*find(char *str, t_node *head);
 int     lbash_export(t_node *head_env, char **cmd);
-int     lbash_pwd(void);
+int     lbash_pwd(t_node *head_env);
 int     lbash_unset(t_node *head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
