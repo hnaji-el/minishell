@@ -18,7 +18,11 @@ int   change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 	if(cmd[1])
 		*path = ft_strdup(cmd[1]);
     else
+	{
 		*path = ft_strdup(ft_getenv("HOME", head_env));
+		if (!(*path))
+			return (-1);
+	}
 	*old_path = getcwd(NULL, 1024);
 	if (!*old_path && (!ft_strcmp(cmd[1], ".") || !ft_strcmp(cmd[1], "./")))
 	{
@@ -74,8 +78,8 @@ int		lbash_cd(char **cmd, t_node *head_env)
 	{
 		set_value("OLDPWD", old_path, head_env, cmd);
 		set_value("PWD", path, head_env, cmd);
+		free(path);
+		free(old_path);
 	}
-	free(path);
-	free(old_path);
 	return (0);
 }
