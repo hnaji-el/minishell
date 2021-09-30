@@ -36,8 +36,9 @@ int	expected_token(t_parser *parser, t_token_type type)
 		parser->cur_token = lexer_get_next_token(parser->lexer);
 		return (0);
 	}
-	printf("bash: syntax error near unexpected token `%s'\n",
-		parser->cur_token->value);
+	write(2, "bash: syntax error near unexpected token `", 42);
+	write(2, parser->cur_token->value, ft_strlen(parser->cur_token->value));
+	write(2, "'\n", 2);
 	return (1);
 }
 
