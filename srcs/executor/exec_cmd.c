@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/main.h"
-#include "../../includes/executor.h"
+#include "../../includes/parser.h"
 
 int free_array(char **array)
 {
@@ -89,7 +88,7 @@ char	**convert_list(t_node *head_env)
 	return (str);
 }
 
-char *find_path(char **cmd, int i)
+char *find_path(char **cmd, int i, t_node *head_env)
 {
 	char **temp;
 	char *temp1;
@@ -98,7 +97,7 @@ char *find_path(char **cmd, int i)
 
 	if (!lstat(cmd[0], &buffer) && !S_ISDIR(buffer.st_mode) && (buffer.st_mode & S_IXUSR))
 			return (cmd[0]);
-	dst = getenv("PATH");
+	dst = ft_getenv("PATH", head_env);
 	if (!dst)
 		return (NULL);
 	temp = ft_split(dst, ':');
@@ -132,11 +131,14 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 	{
 		if (!execve(*cmd, cmd, env))
 		{
+			free_array(env);
 			perror("could not execve");
 			return(1);
 		}
+		free_array(env);
 	}
 	else
 		built_in(cmd, head_env);
+	free_array(env);
 	return(0);
 }

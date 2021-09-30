@@ -120,10 +120,10 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
     { 
         get_file_fd(last_fd, &fds[1], pipecmd, head_env);
         if (!(*cmd))
-            exit (127); 
+            exit (0); 
         if (is_builtin(cmd[0]) == -1)
         {
-            temp = find_path(cmd, -1);
+            temp = find_path(cmd, -1, head_env);
             if (temp == NULL)
                 exit(print_error(cmd[0], ": command not found", 127));
             *cmd = temp;

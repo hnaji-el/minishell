@@ -35,7 +35,7 @@ int     lbash_pwd(t_node *head_env);
 int     lbash_unset(t_node *head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
-char	*find_path(char **cmd, int i);
+char	*find_path(char **cmd, int i, t_node *head_env);
 int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pipecmd, int totalPipe);
 char	*get_path(char *path, char **envp);
 char	*add_char(char *str, char c);
@@ -50,5 +50,6 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
 int     print_error(char *cmd, char *str, int	error);
 void	get_return_stat(int ret, int flag);
 int     delet_var(t_node *head, char *cmd);
+int		cd_help(char **old_path, char **path, t_node *head_env);
 
 #endif
