@@ -59,7 +59,7 @@ int		lenght(t_node	*current)
 	return lenght;
 }
 
-void    printenv_expor(t_node	*head)
+void    printenv_expor(t_node	*head, int out_fd)
 {
     char    **dst;
 	t_node	*current;
@@ -73,15 +73,15 @@ void    printenv_expor(t_node	*head)
 	   if (str)
 			str = str + 1;
 	   dst = ft_split(current->data, '=');
-       ft_putstr_fd("declare -x ", 1);
-       ft_putstr_fd(dst[0], 1);
+       ft_putstr_fd("declare -x ", out_fd);
+       ft_putstr_fd(dst[0], out_fd);
 	   if (str)
 	   {
-	   		write(1, "=\"", 2);
-       		ft_putstr_fd(str, 1);
-       		write(1, "\"", 1);
+	   		write(out_fd, "=\"", 2);
+       		ft_putstr_fd(str, out_fd);
+       		write(out_fd, "\"", 1);
 	   }
-	   write(1, "\n", 1);
+	   write(out_fd, "\n", 1);
 	   current = current->next;
     }
 }
@@ -109,7 +109,7 @@ int		add_var(int n, t_node *head, char *cmd)
 	current = head;
 	dst = ft_split(cmd, '=');
 	if (!correct_var(dst[0]))
-		print_error(dst[0], ": export : not a valid is_identifier", 1);
+		return (print_error(dst[0], ": export : not a valid is_identifier", 1));
 	current = find(dst[0], current);
 	if (current == NULL)
 		insert(n, cmd, head);
@@ -170,16 +170,16 @@ t_node	*find(char *str, t_node *head)
 	return current;
 }
 
-int		lbash_export(t_node	*head_env, char **cmd)
+int		lbash_export(t_node	*head_env, char **cmd, int out_fd)
 {
 	int	i;
+	int	ret;
 
 	i = 0;
+	ret = 0;
 	if (cmd[1] == NULL)
-		printenv_expor(head_env);	
+		printenv_expor(head_env, out_fd);
 	while (cmd[++i] != NULL)
-	{
-		add_var(lenght(head_env), head_env, cmd[i]);
-	}
-	return (0);
+		ret = add_var(lenght(head_env), head_env, cmd[i]);
+	return (ret);
 }

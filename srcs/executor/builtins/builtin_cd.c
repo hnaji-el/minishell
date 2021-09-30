@@ -27,9 +27,12 @@ int	change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 		return(cd_help(old_path, path, head_env));
 	else
 	{
+		
 		*old_path = ft_getenv("PWD", head_env);
+		if (*old_path == NULL)
+			*old_path = ft_strdup("")	;
 		if (chdir(*path) != 0)
-			print_error(cmd[1], ": No such file or directory", 1);
+			return (print_error(cmd[1], ": No such file or directory", 1));
 		free(*path);
 		*path = getcwd(NULL, 1024);
 	}
@@ -59,19 +62,13 @@ void  set_value(char	*str, char	*value, t_node *head_env, char **cmd)
 
 int		cd_help(char **old_path, char **path, t_node *head_env)
 {
-	// char *temp;
-
 	print_error(NULL,
 			"cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 0);
-		// temp = *old_path;
-		// free(temp);
 		*old_path = ft_getenv("PWD", head_env);
-		// temp = *old_path;
+		if (!(*old_path))
+			return (-1);
 		*old_path = ft_strjoin(*old_path, "/");
-		// free(temp);
-		// temp = *path;
 		*path = ft_strjoin(*old_path, *path);
-		// free(temp);
 	return (0);
 }
 
@@ -79,14 +76,15 @@ int		lbash_cd(char **cmd, t_node *head_env)
 {
 	char  *path;
 	char   *old_path;
+	int		ret;
 
-	if (!change_dir(head_env, cmd, &path, &old_path))
+	if (!(ret = change_dir(head_env, cmd, &path, &old_path)))
 	{
 		set_value("OLDPWD", old_path, head_env, cmd);
 		set_value("PWD", path, head_env, cmd);
 		free(path);
 		free(old_path);
 	}
-	return (0);
+	return (ret);
 }
 

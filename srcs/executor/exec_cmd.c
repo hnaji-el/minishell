@@ -138,7 +138,7 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 		free_array(env);
 	}
 	else
-		built_in(cmd, head_env);
+		built_in(cmd, head_env, 0, pipecmd);
 	free_array(env);
 	return(0);
 }

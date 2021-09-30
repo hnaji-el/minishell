@@ -23,6 +23,8 @@ char	*ft_getenv(char *name, t_node *head)
 	current = head;
 	while (1)
 	{
+		// if (current->data == NULL)
+		// 	return (NULL);
 		dst = ft_split(current->data, '=');
 		if (strcmp(dst[0], name) == 0)
 			break ;

@@ -39,6 +39,8 @@ int		delet_var(t_node *head, char *cmd)
 	previous = current;
 	while (current)
 	{
+		// if (current->data == NULL)
+		// 	return (0);
 		temp = ft_split(current->data, '=');
 		if (ft_strcmp(temp[0], cmd) == 0)
 			break ;

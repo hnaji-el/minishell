@@ -12,11 +12,11 @@
 
 #include "../../../includes/parser.h"
 
-int lbash_pwd(t_node *head_env)
+int lbash_pwd(void)
 {
     char *path;
 
-    path = ft_getenv("PWD", head_env);
+    path = getcwd(NULL, 1024);
     ft_putendl_fd(path, 1);
     free(path);
     return (0);

@@ -26,12 +26,12 @@ int		lbash_env(t_node *head_env, char **cmd);
 int     lbash_exit(char **cmd);
 void	sort_env(t_node	*head);
 int		lenght(t_node	*current);
-void    printenv_expor(t_node	*head);
+void    printenv_expor(t_node	*head, int out_fd);
 int     add_var(int n, t_node *head, char *cmd);
 t_node  *insert(int n, char *data, t_node *head);
 t_node	*find(char *str, t_node *head);
-int     lbash_export(t_node *head_env, char **cmd);
-int     lbash_pwd(t_node *head_env);
+int     lbash_export(t_node *head_env, char **cmd, int out_fd);
+int     lbash_pwd(void  );
 int     lbash_unset(t_node *head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
@@ -40,7 +40,7 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 char	*get_path(char *path, char **envp);
 char	*add_char(char *str, char c);
 int		is_builtin(char *str);
-int		built_in(char  **cmd, t_node *head_env);
+int		built_in(char  **cmd, t_node *head_env, int flag, t_ast *pipecmd);
 t_node  *linked_list(t_node *head, char **env);
 int		start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int num_size);
 char	**convert_list(t_node *head_env);
@@ -51,5 +51,6 @@ int     print_error(char *cmd, char *str, int	error);
 void	get_return_stat(int ret, int flag);
 int     delet_var(t_node *head, char *cmd);
 int		cd_help(char **old_path, char **path, t_node *head_env);
+int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd, t_node *head_env);
 
 #endif
