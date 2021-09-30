@@ -29,6 +29,10 @@ t_token	*init_token(t_token_type type, char *value)
 
 void	put_error(int errnum)
 {
-	printf("%s\n", strerror(errnum));
+	char	*str;
+
+	str = strerror(errnum);
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
 	exit(EXIT_FAILURE);
 }

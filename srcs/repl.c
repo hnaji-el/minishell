@@ -14,11 +14,10 @@
 
 int		visitor_vis(t_ast *ast);
 
-void	initialize_variables(char **envp, t_node **head_env/*, int *exit_status*/)
+void	initialize_variables(char **envp, t_node **head_env)
 {
 	*head_env = (void *)0;
 	*head_env = linked_list(*head_env, envp);
-	//*exit_status = 0;
 }
 
 int	collect_and_check_cmd_line(char **cmd_line)
@@ -26,7 +25,7 @@ int	collect_and_check_cmd_line(char **cmd_line)
 	*cmd_line = readline("AnasHamid$ ");
 	if (*cmd_line == NULL)
 	{
-		write(1, "\033[AAnasHamid$ exit\n", 19);
+		write(2, "\033[AAnasHamid$ exit\n", 19);
 		exit(0);
 	}
 	if (cmd_line[0][0] == '\0')
@@ -65,11 +64,10 @@ int	main(int argc, char **argv, char **envp)
  	t_parser	*parser;
  	t_ast		*ast;
  	t_node		*envp_ll;
- 	//int			exit_status;
 
 	signal(SIGINT, sig_handler);
  	signal(SIGQUIT, sig_handler);
- 	initialize_variables(envp, &envp_ll/*, &exit_status*/);
+ 	initialize_variables(envp, &envp_ll);
  	(void)argc;
  	(void)argv;
  	while (1)
@@ -81,7 +79,6 @@ int	main(int argc, char **argv, char **envp)
  		ast = parser_parse(parser);
  		free_parser(parser);
  		visitor_visit(ast, envp_ll);
-		// printf("%d\n", g_exit_s);
  		free_ast_pipeline(ast);
  	}
  	return (0);
