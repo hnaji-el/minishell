@@ -61,7 +61,7 @@ all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(READLINE_LIB_IMAC) $(SRCS) $(LIBFT) -o $(NAME)
+	@gcc $(FLAGS) $(READLINE_LIB_MAC) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean

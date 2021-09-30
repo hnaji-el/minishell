@@ -14,11 +14,16 @@
 
 int	change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 {
+	char *temp;
+	
 	if (cmd[1])
 		*path = ft_strdup(cmd[1]);
 	else
 	{
-		*path = ft_strdup(ft_getenv("HOME", head_env));
+		temp = ft_getenv("HOME", head_env);
+		*path = ft_strdup(temp);
+		if (temp)
+			free(temp);
 		if (!(*path))
 			return (-1);
 	}
@@ -27,10 +32,15 @@ int	change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 		return(cd_help(old_path, path, head_env));
 	else
 	{
-		
+		temp = *old_path;
 		*old_path = ft_getenv("PWD", head_env);
+		free(temp);
 		if (*old_path == NULL)
-			*old_path = ft_strdup("")	;
+		{
+			temp = *old_path;
+			*old_path = ft_strdup("");
+			free(temp);
+		}
 		if (chdir(*path) != 0)
 			return (print_error(cmd[1], ": No such file or directory", 1));
 		free(*path);
@@ -43,11 +53,14 @@ void  set_value(char	*str, char	*value, t_node *head_env, char **cmd)
 {
 	t_node *current;
 	int		len;
+	char	*temp;
 
 	cmd = NULL;
 	current = find(str, head_env);
 	str = ft_strjoin(str, "=");
-	str = ft_strjoin(str, value);
+	temp = str;
+	str = ft_strjoin(temp, value);
+	free(temp);
 	if (!current)
 	{
 		len = lenght(head_env);
@@ -58,17 +71,26 @@ void  set_value(char	*str, char	*value, t_node *head_env, char **cmd)
 		free(current->data);
 		current->data = ft_strdup(str);
 	}
+	free(str);
 }
 
 int		cd_help(char **old_path, char **path, t_node *head_env)
 {
+	char *temp;
+	
 	print_error(NULL,
 			"cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 0);
-		*old_path = ft_getenv("PWD", head_env);
-		if (!(*old_path))
-			return (-1);
-		*old_path = ft_strjoin(*old_path, "/");
-		*path = ft_strjoin(*old_path, *path);
+	temp = *old_path;
+	*old_path = ft_getenv("PWD", head_env);
+	free(temp);
+	if (!(*old_path))
+		return (-1);
+	temp = *old_path;
+	*old_path = ft_strjoin(temp, "/");
+	free(temp);
+	temp = *path;
+	*path = ft_strjoin(*old_path, *path);
+	free(temp);
 	return (0);
 }
 

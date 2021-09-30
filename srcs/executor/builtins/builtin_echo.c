@@ -3,7 +3,7 @@
 
 int     check_n(char *args, int *flag)
 {
-    if (strcmp(args, "-n") == 0)
+    if (ft_strcmp(args, "-n") == 0)
         *flag = 1;
     return (0);
 }
@@ -24,6 +24,8 @@ int     lbash_echo(char **cmd)
     if (flag == 1)
     {
         cmd++;
+        while (ft_strcmp(*cmd, "-n") == 0)
+            cmd++;
         i = 2;
         while (*cmd != NULL)
         {

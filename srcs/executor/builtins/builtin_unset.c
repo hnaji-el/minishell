@@ -48,6 +48,8 @@ int		delet_var(t_node *head, char *cmd)
 		previous = current;
 		//move to next link
 		current = current->next;
+		if (temp)
+			free_array(temp);
 	}
 	//found a match, update the link
 	if (current)
@@ -56,6 +58,9 @@ int		delet_var(t_node *head, char *cmd)
 			previous->next = current->next;
 		else
 			head = current->next;
+		free(current->data);
+		free(current);
+		free_array(temp);
 	}
 	return (0);
 }

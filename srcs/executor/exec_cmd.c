@@ -97,6 +97,7 @@ char *find_path(char **cmd, int i, t_node *head_env)
 
 	if (!lstat(cmd[0], &buffer) && !S_ISDIR(buffer.st_mode) && (buffer.st_mode & S_IXUSR))
 			return (cmd[0]);
+	printf("hello\n");
 	dst = ft_getenv("PATH", head_env);
 	if (!dst)
 		return (NULL);

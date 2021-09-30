@@ -34,7 +34,9 @@ void	sort_env(t_node	*head)
 			if(ft_strcmp(current->data, next->data) > 0)
             {
                 temp = ft_strdup(current->data);
+				free(current->data);
                 current->data = ft_strdup(next->data);
+				free(next->data);
                 next->data = ft_strdup(temp);
 				free(temp);
             }
@@ -83,6 +85,7 @@ void    printenv_expor(t_node	*head, int out_fd)
 	   }
 	   write(out_fd, "\n", 1);
 	   current = current->next;
+	   free_array(dst);
     }
 }
 
@@ -115,6 +118,7 @@ int		add_var(int n, t_node *head, char *cmd)
 		insert(n, cmd, head);
 	else
 		current->data = ft_strdup(cmd);
+	free_array(dst);
 	return (0);
 }
 t_node	*insert(int n, char *data, t_node *head)
@@ -158,14 +162,19 @@ t_node	*find(char *str, t_node *head)
 	{
 		//if it is last node
 		if (current->next == NULL)
+		{
+			free_array(dst);
 			return NULL;
+		}
 		else
 		{
 			//go to next link
 			current = current->next;
+			free_array(dst);
 			dst = ft_split(current->data, '=');
 		}
 	}
+	free_array(dst);
 	// if data found, return the current link
 	return current;
 }
