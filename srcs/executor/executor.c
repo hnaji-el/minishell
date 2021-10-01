@@ -1,7 +1,7 @@
 
 #include "../../includes/parser.h"
 
-void	visitor_visit(t_ast *node, t_node *head_env)
+void	visitor_visit(t_ast *node, t_node **head_env)
 {
 
 	if (node == NULL)

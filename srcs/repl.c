@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
  		parser = init_lexer_and_parser(cmd_line, g_exit_s, envp_ll);
  		ast = parser_parse(parser);
  		free_parser(parser);
- 		visitor_visit(ast, envp_ll);
+ 		visitor_visit(ast, &envp_ll);
  		free_ast_pipeline(ast);
  	}
  	return (0);

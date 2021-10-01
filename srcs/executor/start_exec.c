@@ -14,7 +14,7 @@
 #include "../../includes/executor.h"
 #include "../../includes/parser.h"
 
-int    start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int num_size)
+int    start_exec(t_node **head_env, t_ast **pipecmd, int index, int last_fd, int num_size)
 {
     pid_t    pid;
     int      fds[2];
@@ -118,7 +118,7 @@ int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd, t_node *head_env)
     return (0);
 }
 
-int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, int fds[])
+int     process(t_node **head_env, t_ast *pipecmd, int *last_fd, int totalPipe, int fds[])
 {
     pid_t   pid;
     char    *temp;
@@ -132,13 +132,13 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
         exit(1);
     if (pid == 0)
     {
-        if ((ret = get_file_fd(last_fd, &fds[1], pipecmd, head_env)))
+        if ((ret = get_file_fd(last_fd, &fds[1], pipecmd, *head_env)))
             exit(ret);
         if (!(*cmd))
             exit (0);
         if (is_builtin(cmd[0]) == -1)
         {
-            temp = find_path(cmd, -1, head_env);
+            temp = find_path(cmd, -1, *head_env);
             if (temp == NULL)
                 exit(print_error(cmd[0], ": command not found", 127));
             *cmd = temp;

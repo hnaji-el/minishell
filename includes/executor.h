@@ -18,7 +18,7 @@ typedef struct s_env
 }       t_env;
 
 
-void	visitor_visit(t_ast *node, t_node *head_env);
+void	visitor_visit(t_ast *node, t_node **head_env);
 int		lbash_cd(char **cmd, t_node *head_env);
 int		check_n(char *args, int *flag);
 int		lbash_echo(char **args);
@@ -32,24 +32,24 @@ t_node  *insert(int n, char *data, t_node *head);
 t_node	*find(char *str, t_node *head);
 int     lbash_export(t_node *head_env, char **cmd, int out_fd);
 int     lbash_pwd(void  );
-int     lbash_unset(t_node *head, char **cmd);
+int     lbash_unset(t_node **head, char **cmd);
 void	printlist(t_node *head);
 int		free_array(char **array);
 char	*find_path(char **cmd, int i, t_node *head_env);
-int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pipecmd, int totalPipe);
+int		execute_cmd(t_node **head_env, int last_fd, int fds[], char **cmd, t_ast *pipecmd, int totalPipe);
 char	*get_path(char *path, char **envp);
 char	*add_char(char *str, char c);
 int		is_builtin(char *str);
-int		built_in(char  **cmd, t_node *head_env, int flag, t_ast *pipecmd);
+int		built_in(char  **cmd, t_node **head_env, int flag, t_ast *pipecmd);
 t_node  *linked_list(t_node *head, char **env);
-int		start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int num_size);
+int		start_exec(t_node **head_env, t_ast **pipecmd, int index, int last_fd, int num_size);
 char	**convert_list(t_node *head_env);
 int     is_builtin1(char *str);
 int		correct_var(const char *var);
-int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, int fds[]);
+int     process(t_node **head_env, t_ast *pipecmd, int *last_fd, int totalPipe, int fds[]);
 int     print_error(char *cmd, char *str, int	error);
 void	get_return_stat(int ret, int flag);
-int     delet_var(t_node *head, char *cmd);
+int     delet_var(t_node **head, char *cmd);
 int		cd_help(char **old_path, char **path, t_node *head_env);
 int     get_file_fd(int *last_fd, int *out_fd, t_ast *pipecmd, t_node *head_env);
 

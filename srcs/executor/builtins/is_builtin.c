@@ -41,7 +41,7 @@ int	is_builtin1(char *str)
 	return (-1);
 }
 
-int	built_in(char **cmd, t_node *head_env, int flag, t_ast *pipecmd)
+int	built_in(char **cmd, t_node **head_env, int flag, t_ast *pipecmd)
 {
 	int		res;
 	int		out_fd;
@@ -55,12 +55,12 @@ int	built_in(char **cmd, t_node *head_env, int flag, t_ast *pipecmd)
 			return (-1);
 	}
 	if (flag)
-		if(get_file_fd(&out_fd, &out_fd, pipecmd, head_env))
+		if(get_file_fd(&out_fd, &out_fd, pipecmd, *head_env))
 			return (1);
 	if (res == 1)
-		return (lbash_cd(cmd, head_env));
+		return (lbash_cd(cmd, *head_env));
 	if (res == 2)
-		return (lbash_export(head_env, cmd, out_fd));
+		return (lbash_export(*head_env, cmd, out_fd));
 	if (res == 3)
 		return (lbash_unset(head_env, cmd));
 	if (res == 4)
@@ -70,6 +70,6 @@ int	built_in(char **cmd, t_node *head_env, int flag, t_ast *pipecmd)
 	if (res == 6)
 		return (lbash_pwd());
 	if (res == 7)
-		return (lbash_env(head_env, cmd));
+		return (lbash_env(*head_env, cmd));
 	return (-1);
 }

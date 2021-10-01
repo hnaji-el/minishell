@@ -13,7 +13,7 @@
 #include "../../../includes/main.h"
 #include "../../../includes/executor.h"
 
-int	lbash_unset(t_node *head, char **cmd)
+int	lbash_unset(t_node **head, char **cmd)
 {
 	int	i;
 	int	ret;
@@ -26,15 +26,15 @@ int	lbash_unset(t_node *head, char **cmd)
 	return (ret);
 }
 
-int		delet_var(t_node *head, char *cmd)
+int		delet_var(t_node **head, char *cmd)
 {
 	t_node  *previous = NULL;
-	t_node  *current = head;
+	t_node  *current = *head;
 	char	**temp;
 
 	if (!cmd)
 		return(0);
-	if (head == NULL)
+	if (*head == NULL)
 		return (-1);
 	previous = current;
 	while (current)
@@ -54,10 +54,10 @@ int		delet_var(t_node *head, char *cmd)
 	//found a match, update the link
 	if (current)
 	{
-		if(current != head)
+		if(current != *head)
 			previous->next = current->next;
 		else
-			head = current->next;
+			*head = current->next;
 		free(current->data);
 		free(current);
 		free_array(temp);

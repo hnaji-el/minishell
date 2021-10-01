@@ -115,7 +115,7 @@ char *find_path(char **cmd, int i, t_node *head_env)
 	return (NULL);
 }
 
-int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pipecmd, int totalPipe)
+int		execute_cmd(t_node **head_env, int last_fd, int fds[], char **cmd, t_ast *pipecmd, int totalPipe)
 {
 	char **env;
 
@@ -126,7 +126,7 @@ int		execute_cmd(t_node *head_env, int last_fd, int fds[], char **cmd, t_ast *pi
 		 dup2(fds[1], 1);
 	close(fds[0]);
 	close(fds[1]);
-	env = convert_list(head_env);
+	env = convert_list(*head_env);
 	if (is_builtin(cmd[0]) == -1)
 	{
 		if (!execve(*cmd, cmd, env))
