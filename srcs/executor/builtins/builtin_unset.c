@@ -6,7 +6,7 @@
 /*   By: ael-kass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 15:44:22 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/09/25 15:57:35 by ael-kass         ###   ########.fr       */
+/*   Updated: 2021/10/01 13:56:48 by ael-kass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,41 +26,46 @@ int	lbash_unset(t_node **head, char **cmd)
 	return (ret);
 }
 
-int		delet_var(t_node **head, char *cmd)
+void	find_var(t_node **current, t_node **previous, char *cmd)
 {
-	t_node  *previous = NULL;
-	t_node  *current = *head;
 	char	**temp;
 
-	if (!cmd)
-		return(0);
-	if (*head == NULL)
-		return (-1);
-	previous = current;
-	while (current)
+	while (*current)
 	{
-		// if (current->data == NULL)
-		// 	return (0);
-		temp = ft_split(current->data, '=');
+		temp = ft_split((*current)->data, '=');
 		if (ft_strcmp(temp[0], cmd) == 0)
 			break ;
-		//store reference to current link
-		previous = current;
-		//move to next link
-		current = current->next;
+		*previous = *current;
+		*current = (*current)->next;
 		if (temp)
 			free_array(temp);
 	}
-	//found a match, update the link
+	if (*current)
+		free_array(temp);
+	return ;
+}
+
+int	delet_var(t_node **head, char *cmd)
+{
+	t_node	*previous;
+	t_node	*current;
+
+	previous = NULL;
+	current = *head;
+	if (!cmd)
+		return (0);
+	if (*head == NULL)
+		return (-1);
+	previous = current;
+	find_var(&current, &previous, cmd);
 	if (current)
 	{
-		if(current != *head)
+		if (current != *head)
 			previous->next = current->next;
 		else
 			*head = current->next;
 		free(current->data);
 		free(current);
-		free_array(temp);
 	}
 	return (0);
 }
@@ -68,11 +73,10 @@ int		delet_var(t_node **head, char *cmd)
 void	printlist(t_node *head)
 {
 	t_node	*ptr;
+
 	ptr = head;
-	//start from the beginning
 	while (ptr != NULL)
 	{
-		// printf("%s\n", ptr->data);
 		ft_putstr(ptr->data);
 		ptr = ptr->next;
 	}

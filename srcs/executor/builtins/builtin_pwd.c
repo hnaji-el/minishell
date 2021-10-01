@@ -6,19 +6,18 @@
 /*   By: ael-kass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 11:15:08 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/05/24 11:15:15 by ael-kass         ###   ########.fr       */
+/*   Updated: 2021/10/01 13:40:28 by ael-kass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/parser.h"
 
-int lbash_pwd(void)
+int	lbash_pwd(void)
 {
-    char *path;
+	char	*path;
 
-    path = getcwd(NULL, 1024);
-    ft_putendl_fd(path, 1);
-    free(path);
-    return (0);
+	path = getcwd(NULL, 1024);
+	ft_putendl_fd(path, 1);
+	free(path);
+	return (0);
 }
-

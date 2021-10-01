@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   visitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-kass <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/01 17:43:13 by ael-kass          #+#    #+#             */
+/*   Updated: 2021/10/01 17:43:38 by ael-kass         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/parser.h"
 
@@ -37,7 +48,7 @@ void	visitor_pipeline(t_ast *node)
 	}
 }
 
-int		visitor_vis(t_ast *node)
+int	visitor_vis(t_ast *node)
 {
 	if (node != NULL && node->type == AST_PIPELINE)
 		visitor_pipeline(node);

@@ -6,7 +6,7 @@
 /*   By: htagrour <htagrour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 13:00:25 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/09/25 15:56:04 by ael-kass         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:08:57 by ael-kass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_builtin(char *str)
 {
 	if (str == NULL)
-		return(-1);
+		return (-1);
 	if (!ft_strcmp(str, "echo"))
 		return (5);
 	if (!ft_strcmp(str, "pwd"))
@@ -27,9 +27,8 @@ int	is_builtin(char *str)
 
 int	is_builtin1(char *str)
 {
-//	printf("%s\n", str);
 	if (str == NULL)
-		return(-1);
+		return (-1);
 	if (!ft_strcmp(str, "export"))
 		return (2);
 	if (!ft_strcmp(str, "cd"))
@@ -38,6 +37,19 @@ int	is_builtin1(char *str)
 		return (3);
 	if (!ft_strcmp(str, "exit"))
 		return (4);
+	return (-1);
+}
+
+int	built_in1(char **cmd, t_node **head_env, int res)
+{
+	if (res == 4)
+		return (lbash_exit(cmd));
+	if (res == 5)
+		return (lbash_echo(cmd));
+	if (res == 6)
+		return (lbash_pwd());
+	if (res == 7)
+		return (lbash_env(*head_env, cmd));
 	return (-1);
 }
 
@@ -55,7 +67,7 @@ int	built_in(char **cmd, t_node **head_env, int flag, t_ast *pipecmd)
 			return (-1);
 	}
 	if (flag)
-		if(get_file_fd(&out_fd, &out_fd, pipecmd, *head_env))
+		if (get_file_fd(&out_fd, &out_fd, pipecmd, *head_env))
 			return (1);
 	if (res == 1)
 		return (lbash_cd(cmd, *head_env));
@@ -63,13 +75,5 @@ int	built_in(char **cmd, t_node **head_env, int flag, t_ast *pipecmd)
 		return (lbash_export(*head_env, cmd, out_fd));
 	if (res == 3)
 		return (lbash_unset(head_env, cmd));
-	if (res == 4)
-		return (lbash_exit(cmd));
-	if (res == 5)
-		return (lbash_echo(cmd));
-	if (res == 6)
-		return (lbash_pwd());
-	if (res == 7)
-		return (lbash_env(*head_env, cmd));
-	return (-1);
+	return (built_in1(cmd, head_env, res));
 }
