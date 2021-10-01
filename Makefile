@@ -13,7 +13,7 @@
 NAME = minishell
 
 SRCS = ./srcs/repl.c \
-		./srcs/visitor.c \
+		./srcs/signal.c \
 		./srcs/lexer/lexer.c \
 		./srcs/lexer/lexer_collect_id.c \
 		./srcs/lexer/lexer_collect_double_q.c \

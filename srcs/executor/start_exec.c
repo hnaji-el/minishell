@@ -34,6 +34,7 @@ int	start_exec(t_node **head_env, t_ast **pipecmd, t_exec *exec, int num_size)
 	}
 	close(exec->fds[0]);
 	waitpid(pid, &ret, 0);
+	is_child("0");
 	get_return_stat(ret, exec->totalPipe == num_size);
 	return (0);
 }
@@ -112,6 +113,7 @@ int	process(t_node **head_env, t_ast *pipecmd, t_exec *exec)
 	char	**cmd;
 
 	cmd = pipecmd->args_val;
+	is_child("1");
 	pid = fork();
 	if (pid == -1)
 		exit(1);
