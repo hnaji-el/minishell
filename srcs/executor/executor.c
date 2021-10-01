@@ -25,7 +25,8 @@ void	visitor_visit(t_ast *node, t_node **head_env)
 		return ;
 	}
 	if (node->type == AST_PIPELINE)
-		start_exec(head_env, node->pipe_val, exec, node->pipe_size);
+		g_exit_s = start_exec(head_env, node->pipe_val, exec, node->pipe_size);
+	free(exec);
 }
 
 int	print_error(char *cmd, char *str, int	error)

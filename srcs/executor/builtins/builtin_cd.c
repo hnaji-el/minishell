@@ -31,7 +31,7 @@ int	change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 	else
 	{
 		free(*old_path);
-		change_dir_help(head_env, cmd[1], path, old_path);
+		return (change_dir_help(head_env, cmd[1], path, old_path));
 	}
 	return (0);
 }

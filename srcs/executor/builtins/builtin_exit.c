@@ -41,7 +41,7 @@ int	lbash_exit(char **cmd)
 		exit(print_error(cmd[1], ": exit: numeric argument required", 255));
 	}
 	else if (cmd[2] != NULL)
-		print_error(NULL, "exit\nbash: exit: too many arguments", 1);
+		return (print_error(NULL, "exit\nbash: exit: too many arguments", 1));
 	else
 	{
 		ft_putstr_fd("exit\n", 1);

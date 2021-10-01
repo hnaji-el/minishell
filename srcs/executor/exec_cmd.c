@@ -123,7 +123,7 @@ int	execute_cmd(t_node **head_env, t_exec *exec, char **cmd, t_ast *pipecmd)
 		free_array(env);
 	}
 	else
-		built_in(cmd, head_env, 0, pipecmd);
+		exit(built_in(cmd, head_env, 0, pipecmd));
 	free_array(env);
 	return (0);
 }

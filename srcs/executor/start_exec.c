@@ -6,7 +6,7 @@
 /*   By: htagrour <htagrour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 13:32:05 by ael-kass          #+#    #+#             */
-/*   Updated: 2021/10/01 17:41:14 by ael-kass         ###   ########.fr       */
+/*   Updated: 2021/10/01 20:47:21 by ael-kass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	start_exec(t_node **head_env, t_ast **pipecmd, t_exec *exec, int num_size)
 	close(exec->fds[0]);
 	waitpid(pid, &ret, 0);
 	is_child("0");
-	get_return_stat(ret, exec->totalPipe == num_size);
-	return (0);
+	if (exec->totalPipe == num_size)
+		get_return_stat(ret, 1);
+	return (g_exit_s);
 }
 
 int	get_out_fd(t_redirect red, int *out_fd)
