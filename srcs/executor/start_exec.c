@@ -21,7 +21,10 @@ int    start_exec(t_node *head_env, t_ast **pipecmd, int index, int last_fd, int
     int      ret;
 
     if (num_size == 1 && is_builtin1((*pipecmd)->args_val[0]) != -1)
+    {
         g_exit_s = built_in((*pipecmd)->args_val, head_env, 1, *pipecmd);
+        return (g_exit_s);
+    }
     pipe(fds);
     pid = process(head_env, *pipecmd, &last_fd, index, fds);
     if (index < num_size)
@@ -38,13 +41,11 @@ int get_out_fd(t_redirect red, int *out_fd)
 
     fd = *out_fd;
     if (red.type == RED_APPEND)
-        fd = open(red.filename, O_RDWR | O_APPEND, 0666);
+        fd = open(red.filename, O_RDWR | O_CREAT |O_APPEND, 0666);
     else
         fd = open(red.filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
     if (fd < 0)
     {
-        if (red.type == RED_APPEND)
-            print_error(red.filename, ": No such file or directory", 1);
         return (1);
     }
     if (*out_fd != 1)
@@ -139,10 +140,7 @@ int     process(t_node *head_env, t_ast *pipecmd, int *last_fd, int totalPipe, i
         {
             temp = find_path(cmd, -1, head_env);
             if (temp == NULL)
-            {
-                printf("heyy\n");
                 exit(print_error(cmd[0], ": command not found", 127));
-            }
             *cmd = temp;
         }
         exit(execute_cmd(head_env, *last_fd, fds, cmd, pipecmd, totalPipe));

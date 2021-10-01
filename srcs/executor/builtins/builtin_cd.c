@@ -25,7 +25,10 @@ int	change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 		if (temp)
 			free(temp);
 		if (!(*path))
-			return (-1);
+		{
+			*old_path = ft_strdup("");
+			return (print_error(NULL, ": HOME not set", 1));
+		}
 	}
 	*old_path = getcwd(NULL, 1024);
 	if (!*old_path && (!ft_strcmp(cmd[1], ".") || !ft_strcmp(cmd[1], "./")))
@@ -41,7 +44,7 @@ int	change_dir(t_node *head_env, char **cmd, char **path, char **old_path)
 			*old_path = ft_strdup("");
 			free(temp);
 		}
-		if (chdir(*path) != 0)
+		if (chdir(*path) == -1)
 			return (print_error(cmd[1], ": No such file or directory", 1));
 		free(*path);
 		*path = getcwd(NULL, 1024);
@@ -104,9 +107,9 @@ int		lbash_cd(char **cmd, t_node *head_env)
 	{
 		set_value("OLDPWD", old_path, head_env, cmd);
 		set_value("PWD", path, head_env, cmd);
-		free(path);
-		free(old_path);
 	}
+	free(path);
+	free(old_path);
 	return (ret);
 }
 
