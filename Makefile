@@ -6,7 +6,7 @@
 #    By: hnaji-el <hnaji-el@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/16 08:43:01 by hnaji-el          #+#    #+#              #
-#    Updated: 2021/09/26 13:17:30 by hnaji-el         ###   ########.fr        #
+#    Updated: 2021/10/01 20:54:30 by hnaji-el         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,19 +49,16 @@ INCLUDES = ./includes/main.h \
 
 LIBFT = ./srcs/libft/libft.a
 
-READLINE_LIB_IMAC = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib \
+READLINE_LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib \
 			   -I /Users/$(USER)/.brew/opt/readline/include
 
-READLINE_LIB_MAC = -lreadline -L /usr/local/opt/readline/lib \
-			   -I /usr/local/opt/readline/include
-
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	@make -C ./srcs/libft
-	@gcc $(FLAGS) $(READLINE_LIB_IMAC) $(SRCS) $(LIBFT) -o $(NAME)
+	@gcc $(FLAGS) $(READLINE_LIB) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	@make -C ./srcs/libft clean
